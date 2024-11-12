@@ -6,10 +6,10 @@
   "scripts": {
     "dev:client": "vite dev",
     "dev:server": "cd backend && go run . --dir=../db serve",
-    "dev": "bun run dev:client & bun run dev:server",
+    "dev": "npm run dev:client & npm run dev:server",
     "build:client": "tsc -b && vite build",
     "build:server": "cd backend && go build -tags production -o ../longhabit",
-    "build": "bun run build:client && bun run build:server",
+    "build": "npm run build:client && npm run build:server",
     "preview": "./longhabit serve",
     "compose": "docker compose up --build -d"
   },
