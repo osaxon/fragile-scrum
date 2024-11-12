@@ -64,7 +64,6 @@ export default [
       ],
       'tailwindcss/no-custom-classname': [
         'warn',
-        // TODO remove this if not using Plausible Analytics events
         { whitelist: ['plausible-event-name--\\'] }
       ],
       'prettier/prettier': 'warn'
