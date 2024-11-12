@@ -1,4 +1,5 @@
 node_modules
+backend/dist
 .env
 
 # Editor directories and files
@@ -9,4 +10,4 @@ node_modules
 longhabit
 
 # Database
-db/
+db

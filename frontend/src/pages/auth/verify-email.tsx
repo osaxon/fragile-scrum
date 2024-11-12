@@ -99,7 +99,7 @@ export default function VerifyEmailPage() {
             To complete registration you need to verify your email. Please click
             the link in the message sent to:
           </p>
-          <h2 className='text-lg font-medium'>{user!.email ?? ''}</h2>
+          <h2 className='text-lg font-medium'>{user?.email ?? ''}</h2>
           <p className='text-center text-sm'>
             Or enter the verification token into the field below:
           </p>
