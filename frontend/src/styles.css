@@ -1,0 +1,86 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/inter-regular.ttf') format('truetype');
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    src: url('/fonts/inter-italic.ttf') format('truetype');
+    font-weight: 100 900;
+    font-display: swap;
+    font-style: italic;
+  }
+
+  :root {
+    --font-sans: Inter;
+    --font-mono: 'Fira Code';
+
+    --background: 275 1% 95%;
+    --foreground: 275 1% 10%;
+    --card: 275 1% 90%;
+    --card-foreground: 275 1% 15%;
+    --popover: 275 1% 95%;
+    --popover-foreground: 275 95% 10%;
+    --primary: 275 50 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 275 10% 75%;
+    --secondary-foreground: 0 0% 0%;
+    --muted: 240 10% 85%;
+    --muted-foreground: 275 1% 40%;
+    --accent: 240 10% 90%;
+    --accent-foreground: 275 1% 15%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 275 1% 90%;
+    --border: 275 15% 90%;
+    --input: 275 15% 85%;
+    --ring: 275 25 85%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --font-sans: Inter;
+    --font-mono: 'Fira Code';
+
+    --background: 275 10% 10%;
+    --foreground: 275 1% 90%;
+    --card: 275 1% 10%;
+    --card-foreground: 275 1% 90%;
+    --popover: 275 10% 5%;
+    --popover-foreground: 275 1% 90%;
+    --primary: 275 50 50%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 275 10% 20%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 240 10% 25%;
+    --muted-foreground: 275 1% 65%;
+    --accent: 240 10% 25%;
+    --accent-foreground: 275 1% 90%;
+    --destructive: 0 50% 50%;
+    --destructive-foreground: 275 1% 90%;
+    --border: 275 20% 50%;
+    --input: 275 20% 50%;
+    --ring: 275 50 50%;
+    --radius: 0.5rem;
+  }
+}
+
+html {
+  @apply antialiased;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
