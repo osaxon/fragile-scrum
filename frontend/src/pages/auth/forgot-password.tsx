@@ -59,15 +59,15 @@ export default function ForgotPasswordPage() {
   }
 
   return (
-    <div className='flex flex-col items-center gap-y-4'>
-      <h3 className='text-3xl font-medium'>Reset Password</h3>
+    <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
+      <h2 className='mt-4 text-4xl font-bold'>Reset Password</h2>
+      <p className='text-xl text-center font-light text-muted-foreground'>
+        Enter your email address to request a password reset
+      </p>
       <Form {...form}>
         <form
-          className='flex w-full max-w-[350px] flex-col items-center gap-y-4'
+          className='flex w-full flex-col items-center gap-y-4'
           onSubmit={form.handleSubmit(onSubmit)}>
-          <p className='text-center text-sm'>
-            Enter your email address to request a password reset
-          </p>
           <FormField
             control={form.control}
             name='email'
@@ -84,9 +84,6 @@ export default function ForgotPasswordPage() {
             )}
           />
 
-          <Link to='/login' className='ml-auto text-sm text-primary'>
-            Log In
-          </Link>
           <Button
             className='mt-4 w-full'
             type='submit'
@@ -97,6 +94,13 @@ export default function ForgotPasswordPage() {
           </Button>
         </form>
       </Form>
-    </div>
+
+      <p className='text-sm'>
+        Back to{' '}
+        <Link to='/login' className='text-primary'>
+          login
+        </Link>
+      </p>
+    </main>
   )
 }

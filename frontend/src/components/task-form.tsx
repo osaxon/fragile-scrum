@@ -57,9 +57,9 @@ export default function TaskForm({
       description: selectedTask ? selectedTask.description : '',
       category: selectedTask ? selectedTask.category : '',
       daysRepeat: selectedTask ? selectedTask.daysRepeat : 7,
-      daysRemind: selectedTask && selectedTask.daysRemind || '',
+      daysRemind: (selectedTask && selectedTask.daysRemind) || '',
       remindByEmail: selectedTask ? selectedTask.remindByEmail : false,
-      history: selectedTask ? selectedTask.history : [],
+      history: selectedTask ? selectedTask.history : []
     }
   })
 
@@ -166,7 +166,9 @@ export default function TaskForm({
           className='flex flex-col gap-y-4'
           onSubmit={form.handleSubmit(onSubmit)}>
           <SheetHeader>
-            <SheetTitle className='pb-4 text-2xl'>{pageTitle}</SheetTitle>
+            <SheetTitle className='pb-4 text-4xl font-bold'>
+              {pageTitle}
+            </SheetTitle>
             <SheetDescription className='hidden'>{pageTitle}</SheetDescription>
           </SheetHeader>
           <FormField
@@ -313,8 +315,7 @@ export default function TaskForm({
                       className='w-full'
                       variant='destructive'
                       onClick={() => deleteMutation.mutate(selectedTask.id!)}>
-                      Delete Task
-                    </Button>
+                      Delete                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>

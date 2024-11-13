@@ -42,17 +42,14 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className='flex flex-col items-center gap-y-4'>
-      <h3 className='text-3xl font-medium'>Register</h3>
-      <p className='text-sm'>
-        Already have an account?{' '}
-        <Link to='/login' className='text-primary'>
-          Log in
-        </Link>
+    <main className='mx-auto flex max-w-[350px] w-full flex-col items-center gap-y-4'>
+      <h2 className='mt-4 text-4xl font-bold'>Register</h2>
+      <p className='text-xl text-center font-light text-muted-foreground'>
+        Enter your details to create a new account
       </p>
       <Form {...form}>
         <form
-          className='flex w-full max-w-[350px] flex-col items-center gap-y-4'
+          className='flex w-full flex-col items-center gap-y-4'
           onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
@@ -119,6 +116,12 @@ export default function RegisterPage() {
           </Button>
         </form>
       </Form>
-    </div>
+      <p className='text-sm'>
+        Already have an account?{' '}
+        <Link to='/login' className='text-primary'>
+          Log in
+        </Link>
+      </p>
+    </main>
   )
 }

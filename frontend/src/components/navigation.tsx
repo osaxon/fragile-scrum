@@ -20,11 +20,13 @@ function DefaultAvatarLogo() {
 
 export default function Navigation() {
   const userQuery = useSuspenseQuery(userQueryOptions)
-  const { avatar, id: userId } = userQuery.data ?? {}
+  const { avatar, id: userId, verified } = userQuery.data ?? {}
   return (
     <nav className='flex items-center justify-between'>
-      <img src='logo.svg' alt='LongHabit Logo' className='my-4 h-6' />
-      {userId && (
+      <Link to='/'>
+        <img src='logo.svg' alt='LongHabit Logo' className='my-4 h-6' />
+      </Link>
+      {userId && verified && (
         <Link to='/tasks/settings'>
           <Avatar className='flex items-center justify-center ring-offset-background transition duration-300 ease-in-out hover:ring-ring hover:ring-offset-0'>
             {avatar ? (

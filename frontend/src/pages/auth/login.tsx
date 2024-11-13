@@ -92,17 +92,14 @@ export default function LoginPage() {
   }
 
   return (
-    <div className='flex flex-col items-center gap-y-4'>
-      <h3 className='text-3xl font-medium'>Log In</h3>
-      <p className='text-sm'>
-        Don&apos;t have an account?{' '}
-        <Link to='/register' className='text-primary'>
-          Register
-        </Link>
+    <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
+      <h2 className='mt-4 text-4xl font-bold'>Log In</h2>
+      <p className='text-xl text-center font-light text-muted-foreground'>
+        Sign in to your account
       </p>
       <Form {...form}>
         <form
-          className='flex w-full max-w-[350px] flex-col items-center gap-y-4'
+          className='flex w-full flex-col items-center gap-y-4'
           onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
@@ -137,7 +134,7 @@ export default function LoginPage() {
           <Link to='/forgot-password' className='ml-auto text-sm text-primary'>
             Forgot Password
           </Link>
-          <Button className='mt-4 w-full' type='submit'>
+          <Button className='w-full' type='submit'>
             Login
           </Button>
           <Button
@@ -150,6 +147,12 @@ export default function LoginPage() {
           </Button>
         </form>
       </Form>
-    </div>
+      <p className='text-sm'>
+        Don&apos;t have an account?{' '}
+        <Link to='/register' className='text-primary'>
+          Register
+        </Link>
+      </p>
+    </main>
   )
 }

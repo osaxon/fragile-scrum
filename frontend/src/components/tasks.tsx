@@ -52,8 +52,10 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div>
-          <p>{taskName}</p>
-          <p className='font-light text-muted-foreground'>{`every ${daysRepeat} day${daysRepeat === 1 ? '' : 's'}`}</p>
+          <p className='text-left text-lg font-light text-muted-foreground'>
+            {taskName}
+          </p>
+          <p className='text-xs'>{`every ${daysRepeat} day${daysRepeat === 1 ? '' : 's'}`}</p>
         </div>
       )
     }
@@ -91,7 +93,6 @@ export const columns: ColumnDef<Task>[] = [
       if (nextDate.getTime() === today.getTime()) {
         daysText = 'due today'
       } else {
-        // Calculate the difference in days manually to ensure accuracy
         const diffDays = Math.floor(
           (today.getTime() - nextDate.getTime()) / (24 * 60 * 60 * 1000)
         )
@@ -104,12 +105,13 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div className='text-right'>
-          <p>{format(nextDate, 'EEE dd MMM yyyy')}</p>
-          <p
-            className={cn(
-              'font-light',
-              taskIsLate ? 'text-destructive' : 'text-muted-foreground'
-            )}>
+          <p className='hidden text-base font-light text-muted-foreground sm:block'>
+            {format(nextDate, 'iii dd MMM yyyy')}
+          </p>
+          <p className='text-base font-light text-muted-foreground sm:hidden'>
+            {format(nextDate, 'dd/MM/yy')}
+          </p>
+          <p className={cn('text-xs', taskIsLate ? 'text-destructive' : '')}>
             {daysText}
           </p>
         </div>
@@ -211,9 +213,7 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead
-                      key={header.id}
-                      className='px-2 text-xs sm:text-sm'>
+                    <TableHead key={header.id} className='px-2'>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -235,7 +235,7 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={() => navigate({ to: `/tasks/${row.original.id}` })}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='p-2 text-xs sm:text-sm'>
+                    <TableCell key={cell.id} className='p-0.5'>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()

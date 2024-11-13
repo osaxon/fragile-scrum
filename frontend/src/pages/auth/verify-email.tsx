@@ -13,18 +13,22 @@ import { VerifyEmailForm, verifyEmailSchema } from '@/schemas/auth-schema'
 import {
   authRefresh,
   checkUserIsAuthenticated,
+  logout,
   sendVerificationEmail,
+  unsubscribeFromUserChanges,
   userQueryOptions,
   verifyEmailByToken
 } from '@/services/api-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function VerifyEmailPage() {
   const router = useRouter()
+  const queryClient = useQueryClient()
+
   const userQuery = useSuspenseQuery(userQueryOptions)
   const user = userQuery.data
   const [emailTimeout, setEmailTimeout] = useState(0)
@@ -88,18 +92,30 @@ export default function VerifyEmailPage() {
     }
   }
 
+  const handleLogout = () => {
+    logout()
+    queryClient.invalidateQueries({ queryKey: ['user'] })
+    unsubscribeFromUserChanges()
+    router.navigate({ to: '/' })
+  }
+
   return (
-    <div className='flex flex-col items-center gap-y-4'>
-      <h3 className='text-3xl font-medium'>Verify Email</h3>
+    <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
+      <h2 className='mt-4 text-4xl font-bold'>Verify Email</h2>
+      <p className='text-xl font-light text-muted-foreground'>
+        Complete your registration
+      </p>
       <Form {...form}>
         <form
-          className='flex w-full max-w-[350px] flex-col items-center gap-y-4'
+          className='flex w-full flex-col items-center gap-y-4'
           onSubmit={form.handleSubmit(onSubmit)}>
           <p className='text-center text-sm'>
-            To complete registration you need to verify your email. Please click
-            the link in the message sent to:
+            Please check your inbox and click the registration link. An email
+            was sent to:
           </p>
-          <h2 className='text-lg font-medium'>{user?.email ?? ''}</h2>
+          <p className='text-xl font-light text-muted-foreground '>
+            {user?.email ?? ''}
+          </p>
           <p className='text-center text-sm'>
             Or enter the verification token into the field below:
           </p>
@@ -129,8 +145,15 @@ export default function VerifyEmailPage() {
             onClick={onResendVerificationEmail}>
             {emailTimeout > 0 ? `Send Again (${emailTimeout})` : 'Resend Email'}
           </Button>
+          <Button
+            type='button'
+            variant='link'
+            className='w-full hover:no-underline'
+            onClick={handleLogout}>
+            Log out
+          </Button>
         </form>
       </Form>
-    </div>
+    </main>
   )
 }
