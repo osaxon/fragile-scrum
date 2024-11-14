@@ -29,7 +29,11 @@ import {
 } from '@/services/api-auth'
 import { updateUserSettings } from '@/services/api-settings'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
@@ -67,16 +71,52 @@ export default function SettingsPage() {
 
   const fieldsEdited = form.formState.isDirty
 
-  const onSubmit = async (userData: UpdateUserSettingsFields) => {
-    try {
-      if (!userId) throw new Error('invalid user')
-      await updateUserSettings(userId, userData)
+  const updateSettingsMutation = useMutation({
+    mutationFn: ({
+      userId,
+      data
+    }: {
+      userId: string
+      data: UpdateUserSettingsFields
+    }) => updateUserSettings(userId, data),
+
+    onMutate: async (newData) => {
+      await queryClient.cancelQueries({ queryKey: ['user'] })
+      const previousUser = queryClient.getQueryData(['user'])
+
+      queryClient.setQueryData(['user'], (currentUser: any) => ({
+        ...currentUser,
+        name: newData.data.name,
+        settings: {
+          ...currentUser.settings,
+          theme: newData.data.theme,
+          remindEmail: newData.data.remindEmail,
+          remindByEmailEnabled: newData.data.remindByEmailEnabled
+        }
+      }))
+
+      return { previousUser }
+    },
+
+    onSuccess: () => {
       successToast('Success!', 'Account details were updated successfully')
       navigate({ to: '/tasks' })
-    } catch (error) {
+    },
+
+    onError: (error, _, context) => {
       console.error(error)
+      queryClient.setQueryData(['user'], context?.previousUser)
       errorToast('Could not update account details', error)
+    },
+
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['user'] })
     }
+  })
+
+  const onSubmit = (userData: UpdateUserSettingsFields) => {
+    if (!userId) throw new Error('invalid user')
+    updateSettingsMutation.mutate({ userId, data: userData })
   }
 
   return (
