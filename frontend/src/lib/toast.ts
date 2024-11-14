@@ -22,11 +22,12 @@ export function errorToast(title: string, messageData?: unknown) {
   toast.error(title, {
     description: messageText,
     classNames: {
-      toast: 'bg-card text-muted-foreground',
+      toast: 'bg-card text-muted-foreground border-none',
       title: 'text-foreground',
       description: 'text-muted-foreground',
       icon: 'text-destructive',
-      closeButton: 'right-1 top-1 left-auto !absolute scale-125 !bg-card'
+      closeButton:
+        'right-1 top-1 left-auto !absolute scale-125 !bg-card border-none'
     },
     closeButton: true
   })

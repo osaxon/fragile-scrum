@@ -11,6 +11,7 @@ export default function ThemeSwitch({
   onThemeChange(theme: Theme): void
 }) {
   const handleThemeChange = (value: Theme) => {
+    if (!value) return
     setTheme(value)
     onThemeChange(value)
   }
