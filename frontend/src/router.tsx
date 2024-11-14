@@ -11,6 +11,7 @@ import {
   RouterProvider
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { setTheme } from './lib/set-theme'
 import ForgotPasswordPage from './pages/auth/forgot-password'
 import LoginPage from './pages/auth/login'
 import RegisterPage from './pages/auth/register'
@@ -35,7 +36,11 @@ const rootRoute = createRootRouteWithContext<{
   component: RootLayout,
   notFoundComponent: NotFoundPage,
   loader: ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(userQueryOptions)
+    queryClient.ensureQueryData(userQueryOptions),
+  beforeLoad: async ({ context: { queryClient } }) => {
+    const user = queryClient.getQueryData(userQueryOptions.queryKey)
+    setTheme(user?.settings?.theme)
+  }
 })
 
 const homeRoute = createRoute({
