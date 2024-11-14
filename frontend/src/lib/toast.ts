@@ -4,11 +4,11 @@ export function successToast(title: string, message: string = '') {
   toast.success(title, {
     description: message,
     classNames: {
-      toast: 'bg-card text-muted-foreground',
+      toast: 'bg-card text-muted-foreground border-none',
       title: 'text-foreground',
       description: 'text-muted-foreground',
       icon: 'text-green-500',
-      closeButton: 'right-1 top-1 left-auto !absolute scale-125 !bg-card'
+      closeButton: 'right-1 top-1 left-auto !absolute scale-125 !bg-card border-none'
     },
     closeButton: true
   })
