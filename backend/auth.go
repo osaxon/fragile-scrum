@@ -19,6 +19,7 @@ func (app *application) setupAuthHooks() {
 		newSettingsRecord.Set("user", userId)
 		newSettingsRecord.Set("remindEmail", record.Get("email"))
 		newSettingsRecord.Set("remindByEmailEnabled", true)
+		newSettingsRecord.Set("theme", "system")
 
 		return app.pb.Dao().SaveRecord(newSettingsRecord)
 	})

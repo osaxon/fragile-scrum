@@ -1,3 +1,4 @@
+import { setTheme } from '@/lib/set-theme'
 import { UpdateUserSettingsFields, userSchema } from '@/schemas/user-schema'
 import { newPb } from './pocketbase'
 
@@ -18,9 +19,12 @@ export async function updateUserSettings(
   userId: string,
   formData: UpdateUserSettingsFields
 ) {
-  const { remindEmail, remindByEmailEnabled, ...userData } = formData
+  const { remindEmail, remindByEmailEnabled, theme, ...userData } = formData
   const { oldPassword, password, passwordConfirm } = userData
   const userIsChangingPassword = oldPassword && password && passwordConfirm
+
+  setTheme(theme)
+
   const pb = newPb()
 
   const newUserData = userSchema.parse(
@@ -37,6 +41,7 @@ export async function updateUserSettings(
   settings &&
     (await pb.collection('settings').update(settings.id, {
       remindEmail,
-      remindByEmailEnabled
+      remindByEmailEnabled,
+      theme
     }))
 }

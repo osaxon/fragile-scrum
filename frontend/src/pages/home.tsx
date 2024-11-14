@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { Link } from '@tanstack/react-router'
 
 export default function HomePage() {
@@ -11,11 +12,29 @@ export default function HomePage() {
         <h1>habit tracker</h1>
       </div>
       <p className='text-xl font-light text-muted-foreground'>
-        Simple and effective system to stay on top of recurring tasks
+        A simple and effective system to stay on top of recurring tasks
       </p>
-      <Button asChild className='w-32 mt-4'>
-        <Link to='/login'>Get Started</Link>
-      </Button>
+      <div className='flex flex-col gap-y-1'>
+        <p className='text-sm'>
+          Light and fast, minimalistic modern UI, no bloat, no useless features
+        </p>
+        <p className='font-me text-sm'>
+          Completely free, no ads, no spam, no e-begging
+        </p>
+        <p className='font-me text-sm'>Open source and self-hostable</p>
+        <p className='font-me text-sm'>Customizable notifications</p>
+        <p className='font-me text-sm'>Access from anywhere</p>
+      </div>
+      <div className='flex gap-x-2'>
+        <Button asChild className='mt-2 w-32'>
+          <Link to='/login'>Get Started</Link>
+        </Button>
+        <Button asChild variant='link' className='mt-2 w-32 hover:no-underline'>
+          <a target='_blank' href='https://github.com/s-petr/longhabit'>
+            <GitHubLogoIcon /> Source Code
+          </a>
+        </Button>
+      </div>
     </main>
   )
 }

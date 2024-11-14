@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { pbIdSchema } from './pb-schema'
-import { settingsSchema } from './settings-schema'
+import { settingsSchema, themeSchema } from './settings-schema'
 
 export const userSchema = z.object({
   id: pbIdSchema,
@@ -26,6 +26,7 @@ export const updateUserSettingsSchema = z
     remindByEmailEnabled: z.boolean(),
     avatar: z.instanceof(File).optional(),
     name: z.string().min(2, 'Too short').optional().or(z.literal('')),
+    theme: themeSchema,
     oldPassword: z.string().optional(),
     password: z.string().optional(),
     passwordConfirm: z.string().optional()

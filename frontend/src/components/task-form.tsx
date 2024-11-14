@@ -293,7 +293,7 @@ export default function TaskForm({
                     Delete
                   </Button>
                 </DialogTrigger>
-                <DialogContent className='sm:max-w-[300px]'>
+                <DialogContent className='sm:max-w-[300px] bg-card'>
                   <DialogHeader>
                     <DialogTitle>Delete Task</DialogTitle>
                     <DialogDescription>

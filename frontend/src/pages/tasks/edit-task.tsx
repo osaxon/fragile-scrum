@@ -8,12 +8,14 @@ import { useParams } from '@tanstack/react-router'
 export default function EditTaskPage() {
   const { taskId } = useParams({ from: '/tasks/$taskId' })
 
-  const taskQuery = useSuspenseQuery(taskQueryOptions(taskId))
-  const task = taskSchema.parse(taskQuery.data)
+  const { data, isLoading } = useSuspenseQuery(taskQueryOptions(taskId))
+  const task = taskSchema.parse(data)
 
   return (
-    <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
-      <TaskForm selectedTask={task} />
-    </SheetContent>
+    !isLoading && (
+      <SheetContent onOpenAutoFocus={(e) => e.preventDefault()}>
+        <TaskForm selectedTask={task} />
+      </SheetContent>
+    )
   )
 }

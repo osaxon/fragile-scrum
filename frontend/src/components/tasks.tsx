@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/table'
 import { getNextDueDate } from '@/lib/date-convert'
 import { cn } from '@/lib/shadcn'
-import { CaretSortIcon } from '@radix-ui/react-icons'
+import { CaretSortIcon, FilePlusIcon } from '@radix-ui/react-icons'
 import { useNavigate } from '@tanstack/react-router'
 import {
   ColumnDef,
@@ -52,7 +52,7 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div>
-          <p className='text-left text-lg font-light text-muted-foreground'>
+          <p className='text-left text-sm font-light text-muted-foreground'>
             {taskName}
           </p>
           <p className='text-xs'>{`every ${daysRepeat} day${daysRepeat === 1 ? '' : 's'}`}</p>
@@ -105,11 +105,11 @@ export const columns: ColumnDef<Task>[] = [
 
       return (
         <div className='text-right'>
-          <p className='hidden text-base font-light text-muted-foreground sm:block'>
+          <p className='hidden text-sm font-light text-muted-foreground sm:block'>
             {format(nextDate, 'iii dd MMM yyyy')}
           </p>
-          <p className='text-base font-light text-muted-foreground sm:hidden'>
-            {format(nextDate, 'dd/MM/yy')}
+          <p className='text-sm font-light text-muted-foreground sm:hidden'>
+            {format(nextDate, 'dd MMM yyyy')}
           </p>
           <p className={cn('text-xs', taskIsLate ? 'text-destructive' : '')}>
             {daysText}
@@ -166,9 +166,10 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
 
   return (
     <div className='w-full'>
-      <div className='flex items-center justify-between gap-x-2 py-4'>
+      <div className='flex items-center justify-between py-4'>
         <Input
           placeholder='Filter tasks...'
+          className='rounded-r-none focus-visible:ring-0'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
@@ -182,13 +183,13 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
           value={categoryFilter ?? 'All'}
           onValueChange={setCategoryFilter}>
           <SelectTrigger
-            className='w-32'
+            className='w-32 rounded-l-none border-l-0 focus-visible:ring-0 focus:ring-0'
             onKeyDown={(event) =>
               event.key === 'Escape' && setCategoryFilter('All')
             }>
             <SelectValue placeholder='Filter category' />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent >
             <SelectGroup>
               <SelectItem value='All'>All</SelectItem>
               {categories.map((category, index) => (
@@ -200,17 +201,17 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
           </SelectContent>
         </Select>
         <Button
-          className='w-16'
+          className='size-9 rounded-lg ml-2'
           size='sm'
           onClick={() => navigate({ to: '/tasks/new' })}>
-          New
+          <FilePlusIcon />
         </Button>
       </div>
       <div className='space-y-4'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className='border-none'>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id} className='px-2'>
@@ -231,7 +232,7 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className='cursor-pointer'
+                  className='cursor-pointer border-none'
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={() => navigate({ to: `/tasks/${row.original.id}` })}>
                   {row.getVisibleCells().map((cell) => (
