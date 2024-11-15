@@ -25,16 +25,12 @@ import {
   SheetTitle
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
+import useTasks from '@/hooks/use-tasks'
 import { Task, taskSchema } from '@/schemas/task-schema'
 import { userQueryOptions } from '@/services/api-auth'
-import { createTask, deleteTask, updateTask } from '@/services/api-tasks'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { DialogTrigger } from '@radix-ui/react-dialog'
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery
-} from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import { Textarea } from './ui/textarea'
@@ -44,11 +40,10 @@ export default function TaskForm({
 }: {
   selectedTask?: Task | null | undefined
 }) {
-  const queryClient = useQueryClient()
   const navigate = useNavigate()
+  const { createTask, updateTask, deleteTask } = useTasks()
 
   const userQuery = useSuspenseQuery(userQueryOptions)
-  const user = userQuery.data
 
   const form = useForm<Task>({
     resolver: zodResolver(taskSchema),
@@ -65,84 +60,6 @@ export default function TaskForm({
 
   const fieldsEdited = form.formState.isDirty
 
-  const updateMutation = useMutation({
-    mutationFn: ({ taskId, data }: { taskId: string; data: Task }) =>
-      updateTask(taskId, data),
-
-    onMutate: async (newData) => {
-      await queryClient.cancelQueries({ queryKey: ['tasks'] })
-      const previousTasks = queryClient.getQueryData<Task[]>(['tasks'])
-      const previousTask = queryClient.getQueryData<Task[]>([
-        'tasks',
-        selectedTask!.id
-      ])
-
-      queryClient.setQueryData(['tasks'], (currentTasks: Task[]) => {
-        return currentTasks.map((currentTask: Task) =>
-          selectedTask!.id === currentTask.id
-            ? { ...currentTask, ...newData }
-            : currentTask
-        )
-      })
-
-      queryClient.setQueryData(
-        ['tasks', selectedTask!.id],
-        (currentTask: Task[] | undefined) => ({ ...currentTask, ...newData })
-      )
-
-      return { previousTasks, previousTask }
-    },
-
-    onSuccess: () => {
-      navigate({ to: '/tasks' })
-    },
-
-    onError: (error, _, context) => {
-      console.error(error)
-      queryClient.setQueryData(['tasks'], context?.previousTasks)
-      queryClient.setQueryData(
-        ['tasks', selectedTask!.id],
-        context?.previousTask
-      )
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
-    }
-  })
-
-  const createMutation = useMutation({
-    mutationFn: ({ userId, data }: { userId: string; data: Task }) =>
-      createTask(userId, data),
-
-    onSuccess: () => {
-      navigate({ to: '/tasks' })
-    },
-
-    onError: (error) => {
-      console.error(error)
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
-    }
-  })
-
-  const deleteMutation = useMutation({
-    mutationFn: (taskId: string) => deleteTask(taskId),
-
-    onSuccess: () => {
-      navigate({ to: '/tasks' })
-    },
-
-    onError: (error) => {
-      console.error(error)
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['tasks'] })
-    }
-  })
-
   function onSubmit(values: Task) {
     if (!fieldsEdited) {
       navigate({ to: '/tasks' })
@@ -150,10 +67,9 @@ export default function TaskForm({
     }
 
     if (selectedTask) {
-      selectedTask.id &&
-        updateMutation.mutate({ taskId: selectedTask.id, data: values })
+      selectedTask.id && updateTask(selectedTask.id, values)
     } else {
-      createMutation.mutate({ userId: user!.id, data: values })
+      createTask(userQuery.data!.id, values)
     }
   }
 
@@ -241,7 +157,13 @@ export default function TaskForm({
                   <FormMessage className='text-xs font-normal' />
                 </div>
                 <FormControl>
-                  <Input type='number' min={1} step={1} {...field} />
+                  <Input
+                    type='number'
+                    min={1}
+                    step={1}
+                    disabled={!form.watch('remindByEmail')}
+                    {...field}
+                  />
                 </FormControl>
               </FormItem>
             )}
@@ -293,7 +215,7 @@ export default function TaskForm({
                     Delete
                   </Button>
                 </DialogTrigger>
-                <DialogContent className='sm:max-w-[300px] bg-card'>
+                <DialogContent className='bg-card sm:max-w-[300px]'>
                   <DialogHeader>
                     <DialogTitle>Delete Task</DialogTitle>
                     <DialogDescription>
@@ -314,8 +236,9 @@ export default function TaskForm({
                     <Button
                       className='w-full'
                       variant='destructive'
-                      onClick={() => deleteMutation.mutate(selectedTask.id!)}>
-                      Delete                    </Button>
+                      onClick={() => deleteTask(selectedTask.id!)}>
+                      Delete{' '}
+                    </Button>
                   </DialogFooter>
                 </DialogContent>
               </Dialog>

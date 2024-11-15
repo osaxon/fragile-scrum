@@ -8,15 +8,14 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { errorToast, successToast } from '@/lib/toast'
+import useAuth from '@/hooks/use-auth'
 import { RegisterFields, registerSchema } from '@/schemas/auth-schema'
-import { createNewUser } from '@/services/api-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Link, useNavigate } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 export default function RegisterPage() {
-  const navigate = useNavigate()
+  const { register } = useAuth()
 
   const form = useForm<RegisterFields>({
     resolver: zodResolver(registerSchema),
@@ -28,29 +27,16 @@ export default function RegisterPage() {
     }
   })
 
-  const onSubmit = async (newUserData: RegisterFields) => {
-    try {
-      await createNewUser(newUserData)
-      successToast(
-        'Registration successful!',
-        'Please check your inbox for a verification email'
-      )
-      navigate({ to: '/login' })
-    } catch (error) {
-      errorToast('Could not register', error)
-    }
-  }
-
   return (
-    <main className='mx-auto flex max-w-[350px] w-full flex-col items-center gap-y-4'>
+    <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
       <h2 className='mt-4 text-4xl font-bold'>Register</h2>
-      <p className='text-xl text-center font-light text-muted-foreground'>
+      <p className='text-center text-xl font-light text-muted-foreground'>
         Enter your details to create a new account
       </p>
       <Form {...form}>
         <form
           className='flex w-full flex-col items-center gap-y-4'
-          onSubmit={form.handleSubmit(onSubmit)}>
+          onSubmit={form.handleSubmit(register)}>
           <FormField
             control={form.control}
             name='name'

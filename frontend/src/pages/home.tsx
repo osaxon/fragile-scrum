@@ -18,12 +18,12 @@ export default function HomePage() {
         <p className='text-sm'>
           Light and fast, minimalistic modern UI, no bloat, no useless features
         </p>
-        <p className='font-me text-sm'>
+        <p className='text-sm'>
           Completely free, no ads, no spam, no e-begging
         </p>
-        <p className='font-me text-sm'>Open source and self-hostable</p>
-        <p className='font-me text-sm'>Customizable notifications</p>
-        <p className='font-me text-sm'>Access from anywhere</p>
+        <p className='text-sm'>Open source and self-hostable</p>
+        <p className='text-sm'>Customizable notifications</p>
+        <p className='text-sm'>Access from anywhere</p>
       </div>
       <div className='flex gap-x-2'>
         <Button asChild className='mt-2 w-32'>

@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/table'
 import { getNextDueDate } from '@/lib/date-convert'
 import { cn } from '@/lib/shadcn'
-import { CaretSortIcon, FilePlusIcon } from '@radix-ui/react-icons'
+import { CaretSortIcon, PlusIcon } from '@radix-ui/react-icons'
 import { useNavigate } from '@tanstack/react-router'
 import {
   ColumnDef,
@@ -38,14 +38,24 @@ import { TaskDone } from './task-done'
 export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'done',
-    header: 'Done',
+    header: () => <p className='pl-1'>Done</p>,
     cell: ({ row }) => {
       return <TaskDone task={row.original} />
     }
   },
   {
     accessorKey: 'name',
-    header: 'Task',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant='ghost'
+          className='gap-x-0 pl-0 text-xs hover:bg-transparent sm:text-sm'
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
+          Task
+          <CaretSortIcon />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       const taskName: string = row.getValue('name')
       const daysRepeat = row.original.daysRepeat
@@ -183,13 +193,13 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
           value={categoryFilter ?? 'All'}
           onValueChange={setCategoryFilter}>
           <SelectTrigger
-            className='w-32 rounded-l-none border-l-0 focus-visible:ring-0 focus:ring-0'
+            className='w-32 rounded-l-none border-l-0 focus:ring-0 focus-visible:ring-0'
             onKeyDown={(event) =>
               event.key === 'Escape' && setCategoryFilter('All')
             }>
             <SelectValue placeholder='Filter category' />
           </SelectTrigger>
-          <SelectContent >
+          <SelectContent>
             <SelectGroup>
               <SelectItem value='All'>All</SelectItem>
               {categories.map((category, index) => (
@@ -201,10 +211,10 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
           </SelectContent>
         </Select>
         <Button
-          className='size-9 rounded-lg ml-2'
+          className='ml-2 size-9 rounded-lg'
           size='sm'
           onClick={() => navigate({ to: '/tasks/new' })}>
-          <FilePlusIcon />
+          <PlusIcon />
         </Button>
       </div>
       <div className='space-y-4'>
@@ -214,7 +224,7 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
               <TableRow key={headerGroup.id} className='border-none'>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className='px-2'>
+                    <TableHead key={header.id} className='px-0'>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -236,7 +246,7 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={() => navigate({ to: `/tasks/${row.original.id}` })}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='p-0.5'>
+                    <TableCell key={cell.id} className='px-0 py-1'>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
@@ -247,9 +257,7 @@ export function Tasks({ tasks }: { tasks: Task[] }) {
               ))
             ) : (
               <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className='h-24 text-center'>
+                <TableCell colSpan={columns.length} className='h-8 text-center'>
                   No results.
                 </TableCell>
               </TableRow>

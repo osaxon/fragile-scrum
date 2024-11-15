@@ -26,3 +26,8 @@ export const verifyEmailSchema = z.object({
 })
 
 export type VerifyEmailForm = z.infer<typeof verifyEmailSchema>
+
+export const forgotPasswordSchema = z.object({
+  email: z.string().email('Invalid email')
+})
+export type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>

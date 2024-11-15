@@ -8,17 +8,10 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
-import { errorToast } from '@/lib/toast'
+import useAuth from '@/hooks/use-auth'
 import { LoginFields, loginSchema } from '@/schemas/auth-schema'
-import { User } from '@/schemas/user-schema'
-import {
-  loginWithGoogle,
-  loginWithPassword,
-  subscribeToUserChanges
-} from '@/services/api-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useQueryClient } from '@tanstack/react-query'
-import { Link, useRouter } from '@tanstack/react-router'
+import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 function GoogleLogo() {
@@ -52,8 +45,7 @@ function GoogleLogo() {
 }
 
 export default function LoginPage() {
-  const router = useRouter()
-  const queryClient = useQueryClient()
+  const { loginWithPassword, loginWithGoogle } = useAuth()
 
   const form = useForm<LoginFields>({
     resolver: zodResolver(loginSchema),
@@ -63,44 +55,18 @@ export default function LoginPage() {
     }
   })
 
-  const subscribeUserChangeCallback = (record: User) => {
-    router.invalidate()
-    queryClient.setQueryData(['user'], record)
-  }
-
-  const onSubmit = async ({ email, password }: LoginFields) => {
-    try {
-      const authResult = await loginWithPassword(email, password)
-      subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
-      queryClient.invalidateQueries({ queryKey: ['user'] })
-      router.navigate({ to: '/tasks' })
-    } catch (error) {
-      errorToast('Could not log in', error)
-    }
-  }
-
-  const handleLoginWithGoogle = async () => {
-    try {
-      const authResult = await loginWithGoogle()
-      subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
-      queryClient.invalidateQueries({ queryKey: ['user'] })
-      router.invalidate()
-      router.navigate({ to: '/tasks' })
-    } catch (error) {
-      errorToast('Could not log in', error)
-    }
-  }
-
   return (
     <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
       <h2 className='mt-4 text-4xl font-bold'>Log In</h2>
-      <p className='text-xl text-center font-light text-muted-foreground'>
+      <p className='text-center text-xl font-light text-muted-foreground'>
         Sign in to your account
       </p>
       <Form {...form}>
         <form
           className='flex w-full flex-col items-center gap-y-4'
-          onSubmit={form.handleSubmit(onSubmit)}>
+          onSubmit={form.handleSubmit(({ email, password }) =>
+            loginWithPassword(email, password)
+          )}>
           <FormField
             control={form.control}
             name='email'
@@ -141,7 +107,7 @@ export default function LoginPage() {
             className='w-full'
             variant='outline'
             type='button'
-            onClick={handleLoginWithGoogle}>
+            onClick={loginWithGoogle}>
             <GoogleLogo />
             Sign In with Google
           </Button>

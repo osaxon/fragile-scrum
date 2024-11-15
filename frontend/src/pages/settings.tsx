@@ -17,50 +17,36 @@ import {
   SheetTitle
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
-import { errorToast, successToast } from '@/lib/toast'
+import useAuth from '@/hooks/use-auth'
+import useSettings from '@/hooks/use-settings'
 import {
   UpdateUserSettingsFields,
   updateUserSettingsSchema
 } from '@/schemas/user-schema'
-import {
-  logout,
-  unsubscribeFromUserChanges,
-  userQueryOptions
-} from '@/services/api-auth'
-import { updateUserSettings } from '@/services/api-settings'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery
-} from '@tanstack/react-query'
-import { useNavigate } from '@tanstack/react-router'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function SettingsPage() {
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
   const formRef = useRef<HTMLFormElement>(null)
+  const { logout } = useAuth()
 
-  const { data, isLoading } = useSuspenseQuery(userQueryOptions)
-
-  const { name, id: userId, settings, authWithPasswordAvailable } = data ?? {}
-  const remindEmail = settings?.remindEmail ?? ''
-  const remindByEmailEnabled = settings?.remindByEmailEnabled
-
-  const handleLogout = () => {
-    logout()
-    queryClient.invalidateQueries({ queryKey: ['user'] })
-    unsubscribeFromUserChanges()
-    navigate({ to: '/' })
-  }
+  const {
+    userId,
+    name,
+    remindEmail,
+    remindByEmailEnabled,
+    theme,
+    authWithPasswordAvailable,
+    isLoading,
+    updateSettings
+  } = useSettings()
 
   const form = useForm<UpdateUserSettingsFields>({
     resolver: zodResolver(updateUserSettingsSchema),
     defaultValues: {
       name,
-      theme: settings?.theme || 'system',
+      theme,
       remindEmail,
       remindByEmailEnabled,
       oldPassword: '',
@@ -71,54 +57,6 @@ export default function SettingsPage() {
 
   const fieldsEdited = form.formState.isDirty
 
-  const updateSettingsMutation = useMutation({
-    mutationFn: ({
-      userId,
-      data
-    }: {
-      userId: string
-      data: UpdateUserSettingsFields
-    }) => updateUserSettings(userId, data),
-
-    onMutate: async (newData) => {
-      await queryClient.cancelQueries({ queryKey: ['user'] })
-      const previousUser = queryClient.getQueryData(['user'])
-
-      queryClient.setQueryData(['user'], (currentUser: any) => ({
-        ...currentUser,
-        name: newData.data.name,
-        settings: {
-          ...currentUser.settings,
-          theme: newData.data.theme,
-          remindEmail: newData.data.remindEmail,
-          remindByEmailEnabled: newData.data.remindByEmailEnabled
-        }
-      }))
-
-      return { previousUser }
-    },
-
-    onSuccess: () => {
-      successToast('Success!', 'Account details were updated successfully')
-      navigate({ to: '/tasks' })
-    },
-
-    onError: (error, _, context) => {
-      console.error(error)
-      queryClient.setQueryData(['user'], context?.previousUser)
-      errorToast('Could not update account details', error)
-    },
-
-    onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['user'] })
-    }
-  })
-
-  const onSubmit = (userData: UpdateUserSettingsFields) => {
-    if (!userId) throw new Error('invalid user')
-    updateSettingsMutation.mutate({ userId, data: userData })
-  }
-
   return (
     !isLoading && (
       <SheetContent
@@ -128,7 +66,9 @@ export default function SettingsPage() {
           <form
             ref={formRef}
             className='flex w-full flex-col items-center gap-y-4'
-            onSubmit={form.handleSubmit(onSubmit)}>
+            onSubmit={form.handleSubmit(
+              (userData) => userId && updateSettings(userId, userData)
+            )}>
             <SheetHeader className='w-full'>
               <SheetTitle className='pb-4 text-4xl font-bold'>
                 Settings
@@ -182,18 +122,19 @@ export default function SettingsPage() {
               control={form.control}
               name='theme'
               render={({ field }) => (
-                <FormItem className='mr-auto flex items-center gap-x-1 py-1'>
+                <FormItem className='mr-auto'>
                   <FormLabel className='!mt-0 cursor-pointer'>Theme</FormLabel>
-                  <FormControl>
-                    <ThemeSwitch
-                      theme={field.value}
-                      onThemeChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className='!mt-0 cursor-pointer capitalize'>
-                    {field.value}
-                  </FormLabel>
-                  <FormMessage />
+                  <div className='flex items-center gap-x-1'>
+                    <FormControl>
+                      <ThemeSwitch
+                        theme={field.value}
+                        onThemeChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className='!mt-0 cursor-pointer capitalize'>
+                      {field.value}
+                    </FormLabel>
+                  </div>
                 </FormItem>
               )}
             />
@@ -294,10 +235,7 @@ export default function SettingsPage() {
               <Button disabled={!fieldsEdited} className='w-full' type='submit'>
                 Update
               </Button>
-              <Button
-                variant='outline'
-                className='w-full'
-                onClick={handleLogout}>
+              <Button variant='outline' className='w-full' onClick={logout}>
                 Logout
               </Button>
             </SheetFooter>

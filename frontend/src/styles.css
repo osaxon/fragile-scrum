@@ -21,7 +21,6 @@
 
   :root {
     --font-sans: Inter;
-    --font-mono: 'Fira Code';
 
     --background: 275 1% 95%;
     --foreground: 275 1% 10%;
@@ -47,7 +46,6 @@
 
   .dark {
     --font-sans: Inter;
-    --font-mono: 'Fira Code';
 
     --background: 275 5% 10%;
     --foreground: 275 1% 80%;
@@ -65,18 +63,12 @@
     --accent-foreground: 275 1% 90%;
     --destructive: 0 50% 40%;
     --destructive-foreground: 275 1% 90%;
-    --border: 275 10% 15%;
-    --input: 275 15% 15%;
+    --border: 275 10% 17%;
+    --input: 275 15% 17;
     --ring: 275 20 25%;
     --radius: 0.5rem;
   }
-}
 
-html {
-  @apply antialiased;
-}
-
-@layer base {
   * {
     @apply border-border;
   }
@@ -84,4 +76,13 @@ html {
   body {
     @apply bg-background text-foreground;
   }
+
+  input[type='file']::-webkit-file-upload-button,
+  input[type='file']::file-selector-button {
+    @apply text-foreground
+  }
+}
+
+html {
+  @apply antialiased;
 }
