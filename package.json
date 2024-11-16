@@ -8,7 +8,7 @@
     "dev:server": "cd backend && go run . --dir=../db serve",
     "dev": "npm run dev:client & npm run dev:server",
     "build:client": "tsc -b && vite build",
-    "build:server": "cd backend && go build -tags production -o ../longhabit",
+    "build:server": "cd backend && CGO_ENABLED=0 go build -tags production -o ../longhabit",
     "build": "npm run build:client && npm run build:server",
     "preview": "./longhabit serve",
     "compose": "docker compose up --build -d"

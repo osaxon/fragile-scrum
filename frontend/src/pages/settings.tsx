@@ -86,7 +86,7 @@ export default function SettingsPage() {
               render={({ field }) => (
                 <FormItem className='w-full'>
                   <div className='flex items-baseline justify-between'>
-                    <FormLabel>Upload Avatar Image</FormLabel>
+                    <FormLabel>Upload avatar image</FormLabel>
                     <FormMessage className='text-xs font-normal' />
                   </div>
                   <FormControl>
@@ -149,7 +149,7 @@ export default function SettingsPage() {
               render={({ field }) => (
                 <FormItem className='w-full'>
                   <div className='flex items-baseline justify-between'>
-                    <FormLabel>Email for Reminders</FormLabel>
+                    <FormLabel>Email for reminders</FormLabel>
                     <FormMessage className='text-xs font-normal' />
                   </div>
                   <FormControl>
@@ -171,7 +171,7 @@ export default function SettingsPage() {
                     />
                   </FormControl>
                   <FormLabel className='!mt-0 cursor-pointer'>
-                    Enable Email Reminders
+                    Enable email reminders
                   </FormLabel>
                   <FormMessage />
                 </FormItem>
@@ -181,7 +181,7 @@ export default function SettingsPage() {
             {authWithPasswordAvailable && (
               <>
                 <p className='w-full text-xl font-light text-muted-foreground'>
-                  Change password
+                  Change Password
                 </p>
                 <FormField
                   control={form.control}
@@ -189,7 +189,7 @@ export default function SettingsPage() {
                   render={({ field }) => (
                     <FormItem className='w-full'>
                       <div className='flex items-baseline justify-between'>
-                        <FormLabel>Current Password</FormLabel>
+                        <FormLabel>Current password</FormLabel>
                         <FormMessage className='text-xs font-normal' />
                       </div>
                       <FormControl>
@@ -204,7 +204,7 @@ export default function SettingsPage() {
                   render={({ field }) => (
                     <FormItem className='w-full'>
                       <div className='flex items-baseline justify-between'>
-                        <FormLabel>New Password</FormLabel>
+                        <FormLabel>New password</FormLabel>
                         <FormMessage className='text-xs font-normal' />
                       </div>
                       <FormControl>
@@ -219,7 +219,7 @@ export default function SettingsPage() {
                   render={({ field }) => (
                     <FormItem className='w-full'>
                       <div className='flex items-baseline justify-between'>
-                        <FormLabel>Confirm New Password</FormLabel>
+                        <FormLabel>Confirm new password</FormLabel>
                         <FormMessage className='text-xs font-normal' />
                       </div>
                       <FormControl>

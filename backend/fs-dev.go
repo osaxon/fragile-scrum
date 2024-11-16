@@ -15,6 +15,8 @@ import (
 
 const frontEndDevURL = "http://localhost:5173"
 
+// mountFs configures a reverse proxy to forward all requests
+// to the frontend dev server during development.
 func (app *application) mountFs() {
 	app.pb.OnBeforeServe().Add(func(e *core.ServeEvent) error {
 		target, err := url.Parse(frontEndDevURL)

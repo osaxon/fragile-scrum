@@ -5,6 +5,7 @@ import (
 	"github.com/pocketbase/pocketbase/models"
 )
 
+// setupAuthHooks configures the application's authentication-related hooks.
 func (app *application) setupAuthHooks() {
 	app.pb.OnModelAfterCreate("users").Add(func(e *core.ModelEvent) error {
 		record := e.Model.(*models.Record)

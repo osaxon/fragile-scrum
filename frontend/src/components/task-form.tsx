@@ -149,6 +149,24 @@ export default function TaskForm({
           />
           <FormField
             control={form.control}
+            name='remindByEmail'
+            render={({ field }) => (
+              <FormItem className='flex items-center gap-x-2 py-1'>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormLabel className='!mt-0 cursor-pointer'>
+                  Send reminders by email
+                </FormLabel>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
             name='daysRemind'
             render={({ field }) => (
               <FormItem>
@@ -165,24 +183,6 @@ export default function TaskForm({
                     {...field}
                   />
                 </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='remindByEmail'
-            render={({ field }) => (
-              <FormItem className='flex items-center gap-x-2 py-1'>
-                <FormControl>
-                  <Switch
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                </FormControl>
-                <FormLabel className='!mt-0 cursor-pointer'>
-                  Send reminders by email
-                </FormLabel>
-                <FormMessage />
               </FormItem>
             )}
           />
