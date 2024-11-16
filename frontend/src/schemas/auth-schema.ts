@@ -25,9 +25,9 @@ export const verifyEmailSchema = z.object({
   token: z.string().min(1, 'Invalid token')
 })
 
-export type VerifyEmailForm = z.infer<typeof verifyEmailSchema>
+export type VerifyEmailFields = z.infer<typeof verifyEmailSchema>
 
 export const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email')
 })
-export type ForgotPasswordForm = z.infer<typeof forgotPasswordSchema>
+export type ForgotPasswordFields = z.infer<typeof forgotPasswordSchema>

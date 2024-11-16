@@ -16,6 +16,7 @@ import ForgotPasswordPage from './pages/auth/forgot-password'
 import LoginPage from './pages/auth/login'
 import RegisterPage from './pages/auth/register'
 import VerifyEmailPage from './pages/auth/verify-email'
+import ErrorPage from './pages/error'
 import HomePage from './pages/home'
 import SettingsPage from './pages/settings'
 import EditTaskPage from './pages/tasks/edit-task'
@@ -35,6 +36,7 @@ const rootRoute = createRootRouteWithContext<{
 }>()({
   component: RootLayout,
   notFoundComponent: NotFoundPage,
+  errorComponent: ErrorPage,
   loader: ({ context: { queryClient } }) =>
     queryClient.ensureQueryData(userQueryOptions),
   beforeLoad: async ({ context: { queryClient } }) => {

@@ -141,7 +141,7 @@ export const columns: ColumnDef<Task>[] = [
   }
 ]
 
-export function Tasks({ tasks }: { tasks: Task[] }) {
+export function TasksTable({ tasks }: { tasks: Task[] }) {
   tasks ??= []
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState({})

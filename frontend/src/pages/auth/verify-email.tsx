@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import useAuth from '@/hooks/use-auth'
-import { VerifyEmailForm, verifyEmailSchema } from '@/schemas/auth-schema'
+import { VerifyEmailFields, verifyEmailSchema } from '@/schemas/auth-schema'
 import {
   authRefresh,
   checkUserIsAuthenticated,
@@ -44,7 +44,7 @@ export default function VerifyEmailPage() {
     return () => clearInterval(ticker)
   }, [])
 
-  const form = useForm<VerifyEmailForm>({
+  const form = useForm<VerifyEmailFields>({
     resolver: zodResolver(verifyEmailSchema),
     defaultValues: {
       token: ''
