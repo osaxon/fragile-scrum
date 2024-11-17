@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/tools/template"
 )
 
 // calculateDailyReminders processes a list of tasks and returns reminders
@@ -55,4 +56,28 @@ func (n *Notifier) formatReminderMessage(reminder TaskReminder) string {
 		reminderText = fmt.Sprintf("%s (%d days late)", reminder.taskName, reminder.daysLate)
 	}
 	return reminderText
+}
+
+// renderHTMLTemplate renders an HTML page with reminders to be sent via email.
+func (n *Notifier) renderHTMLTemplate(reminders []TaskReminder) (string, error) {
+	formattedReminders := make([]string, 0, len(reminders))
+	for _, reminder := range reminders {
+		formattedReminders = append(formattedReminders, n.formatReminderMessage(reminder))
+	}
+
+	registry := template.NewRegistry()
+	html, err := registry.LoadFiles(
+		"notifier/templates/base.layout.gohtml",
+		"notifier/templates/styles.partial.gohtml",
+		"notifier/templates/footer.partial.gohtml",
+		"notifier/templates/tasks.page.gohtml",
+	).Render(map[string]any{
+		"reminders": formattedReminders,
+		"domain":    n.pb.Settings().Meta.AppUrl,
+	})
+	if err != nil {
+		return "", err
+	}
+
+	return html, nil
 }

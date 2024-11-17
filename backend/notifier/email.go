@@ -43,7 +43,16 @@ func (n *Notifier) constructNotificationEmails(userSettings []*models.Record) []
 			continue
 		}
 
-		notificationEmail := n.constructEmail(remindEmail, userID, reminders)
+		notificationEmail, err := n.constructEmail(remindEmail, userID, reminders)
+		if err != nil {
+			n.pb.Logger().Error(
+				"EMAIL reminder",
+				"error", err.Error(),
+				"email", remindEmail,
+				"userId", userID,
+			)
+			continue
+		}
 		notificationEmails = append(notificationEmails, notificationEmail)
 	}
 
@@ -52,12 +61,11 @@ func (n *Notifier) constructNotificationEmails(userSettings []*models.Record) []
 
 // constructEmail creates a notification email with reminders.
 func (n *Notifier) constructEmail(emailAddress, userID string,
-	reminders []TaskReminder) *EmailNotification {
+	reminders []TaskReminder) (*EmailNotification, error) {
 
-	messageText := "Reminder to complete the following tasks:\n"
-
-	for _, r := range reminders {
-		messageText += n.formatReminderMessage(r) + "\n"
+	html, err := n.renderHTMLTemplate(reminders)
+	if err != nil {
+		return nil, err
 	}
 
 	message := &mailer.Message{
@@ -67,14 +75,16 @@ func (n *Notifier) constructEmail(emailAddress, userID string,
 		},
 		To:      []mail.Address{{Address: emailAddress}},
 		Subject: "Long Habit - Tasks Reminder",
-		Text:    messageText,
+		HTML:    html,
 	}
 
-	return &EmailNotification{
+	emailNotification := &EmailNotification{
 		emailAddress: emailAddress,
 		userID:       userID,
 		message:      message,
 	}
+
+	return emailNotification, nil
 }
 
 // sendEmails concurrently sends multiple email notifications using a worker pool.
