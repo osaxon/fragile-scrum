@@ -65,7 +65,10 @@ export default function VerifyEmailPage() {
               </FormItem>
             )}
           />
-          <Button className='mt-4 w-full' type='submit'>
+          <Button
+            className='mt-4 w-full'
+            type='submit'
+            disabled={!form.watch('token')}>
             Verify Using Token
           </Button>
           {user ? (

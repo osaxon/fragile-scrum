@@ -1,6 +1,6 @@
 import { errorToast, successToast } from '@/lib/toast'
 import { RegisterFields } from '@/schemas/auth-schema'
-import { User } from '@/schemas/user-schema'
+import { User, UserWithSettings } from '@/schemas/user-schema'
 import {
   confirmPasswordReset as confirmPasswordResetApi,
   createNewUser,
@@ -128,6 +128,14 @@ export default function useAuth() {
   const verifyEmailByToken = async (token: string) => {
     try {
       await verifyEmailByTokenApi(token)
+      queryClient.setQueryData(['user'], (userData: UserWithSettings) =>
+        userData
+          ? {
+              ...userData,
+              verified: true
+            }
+          : userData
+      )
       successToast(
         'Verification successful',
         'Your email address has been verified'
