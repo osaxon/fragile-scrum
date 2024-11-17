@@ -11,6 +11,7 @@ import {
   RouterProvider
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
+import { lazy } from 'react'
 import { setTheme } from './lib/set-theme'
 import ForgotPasswordPage from './pages/auth/forgot-password'
 import LoginPage from './pages/auth/login'
@@ -18,10 +19,6 @@ import RegisterPage from './pages/auth/register'
 import VerifyEmailPage from './pages/auth/verify-email'
 import ErrorPage from './pages/error'
 import HomePage from './pages/home'
-import SettingsPage from './pages/settings'
-import EditTaskPage from './pages/tasks/edit-task'
-import NewTaskPage from './pages/tasks/new-task'
-import TasksPage from './pages/tasks/tasks'
 import { pbIdSchema } from './schemas/pb-schema'
 import {
   authRefresh,
@@ -105,7 +102,7 @@ const forgotPasswordRoute = createRoute({
 const tasksRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'tasks',
-  component: TasksPage,
+  component: lazy(() => import('./pages/tasks/tasks')),
   beforeLoad: () => {
     if (!checkUserIsAuthenticated()) throw redirect({ to: '/login' })
   },
@@ -116,19 +113,19 @@ const tasksRoute = createRoute({
 const settingsRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: 'settings',
-  component: SettingsPage
+  component: lazy(() => import('./pages/settings'))
 })
 
 const newTaskRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: 'new',
-  component: NewTaskPage
+  component: lazy(() => import('./pages/tasks/new-task'))
 })
 
 const editTaskRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: '$taskId',
-  component: EditTaskPage,
+  component: lazy(() => import('./pages/tasks/edit-task')),
   loader: ({ context: { queryClient }, params: { taskId } }) => {
     const taskIdValidationResult = pbIdSchema.safeParse(taskId)
     if (taskIdValidationResult.error) throw redirect({ to: '/tasks' })
