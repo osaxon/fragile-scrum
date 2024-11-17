@@ -7,6 +7,7 @@ import { userQueryOptions } from '@/services/api-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, useSearch } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function VerifyEmailPage() {
@@ -28,7 +29,9 @@ export default function VerifyEmailPage() {
     defaultValues: { token }
   })
 
-  if (token) return void verifyEmailByToken(token)
+  useEffect(() => {
+    token && verifyEmailByToken(token)
+  }, [])
 
   return (
     <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
