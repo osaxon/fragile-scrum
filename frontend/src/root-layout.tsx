@@ -7,7 +7,7 @@ export default function RootLayout() {
     <div className='mx-auto flex max-w-[800px] flex-col gap-4 px-4 py-2'>
       <Navigation />
       <Outlet />
-      <Toaster />
+      <Toaster position='bottom-center' />
     </div>
   )
 }

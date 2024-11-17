@@ -2,6 +2,7 @@ import { errorToast, successToast } from '@/lib/toast'
 import { RegisterFields } from '@/schemas/auth-schema'
 import { User } from '@/schemas/user-schema'
 import {
+  confirmPasswordReset as confirmPasswordResetApi,
   createNewUser,
   loginWithGoogle as loginWithGoogleApi,
   loginWithPassword as loginWithPasswordApi,
@@ -96,6 +97,20 @@ export default function useAuth() {
     }
   }
 
+  const confirmPasswordReset = async (
+    password: string,
+    passwordConfirm: string,
+    token: string
+  ) => {
+    try {
+      await confirmPasswordResetApi(password, passwordConfirm, token)
+      successToast('Changed password', 'Your password has been updated')
+      router.navigate({ to: '/login' })
+    } catch (error) {
+      errorToast('Could not update password', error)
+    }
+  }
+
   const sendVerificationEmail = async (email: string | undefined) => {
     try {
       if (!email) throw new Error("Unable to get logged in user's email")
@@ -129,6 +144,7 @@ export default function useAuth() {
     loginWithGoogle,
     register,
     requestPasswordReset,
+    confirmPasswordReset,
     sendVerificationEmail,
     verifyEmailByToken,
     sendEmailCountdown

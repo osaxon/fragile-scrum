@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { pbTokenSchema } from './pb-schema'
 
 export const loginSchema = z.object({
   email: z.string().min(2, 'Invalid email'),
@@ -25,9 +26,27 @@ export const verifyEmailSchema = z.object({
   token: z.string().min(1, 'Invalid token')
 })
 
+export const verifyEmailParamsSchema = z.object({
+  token: pbTokenSchema.catch('').optional()
+})
+
 export type VerifyEmailFields = z.infer<typeof verifyEmailSchema>
 
 export const forgotPasswordSchema = z.object({
   email: z.string().email('Invalid email')
 })
 export type ForgotPasswordFields = z.infer<typeof forgotPasswordSchema>
+
+export const resetPasswordSchema = z
+  .object({
+    password: z.string().min(8, 'Too short'),
+    passwordConfirm: z.string()
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'Passwords must match',
+    path: ['passwordConfirm']
+  })
+
+export const resetPasswordParamsSchema = z.object({ token: pbTokenSchema.catch('') })
+
+export type ResetPasswordFields = z.infer<typeof resetPasswordSchema>

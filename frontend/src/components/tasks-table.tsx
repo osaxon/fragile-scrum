@@ -258,7 +258,7 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className='h-8 text-center'>
-                  No results.
+                  {tasks.length ? 'No results.' : 'No tasks added yet.'}
                 </TableCell>
               </TableRow>
             )}

@@ -98,7 +98,7 @@ export default function LoginPage() {
             )}
           />
           <Link to='/forgot-password' className='ml-auto text-sm text-primary'>
-            Forgot Password
+            Forgot password
           </Link>
           <Button className='w-full' type='submit'>
             Login

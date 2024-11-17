@@ -42,7 +42,7 @@ export async function sendVerificationEmail(email: string) {
 export async function verifyEmailByToken(token: string) {
   const pb = newPb()
   await pb.collection('users').confirmVerification(token)
-  await pb.collection('users').authRefresh()
+  if (pb.authStore.model) await pb.collection('users').authRefresh()
 }
 
 export async function loginWithPassword(email: string, password: string) {
@@ -70,6 +70,21 @@ export function logout() {
 export async function requestPasswordReset(email: string) {
   const pb = newPb()
   await pb.collection('users').requestPasswordReset(email)
+}
+
+export async function confirmPasswordReset(
+  password: string,
+  passwordConfirm: string,
+  token: string
+) {
+  const pb = newPb()
+  await pb
+    .collection('users')
+    .confirmPasswordReset(token, password, passwordConfirm)
+  if (pb.authStore.model)
+    await pb
+      .collection('users')
+      .authWithPassword(pb.authStore.model.email, password)
 }
 
 export async function subscribeToUserChanges(

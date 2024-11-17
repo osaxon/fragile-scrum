@@ -16,12 +16,16 @@ import { setTheme } from './lib/set-theme'
 import ForgotPasswordPage from './pages/auth/forgot-password'
 import LoginPage from './pages/auth/login'
 import RegisterPage from './pages/auth/register'
+import ResetPasswordPage from './pages/auth/reset-password'
 import VerifyEmailPage from './pages/auth/verify-email'
 import ErrorPage from './pages/error'
 import HomePage from './pages/home'
+import {
+  resetPasswordParamsSchema,
+  verifyEmailParamsSchema
+} from './schemas/auth-schema'
 import { pbIdSchema } from './schemas/pb-schema'
 import {
-  authRefresh,
   checkEmailIsVerified,
   checkUserIsAuthenticated,
   checkUserIsLoggedIn,
@@ -54,8 +58,12 @@ const homeRoute = createRoute({
 const authRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'auth',
-  beforeLoad: () => {
-    if (checkUserIsAuthenticated()) throw redirect({ to: '/tasks' })
+  beforeLoad: ({ location }) => {
+    if (
+      checkUserIsAuthenticated() &&
+      !location.pathname.includes('reset-password')
+    )
+      throw redirect({ to: '/tasks' })
   }
 })
 
@@ -83,10 +91,7 @@ const verifyEmailRoute = createRoute({
   getParentRoute: () => authRoute,
   path: '/verify-email',
   component: VerifyEmailPage,
-  beforeLoad: async () => {
-    if (!checkUserIsLoggedIn()) throw redirect({ to: '/login' })
-    await authRefresh()
-  }
+  validateSearch: verifyEmailParamsSchema
 })
 
 const forgotPasswordRoute = createRoute({
@@ -97,6 +102,13 @@ const forgotPasswordRoute = createRoute({
     if (checkUserIsLoggedIn() && !checkEmailIsVerified())
       throw redirect({ to: '/verify-email' })
   }
+})
+
+const resetPasswordRoute = createRoute({
+  getParentRoute: () => authRoute,
+  path: '/reset-password',
+  component: ResetPasswordPage,
+  validateSearch: resetPasswordParamsSchema
 })
 
 const tasksRoute = createRoute({
@@ -141,7 +153,8 @@ const routeTree = rootRoute.addChildren([
     loginRoute,
     registerRoute,
     verifyEmailRoute,
-    forgotPasswordRoute
+    forgotPasswordRoute,
+    resetPasswordRoute
   ]),
   tasksRoute.addChildren([settingsRoute, newTaskRoute, editTaskRoute])
 ])
