@@ -3,7 +3,8 @@ import { Task } from '@/schemas/task-schema'
 import {
   createTask as createTaskApi,
   deleteTask as deleteTaskApi,
-  updateTask as updateTaskApi
+  updateTask as updateTaskApi,
+  updateTaskHistory as updateTaskHistoryApi
 } from '@/services/api-tasks'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
@@ -85,6 +86,59 @@ export default function useTasks() {
   const updateTask = (taskId: string, taskData: Task) =>
     updateMutation.mutate({ taskId, data: taskData })
 
+  const updateHistoryMutation = useMutation({
+    mutationFn: ({
+      taskId,
+      taskHistory
+    }: {
+      taskId: string
+      taskHistory: string[]
+    }) => updateTaskHistoryApi(taskId, taskHistory),
+
+    onMutate: async ({ taskId, taskHistory }) => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] })
+      const previousTasks = queryClient.getQueryData<Task[]>(['tasks'])
+      const previousTask = queryClient.getQueryData<Task[]>(['tasks', taskId])
+
+      queryClient.setQueryData(['tasks'], (currentTasks: Task[] | undefined) =>
+        currentTasks
+          ? currentTasks.map((currentTask) =>
+              currentTask.id === taskId
+                ? { ...currentTask, history: taskHistory }
+                : currentTask
+            )
+          : []
+      )
+
+      previousTask &&
+        queryClient.setQueryData(
+          ['tasks', taskId],
+          (currentTask: Task[] | undefined) => ({
+            ...currentTask,
+            history: taskHistory
+          })
+        )
+
+      return { previousTasks, previousTask }
+    },
+
+    onError: (error, variables, context) => {
+      console.error(error)
+      errorToast('Could not update task history', error)
+      queryClient.setQueryData(['tasks'], context?.previousTasks)
+      queryClient.setQueryData(
+        ['tasks', variables.taskId],
+        context?.previousTask
+      )
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] })
+    }
+  })
+
+  const updateTaskHistory = (taskId: string, taskHistory: string[]) =>
+    updateHistoryMutation.mutate({ taskId, taskHistory })
+
   const deleteMutation = useMutation({
     mutationFn: (taskData: Task) => deleteTaskApi(taskData.id!),
 
@@ -105,5 +159,5 @@ export default function useTasks() {
 
   const deleteTask = (taskData: Task) => deleteMutation.mutate(taskData)
 
-  return { createTask, updateTask, deleteTask }
+  return { createTask, updateTask, updateTaskHistory, deleteTask }
 }

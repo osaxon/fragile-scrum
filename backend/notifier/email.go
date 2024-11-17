@@ -74,7 +74,7 @@ func (n *Notifier) constructEmail(emailAddress, userID string,
 			Name:    "Long Habit",
 		},
 		To:      []mail.Address{{Address: emailAddress}},
-		Subject: "Long Habit - Tasks Reminder",
+		Subject: "Long Habit - Reminder",
 		HTML:    html,
 	}
 
