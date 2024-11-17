@@ -1,6 +1,16 @@
 import ThemeSwitch from '@/components/theme-switch'
 import { Button } from '@/components/ui/button'
 import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
+import {
   Form,
   FormControl,
   FormField,
@@ -233,11 +243,38 @@ export default function SettingsPage() {
 
             <SheetFooter className='mt-4 flex w-full items-center gap-4 sm:justify-between'>
               <Button disabled={!fieldsEdited} className='w-full' type='submit'>
-                Update
+                Update Settings
               </Button>
-              <Button variant='outline' className='w-full' onClick={logout}>
-                Logout
-              </Button>
+
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant='outline' type='button' className='w-full'>
+                    Log out
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className='bg-card sm:max-w-[300px]'>
+                  <DialogHeader>
+                    <DialogTitle>Logging out</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to log out?
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <DialogFooter className='flex items-center gap-4 sm:justify-between'>
+                    <DialogClose asChild>
+                      <Button
+                        type='button'
+                        className='w-full'
+                        variant='outline'>
+                        Cancel
+                      </Button>
+                    </DialogClose>
+                    <Button className='w-full' onClick={logout}>
+                      Log out
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </SheetFooter>
           </form>
         </Form>

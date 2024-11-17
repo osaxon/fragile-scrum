@@ -1,3 +1,4 @@
+import { errorToast, successToast } from '@/lib/toast'
 import { Task } from '@/schemas/task-schema'
 import {
   createTask as createTaskApi,
@@ -15,12 +16,17 @@ export default function useTasks() {
     mutationFn: ({ userId, data }: { userId: string; data: Task }) =>
       createTaskApi(userId, data),
 
-    onSuccess: () => {
+    onSuccess: (_, context) => {
+      successToast(
+        'New task added',
+        `A new task "${context.data.name}" was created.`
+      )
       navigate({ to: '/tasks' })
     },
 
     onError: (error) => {
       console.error(error)
+      errorToast('Could not create a new task', error)
     },
 
     onSettled: () => {
@@ -54,12 +60,17 @@ export default function useTasks() {
       return { previousTasks, previousTask }
     },
 
-    onSuccess: () => {
+    onSuccess: (_, context) => {
+      successToast(
+        'Updated task',
+        `Updated details for task "${context.data.name}".`
+      )
       navigate({ to: '/tasks' })
     },
 
     onError: (error, variables, context) => {
       console.error(error)
+      errorToast('Could not update task', error)
       queryClient.setQueryData(['tasks'], context?.previousTasks)
       queryClient.setQueryData(
         ['tasks', variables.taskId],
@@ -75,14 +86,16 @@ export default function useTasks() {
     updateMutation.mutate({ taskId, data: taskData })
 
   const deleteMutation = useMutation({
-    mutationFn: (taskId: string) => deleteTaskApi(taskId),
+    mutationFn: (taskData: Task) => deleteTaskApi(taskData.id!),
 
-    onSuccess: () => {
+    onSuccess: (_, context) => {
+      successToast('Deleted task', `Task "${context.name}" was deleted.`)
       navigate({ to: '/tasks' })
     },
 
     onError: (error) => {
       console.error(error)
+      errorToast('Could not delete task', error)
     },
 
     onSettled: () => {
@@ -90,7 +103,7 @@ export default function useTasks() {
     }
   })
 
-  const deleteTask = (taskId: string) => deleteMutation.mutate(taskId)
+  const deleteTask = (taskData: Task) => deleteMutation.mutate(taskData)
 
   return { createTask, updateTask, deleteTask }
 }
