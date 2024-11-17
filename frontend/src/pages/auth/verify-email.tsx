@@ -1,5 +1,12 @@
 import { Button } from '@/components/ui/button'
-import { Form, FormControl, FormField, FormItem } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import useAuth from '@/hooks/use-auth'
 import { VerifyEmailFields, verifyEmailSchema } from '@/schemas/auth-schema'
@@ -62,6 +69,10 @@ export default function VerifyEmailPage() {
             name='token'
             render={({ field }) => (
               <FormItem className='w-full'>
+                <div className='flex items-baseline justify-between'>
+                  <FormLabel>Verification token</FormLabel>
+                  <FormMessage className='text-xs font-normal' />
+                </div>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

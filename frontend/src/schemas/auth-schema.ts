@@ -23,7 +23,7 @@ export const registerSchema = z
 export type RegisterFields = z.infer<typeof registerSchema>
 
 export const verifyEmailSchema = z.object({
-  token: z.string().min(1, 'Invalid token')
+  token: pbTokenSchema
 })
 
 export const verifyEmailParamsSchema = z.object({
