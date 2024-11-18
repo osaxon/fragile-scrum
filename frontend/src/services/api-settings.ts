@@ -1,8 +1,8 @@
 import { UpdateUserSettingsFields, userSchema } from '@/schemas/user-schema'
-import { newPb } from './pocketbase'
+import { loginWithPassword } from './api-auth'
+import { pb } from './pocketbase'
 
 export async function getSettings(userId?: string) {
-  const pb = newPb()
   userId ??= pb.authStore.model?.id
 
   const settings = await pb
@@ -22,14 +22,12 @@ export async function updateUserSettings(
   const { oldPassword, password, passwordConfirm } = userData
   const userIsChangingPassword = oldPassword && password && passwordConfirm
 
-  const pb = newPb()
-
   const newUserData = userSchema.parse(
     await pb.collection('users').update(userId, userData)
   )
 
   userIsChangingPassword &&
-    (await pb.collection('users').authWithPassword(newUserData.email, password))
+    (await loginWithPassword(newUserData.email, password))
 
   const settings = await pb
     .collection('settings')

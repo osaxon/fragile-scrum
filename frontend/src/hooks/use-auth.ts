@@ -70,18 +70,27 @@ export default function useAuth() {
     }
   }
 
-  const resetSendEmailCountdown = () => {
-    setSendEmailCountdown(60)
+  const startSendEmailCountdown = ({
+    resetTargetTime = true
+  }: {
+    resetTargetTime?: boolean
+  } = {}) => {
+    let targetTime = parseInt(localStorage.getItem('sendEmailTimeout') || '')
+    if (resetTargetTime && !targetTime) {
+      targetTime = Date.now() + 60 * 1000
+      localStorage.setItem('sendEmailTimeout', targetTime.toString())
+    }
+
     const ticker = setInterval(() => {
-      setSendEmailCountdown((current) => {
-        if (current <= 0) {
-          clearInterval(ticker)
-          return 0
-        } else {
-          return current - 1
-        }
-      })
-    }, 1000)
+      const secondsRemaining = Math.ceil((targetTime - Date.now()) / 1000)
+      if (secondsRemaining > 0) {
+        setSendEmailCountdown(secondsRemaining)
+      } else {
+        setSendEmailCountdown(0)
+        localStorage.removeItem('sendEmailTimeout')
+        clearInterval(ticker)
+      }
+    })
   }
 
   const requestPasswordReset = async (email: string) => {
@@ -91,7 +100,7 @@ export default function useAuth() {
         'Password reset email sent',
         'An email with password reset instructions has been sent to your inbox'
       )
-      resetSendEmailCountdown()
+      startSendEmailCountdown()
     } catch (error) {
       errorToast('Could not send password reset email', error)
     }
@@ -119,7 +128,7 @@ export default function useAuth() {
         'Verification email sent',
         'Please check your inbox for a verification email'
       )
-      resetSendEmailCountdown()
+      startSendEmailCountdown()
     } catch (error) {
       errorToast('Could not send verification email', error)
     }
@@ -155,6 +164,7 @@ export default function useAuth() {
     confirmPasswordReset,
     sendVerificationEmail,
     verifyEmailByToken,
+    startSendEmailCountdown,
     sendEmailCountdown
   }
 }

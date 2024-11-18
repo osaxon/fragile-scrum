@@ -21,6 +21,7 @@ export default function VerifyEmailPage() {
   const {
     sendEmailCountdown,
     sendVerificationEmail,
+    startSendEmailCountdown,
     verifyEmailByToken,
     logout
   } = useAuth()
@@ -38,6 +39,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     token && verifyEmailByToken(token)
+    startSendEmailCountdown({ resetTargetTime: false })
   }, [])
 
   return (

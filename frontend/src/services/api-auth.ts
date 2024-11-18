@@ -1,26 +1,26 @@
 import { setTheme } from '@/lib/set-theme'
 import { User, userWithSettingsSchema } from '@/schemas/user-schema'
 import { queryOptions } from '@tanstack/react-query'
-import { newPb } from './pocketbase'
+import { pb } from './pocketbase'
 
 export async function authRefresh() {
-  const pb = newPb()
   await pb.collection('users').authRefresh()
 }
 
-export function checkUserIsAuthenticated() {
-  const pb = newPb()
-  return pb.authStore.isValid && pb.authStore.model?.verified
-}
-
 export function checkUserIsLoggedIn() {
-  const pb = newPb()
   return pb.authStore.isValid
 }
 
 export function checkEmailIsVerified() {
-  const pb = newPb()
   return pb.authStore.model?.verified
+}
+
+export function checkUserIsAuthenticated() {
+  return checkUserIsLoggedIn() && checkEmailIsVerified()
+}
+
+export async function sendVerificationEmail(email: string) {
+  await pb.collection('users').requestVerification(email)
 }
 
 export async function createNewUser(newUserData: {
@@ -29,24 +29,16 @@ export async function createNewUser(newUserData: {
   password: string
   passwordConfirm: string
 }) {
-  const pb = newPb()
   await pb.collection('users').create({ ...newUserData, emailVisibility: true })
-  await pb.collection('users').requestVerification(newUserData.email)
-}
-
-export async function sendVerificationEmail(email: string) {
-  const pb = newPb()
-  await pb.collection('users').requestVerification(email)
+  await sendVerificationEmail(newUserData.email)
 }
 
 export async function verifyEmailByToken(token: string) {
-  const pb = newPb()
   await pb.collection('users').confirmVerification(token)
-  if (pb.authStore.model) await pb.collection('users').authRefresh()
+  if (pb.authStore.model) await authRefresh()
 }
 
 export async function loginWithPassword(email: string, password: string) {
-  const pb = newPb()
   const authResult = await pb
     .collection('users')
     .authWithPassword(email, password)
@@ -54,21 +46,18 @@ export async function loginWithPassword(email: string, password: string) {
 }
 
 export async function loginWithGoogle() {
-  const pb = newPb()
   const authResult = await pb
     .collection('users')
     .authWithOAuth2({ provider: 'google' })
-  await pb.collection('users').authRefresh()
+  await authRefresh()
   return authResult
 }
 
 export function logout() {
-  const pb = newPb()
   pb.authStore.clear()
 }
 
 export async function requestPasswordReset(email: string) {
-  const pb = newPb()
   await pb.collection('users').requestPasswordReset(email)
 }
 
@@ -77,21 +66,17 @@ export async function confirmPasswordReset(
   passwordConfirm: string,
   token: string
 ) {
-  const pb = newPb()
   await pb
     .collection('users')
     .confirmPasswordReset(token, password, passwordConfirm)
   if (pb.authStore.model)
-    await pb
-      .collection('users')
-      .authWithPassword(pb.authStore.model.email, password)
+    await loginWithPassword(pb.authStore.model.email, password)
 }
 
 export async function subscribeToUserChanges(
   userId: string,
   callback: (record: User) => void
 ) {
-  const pb = newPb()
   pb.collection('users').subscribe(userId, (e) => {
     const userData = e.record as unknown as User
     callback(userData)
@@ -99,20 +84,18 @@ export async function subscribeToUserChanges(
 }
 
 export async function unsubscribeFromUserChanges() {
-  const pb = newPb()
   pb.collection('users').unsubscribe('*')
 }
 
 export const userQueryOptions = queryOptions({
   queryKey: ['user'],
   queryFn: async () => {
-    const pb = newPb()
-    if (!pb.authStore.isValid) return null
+    if (!checkUserIsLoggedIn()) return null
 
     try {
-      await pb.collection('users').authRefresh()
+      await authRefresh()
     } catch {
-      pb.authStore.clear()
+      logout()
       return null
     }
 

@@ -9,13 +9,22 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import useAuth from '@/hooks/use-auth'
-import { ForgotPasswordFields, forgotPasswordSchema } from '@/schemas/auth-schema'
+import {
+  ForgotPasswordFields,
+  forgotPasswordSchema
+} from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
+import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function ForgotPasswordPage() {
-  const { requestPasswordReset, sendEmailCountdown } = useAuth()
+  const { requestPasswordReset, sendEmailCountdown, startSendEmailCountdown } =
+    useAuth()
+
+  useEffect(() => {
+    startSendEmailCountdown({ resetTargetTime: false })
+  }, [])
 
   const form = useForm<ForgotPasswordFields>({
     resolver: zodResolver(forgotPasswordSchema),

@@ -12,7 +12,7 @@ import globals from 'globals'
 
 export default [
   {
-    files: ['src/**/*.{js,jsx,mjs,cjs,ts,tsx}'],
+    files: ['frontend/src/**/*.{js,jsx,mjs,cjs,ts,tsx}'],
     settings: { react: { version: 'detect' } },
     languageOptions: {
       parser: tsParser,

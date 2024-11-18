@@ -66,7 +66,7 @@ const authRoute = createRoute({
 
 const loginRoute = createRoute({
   getParentRoute: () => authRoute,
-  path: '/login',
+  path: 'login',
   component: LoginPage,
   beforeLoad: () => {
     if (checkUserIsLoggedIn() && !checkEmailIsVerified())
@@ -76,7 +76,7 @@ const loginRoute = createRoute({
 
 const registerRoute = createRoute({
   getParentRoute: () => authRoute,
-  path: '/register',
+  path: 'register',
   component: RegisterPage,
   beforeLoad: () => {
     if (checkUserIsLoggedIn() && !checkEmailIsVerified())
@@ -86,14 +86,14 @@ const registerRoute = createRoute({
 
 const verifyEmailRoute = createRoute({
   getParentRoute: () => authRoute,
-  path: '/verify-email',
+  path: 'verify-email',
   component: VerifyEmailPage,
   validateSearch: verifyEmailParamsSchema
 })
 
 const forgotPasswordRoute = createRoute({
   getParentRoute: () => authRoute,
-  path: '/forgot-password',
+  path: 'forgot-password',
   component: ForgotPasswordPage,
   beforeLoad: () => {
     if (checkUserIsLoggedIn() && !checkEmailIsVerified())
@@ -103,7 +103,7 @@ const forgotPasswordRoute = createRoute({
 
 const resetPasswordRoute = createRoute({
   getParentRoute: () => authRoute,
-  path: '/reset-password',
+  path: 'reset-password',
   component: ResetPasswordPage,
   validateSearch: resetPasswordParamsSchema
 })
