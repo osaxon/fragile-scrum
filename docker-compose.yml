@@ -7,7 +7,6 @@ services:
     restart: unless-stopped
     environment:
       - MAILER_CRON_SCHEDULE=${MAILER_CRON_SCHEDULE:-0 9 * * *}
-      - VITE_BACKEND_URL=/api
     ports:
       - '8090:8090'
     volumes:
