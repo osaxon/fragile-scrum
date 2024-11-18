@@ -64,7 +64,7 @@ export default function ForgotPasswordPage() {
       <p className='text-sm'>
         Back to{' '}
         <Link to='/login' className='text-primary'>
-          log in
+          login
         </Link>
       </p>
     </main>

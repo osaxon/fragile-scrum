@@ -86,9 +86,9 @@ export default function ResetPasswordPage() {
         </form>
       </Form>
       <p className='text-sm'>
-        Cancel and go back to{' '}
+        Back to{' '}
         <Link to='/login' className='text-primary'>
-          log in
+          login
         </Link>
       </p>
     </main>

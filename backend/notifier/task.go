@@ -1,12 +1,16 @@
 package notifier
 
 import (
+	"embed"
 	"fmt"
 	"time"
 
 	"github.com/pocketbase/pocketbase/models"
 	"github.com/pocketbase/pocketbase/tools/template"
 )
+
+//go:embed templates
+var embeddedTemplates embed.FS
 
 // calculateDailyReminders processes a list of tasks and returns reminders
 // for those that are due.
@@ -66,15 +70,14 @@ func (n *Notifier) renderHTMLTemplate(reminders []TaskReminder) (string, error) 
 	}
 
 	registry := template.NewRegistry()
-	html, err := registry.LoadFiles(
-		"notifier/templates/base.layout.gohtml",
-		"notifier/templates/styles.partial.gohtml",
-		"notifier/templates/footer.partial.gohtml",
-		"notifier/templates/tasks.page.gohtml",
-	).Render(map[string]any{
-		"reminders": formattedReminders,
-		"domain":    n.pb.Settings().Meta.AppUrl,
-	})
+	html, err := registry.LoadFS(embeddedTemplates,
+		"templates/base.layout.gohtml",
+		"templates/styles.partial.gohtml",
+		"templates/tasks.page.gohtml").
+		Render(map[string]any{
+			"reminders": formattedReminders,
+			"domain":    n.pb.Settings().Meta.AppUrl,
+		})
 	if err != nil {
 		return "", err
 	}

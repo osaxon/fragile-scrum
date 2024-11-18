@@ -59,11 +59,8 @@ const authRoute = createRoute({
   getParentRoute: () => rootRoute,
   id: 'auth',
   beforeLoad: ({ location }) => {
-    if (
-      checkUserIsAuthenticated() &&
-      !location.pathname.includes('reset-password')
-    )
-      throw redirect({ to: '/tasks' })
+    if (location.pathname.includes('reset-password')) return
+    if (checkUserIsAuthenticated()) throw redirect({ to: '/tasks' })
   }
 })
 
