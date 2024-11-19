@@ -4,7 +4,7 @@ import { queryOptions } from '@tanstack/react-query'
 import { pb } from './pocketbase'
 
 export async function authRefresh() {
-  await pb.collection('users').authRefresh()
+  await pb.collection('users').authRefresh({ requestKey: null })
 }
 
 export function checkUserIsLoggedIn() {
