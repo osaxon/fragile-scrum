@@ -44,8 +44,9 @@ func main() {
 	app := newApplication()
 
 	app.mountFs()
+	app.loadAuthEmailTemplates()
 	app.setupAuthHooks()
-	app.startMailer()
+	app.startNotifier()
 
 	log.Fatal(app.pb.Start())
 }

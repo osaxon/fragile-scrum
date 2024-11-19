@@ -1,20 +1,16 @@
 package notifier
 
 import (
-	"embed"
 	"fmt"
 	"time"
 
-	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/template"
 )
 
-//go:embed templates
-var embeddedTemplates embed.FS
-
 // calculateDailyReminders processes a list of tasks and returns reminders
 // for those that are due.
-func (n *Notifier) calculateDailyReminders(emailAddress, userID string, userTasks []*models.Record) []TaskReminder {
+func (n *Notifier) calculateDailyReminders(emailAddress, userID string, userTasks []*core.Record) []TaskReminder {
 	var reminders []TaskReminder
 
 	for _, record := range userTasks {
@@ -70,13 +66,14 @@ func (n *Notifier) renderHTMLTemplate(reminders []TaskReminder) (string, error) 
 	}
 
 	registry := template.NewRegistry()
-	html, err := registry.LoadFS(embeddedTemplates,
+	html, err := registry.LoadFS(n.templates,
 		"templates/base.layout.gohtml",
 		"templates/styles.partial.gohtml",
 		"templates/tasks.page.gohtml").
 		Render(map[string]any{
+			"title":     "Long Habit - Reminder",
 			"reminders": formattedReminders,
-			"domain":    n.pb.Settings().Meta.AppUrl,
+			"domain":    n.pb.Settings().Meta.AppURL,
 		})
 	if err != nil {
 		return "", err

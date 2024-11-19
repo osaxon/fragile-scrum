@@ -2,33 +2,37 @@ package main
 
 import (
 	"github.com/pocketbase/pocketbase/core"
-	"github.com/pocketbase/pocketbase/models"
 )
 
 // setupAuthHooks configures the application's authentication-related hooks.
 func (app *application) setupAuthHooks() {
-	app.pb.OnModelAfterCreate("users").Add(func(e *core.ModelEvent) error {
-		record := e.Model.(*models.Record)
-		userId := record.Id
+	app.pb.OnModelAfterCreateSuccess("users").
+		BindFunc(func(e *core.ModelEvent) error {
+			record := e.Model.(*core.Record)
+			userId := record.Id
 
-		settingsCollection, err := app.pb.Dao().FindCollectionByNameOrId("settings")
-		if err != nil {
-			return err
-		}
+			settingsCollection, err := app.pb.FindCollectionByNameOrId("settings")
+			if err != nil {
+				return err
+			}
 
-		newSettingsRecord := models.NewRecord(settingsCollection)
-		newSettingsRecord.Set("user", userId)
-		newSettingsRecord.Set("remindEmail", record.Get("email"))
-		newSettingsRecord.Set("remindByEmailEnabled", true)
-		newSettingsRecord.Set("theme", "system")
+			newSettingsRecord := core.NewRecord(settingsCollection)
+			newSettingsRecord.Set("user", userId)
+			newSettingsRecord.Set("remindEmail", record.GetString("email"))
+			newSettingsRecord.Set("remindByEmailEnabled", false)
+			newSettingsRecord.Set("theme", "system")
 
-		return app.pb.Dao().SaveRecord(newSettingsRecord)
-	})
+			app.pb.Save(newSettingsRecord)
 
-	app.pb.OnRecordAfterAuthWithPasswordRequest().Add(func(e *core.RecordAuthWithPasswordEvent) error {
-		userRecord := e.Record
-		userRecord.Set("authWithPasswordAvailable", true)
+			return e.Next()
+		})
 
-		return app.pb.Dao().SaveRecord(userRecord)
-	})
+	app.pb.OnRecordAuthWithPasswordRequest().
+		BindFunc(func(e *core.RecordAuthWithPasswordRequestEvent) error {
+			userRecord := e.Record
+			userRecord.Set("authWithPasswordAvailable", true)
+			app.pb.Save(userRecord)
+
+			return e.Next()
+		})
 }

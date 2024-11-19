@@ -1,4 +1,4 @@
-import { UpdateUserSettingsFields, userSchema } from '@/schemas/user-schema'
+import { UpdateUserSettingsFields } from '@/schemas/user-schema'
 import { loginWithPassword } from './api-auth'
 import { pb } from './pocketbase'
 
@@ -18,13 +18,26 @@ export async function updateUserSettings(
   userId: string,
   formData: UpdateUserSettingsFields
 ) {
-  const { remindEmail, remindByEmailEnabled, theme, ...userData } = formData
-  const { oldPassword, password, passwordConfirm } = userData
+  const {
+    remindEmail,
+    remindByEmailEnabled,
+    theme,
+    name,
+    avatar,
+    oldPassword,
+    password,
+    passwordConfirm
+  } = formData
   const userIsChangingPassword = oldPassword && password && passwordConfirm
 
-  const newUserData = userSchema.parse(
-    await pb.collection('users').update(userId, userData)
-  )
+  const newUserData = await pb
+    .collection('users')
+    .update(
+      userId,
+      userIsChangingPassword
+        ? { name, avatar, oldPassword, password, passwordConfirm }
+        : { name, avatar }
+    )
 
   userIsChangingPassword &&
     (await loginWithPassword(newUserData.email, password))

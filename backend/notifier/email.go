@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"net/mail"
 
-	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/mailer"
 )
 
 // constructNotificationEmails creates email notifications
 // for users with due tasks.
-func (n *Notifier) constructNotificationEmails(userSettings []*models.Record) []*EmailNotification {
+func (n *Notifier) constructNotificationEmails(userSettings []*core.Record) []*EmailNotification {
 	var notificationEmails []*EmailNotification
 
 	for _, settings := range userSettings {
@@ -21,7 +21,7 @@ func (n *Notifier) constructNotificationEmails(userSettings []*models.Record) []
 			continue
 		}
 
-		userTasks, err := n.pb.Dao().FindRecordsByFilter(
+		userTasks, err := n.pb.FindRecordsByFilter(
 			"tasks",
 			fmt.Sprintf("user = '%s' && remindByEmail = true", userID),
 			"",

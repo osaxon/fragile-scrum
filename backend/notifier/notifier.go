@@ -1,19 +1,20 @@
 package notifier
 
 import (
+	"embed"
 	"fmt"
-	"log"
 
 	"github.com/alitto/pond/v2"
 	"github.com/pocketbase/pocketbase"
-	"github.com/pocketbase/pocketbase/models"
+	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/mailer"
 )
 
 // Notifier handles the sending of email notifications using a worker pool.
 type Notifier struct {
-	pool pond.Pool
-	pb   *pocketbase.PocketBase
+	pool      pond.Pool
+	pb        *pocketbase.PocketBase
+	templates embed.FS
 }
 
 // EmailNotification represents an email to be sent to a user.
@@ -31,14 +32,18 @@ type TaskReminder struct {
 
 // NewNotifier creates a new Notifier with the specified
 // number of worker goroutines.
-func NewNotifier(numWorkers int, pb *pocketbase.PocketBase) *Notifier {
+func NewNotifier(pb *pocketbase.PocketBase, templates embed.FS, numWorkers int) *Notifier {
 	if numWorkers < 1 {
-		log.Fatal("invalid number of mailer workers")
+		pb.Logger().Error("EMAIL reminders job",
+			"status", "warning",
+			"details", fmt.Sprintf("notifier launched with an invalid number of workers (%d), reverting to 10", numWorkers))
+		numWorkers = 10
 	}
 
 	return &Notifier{
-		pool: pond.NewPool(numWorkers),
-		pb:   pb,
+		pool:      pond.NewPool(numWorkers),
+		pb:        pb,
+		templates: templates,
 	}
 }
 
@@ -74,7 +79,7 @@ func (n *Notifier) NotifyUsers() {
 	)
 }
 
-func (n *Notifier) allUserSettings() ([]*models.Record, error) {
-	return n.pb.Dao().FindRecordsByFilter("settings",
+func (n *Notifier) allUserSettings() ([]*core.Record, error) {
+	return n.pb.FindRecordsByFilter("settings",
 		"remindByEmailEnabled = true", "", 0, 0)
 }
