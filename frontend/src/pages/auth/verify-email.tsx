@@ -19,9 +19,9 @@ import { useForm } from 'react-hook-form'
 
 export default function VerifyEmailPage() {
   const {
-    sendEmailCountdown,
+    emailSendCountdown,
     sendVerificationEmail,
-    startSendEmailCountdown,
+    startEmailSendCountdown,
     verifyEmailByToken,
     logout
   } = useAuth()
@@ -39,7 +39,7 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     token && verifyEmailByToken(token)
-    startSendEmailCountdown({ resetTargetTime: false })
+    startEmailSendCountdown({ resetTargetTime: false })
   }, [])
 
   return (
@@ -93,10 +93,10 @@ export default function VerifyEmailPage() {
                 className='w-full'
                 variant='outline'
                 type='button'
-                disabled={sendEmailCountdown > 0}
+                disabled={emailSendCountdown > 0}
                 onClick={() => sendVerificationEmail(user?.email)}>
-                {sendEmailCountdown > 0
-                  ? `Send Again (${sendEmailCountdown})`
+                {emailSendCountdown > 0
+                  ? `Send Again (${emailSendCountdown})`
                   : 'Resend Email'}
               </Button>
               <Button

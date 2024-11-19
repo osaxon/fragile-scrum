@@ -19,11 +19,11 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 export default function ForgotPasswordPage() {
-  const { requestPasswordReset, sendEmailCountdown, startSendEmailCountdown } =
+  const { requestPasswordReset, emailSendCountdown, startEmailSendCountdown } =
     useAuth()
 
   useEffect(() => {
-    startSendEmailCountdown({ resetTargetTime: false })
+    startEmailSendCountdown({ resetTargetTime: false })
   }, [])
 
   const form = useForm<ForgotPasswordFields>({
@@ -62,9 +62,9 @@ export default function ForgotPasswordPage() {
           <Button
             className='mt-4 w-full'
             type='submit'
-            disabled={sendEmailCountdown > 0}>
-            {sendEmailCountdown > 0
-              ? `Send Again (${sendEmailCountdown})`
+            disabled={emailSendCountdown > 0}>
+            {emailSendCountdown > 0
+              ? `Send Again (${emailSendCountdown})`
               : 'Request Reset'}
           </Button>
         </form>

@@ -16,21 +16,25 @@ export default function HomePage() {
       </p>
       <div className='flex flex-col gap-y-1'>
         <p className='text-sm'>
-          Light and fast, minimalistic modern UI, no bloat, no useless features
+          &#8227; Light and fast, minimalistic modern UI, no bloat, no useless
+          features
         </p>
         <p className='text-sm'>
-          Completely free, no ads, no spam, no e-begging
+          &#8227; Completely free, no ads, no spam, no e-begging
         </p>
-        <p className='text-sm'>Open source and self-hostable</p>
-        <p className='text-sm'>Customizable notifications</p>
-        <p className='text-sm'>Access from anywhere</p>
+        <p className='text-sm'>&#8227; Open source and self-hostable</p>
+        <p className='text-sm'>&#8227; Customizable notifications</p>
+        <p className='text-sm'>&#8227; Access from anywhere</p>
       </div>
       <div className='flex gap-x-2'>
         <Button asChild className='mt-2 w-32'>
           <Link to='/login'>Get Started</Link>
         </Button>
         <Button asChild variant='link' className='mt-2 w-32 hover:no-underline'>
-          <a target='_blank' href='https://github.com/s-petr/longhabit'>
+          <a
+            target='_blank'
+            rel='noreferrer'
+            href='https://github.com/s-petr/longhabit'>
             <GitHubLogoIcon /> Source Code
           </a>
         </Button>

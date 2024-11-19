@@ -15,7 +15,7 @@ export function checkEmailIsVerified() {
   return pb.authStore.model?.verified
 }
 
-export function checkUserIsAuthenticated() {
+export function checkVerifiedUserIsLoggedIn() {
   return checkUserIsLoggedIn() && checkEmailIsVerified()
 }
 

@@ -18,7 +18,7 @@ import { useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 
 export default function useAuth() {
-  const [sendEmailCountdown, setSendEmailCountdown] = useState(0)
+  const [emailSendCountdown, setEmailSendCountdown] = useState(0)
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -70,7 +70,7 @@ export default function useAuth() {
     }
   }
 
-  const startSendEmailCountdown = ({
+  const startEmailSendCountdown = ({
     resetTargetTime = true
   }: {
     resetTargetTime?: boolean
@@ -84,9 +84,9 @@ export default function useAuth() {
     const ticker = setInterval(() => {
       const secondsRemaining = Math.ceil((targetTime - Date.now()) / 1000)
       if (secondsRemaining > 0) {
-        setSendEmailCountdown(secondsRemaining)
+        setEmailSendCountdown(secondsRemaining)
       } else {
-        setSendEmailCountdown(0)
+        setEmailSendCountdown(0)
         localStorage.removeItem('sendEmailTimeout')
         clearInterval(ticker)
       }
@@ -100,7 +100,7 @@ export default function useAuth() {
         'Password reset email sent',
         'An email with password reset instructions has been sent to your inbox'
       )
-      startSendEmailCountdown()
+      startEmailSendCountdown()
     } catch (error) {
       errorToast('Could not send password reset email', error)
     }
@@ -128,7 +128,7 @@ export default function useAuth() {
         'Verification email sent',
         'Please check your inbox for a verification email'
       )
-      startSendEmailCountdown()
+      startEmailSendCountdown()
     } catch (error) {
       errorToast('Could not send verification email', error)
     }
@@ -164,7 +164,7 @@ export default function useAuth() {
     confirmPasswordReset,
     sendVerificationEmail,
     verifyEmailByToken,
-    startSendEmailCountdown,
-    sendEmailCountdown
+    startEmailSendCountdown,
+    emailSendCountdown
   }
 }

@@ -9,14 +9,14 @@ export default function TasksPage() {
   const { data: tasks, isLoading } = useSuspenseQuery(tasksQueryOptions)
 
   const userQuery = useSuspenseQuery(userQueryOptions)
-  const userIsAuthenticated = userQuery?.data?.verified
+  const verifiedUserIsLoggedIn = userQuery?.data?.verified
 
   const navigate = useNavigate()
 
   return (
     !isLoading && (
       <main className='flex flex-col gap-8 text-justify text-lg'>
-        {userIsAuthenticated && tasks && <TasksTable tasks={tasks} />}
+        {verifiedUserIsLoggedIn && tasks && <TasksTable tasks={tasks} />}
         <Sheet open={true} onOpenChange={() => navigate({ to: '/tasks' })}>
           <Outlet />
         </Sheet>

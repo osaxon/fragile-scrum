@@ -240,7 +240,7 @@ export default function TaskForm({
               </DialogContent>
             </Dialog>
           ) : (
-            <Button variant='outline' type='button' className='w-full' asChild>
+            <Button asChild variant='outline' type='button' className='w-full'>
               <Link to='/tasks'>Cancel</Link>
             </Button>
           )}

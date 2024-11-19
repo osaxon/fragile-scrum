@@ -27,8 +27,8 @@ import {
 import { pbIdSchema } from './schemas/pb-schema'
 import {
   checkEmailIsVerified,
-  checkUserIsAuthenticated,
   checkUserIsLoggedIn,
+  checkVerifiedUserIsLoggedIn,
   userQueryOptions
 } from './services/api-auth'
 
@@ -51,7 +51,7 @@ const homeRoute = createRoute({
   path: '/',
   component: HomePage,
   beforeLoad: async () => {
-    if (checkUserIsAuthenticated()) throw redirect({ to: '/tasks' })
+    if (checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/tasks' })
   }
 })
 
@@ -60,7 +60,7 @@ const authRoute = createRoute({
   id: 'auth',
   beforeLoad: ({ location }) => {
     if (location.pathname.includes('reset-password')) return
-    if (checkUserIsAuthenticated()) throw redirect({ to: '/tasks' })
+    if (checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/tasks' })
   }
 })
 
@@ -113,7 +113,7 @@ const tasksRoute = createRoute({
   path: 'tasks',
   component: lazy(() => import('./pages/tasks/tasks')),
   beforeLoad: () => {
-    if (!checkUserIsAuthenticated()) throw redirect({ to: '/login' })
+    if (!checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/login' })
   },
   loader: ({ context: { queryClient } }) =>
     queryClient.ensureQueryData(tasksQueryOptions)

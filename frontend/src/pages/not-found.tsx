@@ -11,7 +11,10 @@ export default function NotFoundPage() {
       <p className='text-lg font-light sm:text-xl'>
         Sorry, we could not find the page you are looking for
       </p>
-      <Button variant='link' className='w-32 hover:no-underline' onClick={() => history.go(-1)}>
+      <Button
+        variant='link'
+        className='w-32 hover:no-underline'
+        onClick={() => history.go(-1)}>
         ← Go back
       </Button>
     </main>
