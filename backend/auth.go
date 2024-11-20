@@ -5,6 +5,9 @@ import (
 )
 
 // setupAuthHooks configures the application's authentication-related hooks.
+// When a new user is created, a new settings record is created for them.
+// When a user logs in with password for the first time, the flag
+// authWithPasswordAvailable is set to true.
 func (app *application) setupAuthHooks() {
 	app.pb.OnModelAfterCreateSuccess("users").
 		BindFunc(func(e *core.ModelEvent) error {
@@ -30,8 +33,11 @@ func (app *application) setupAuthHooks() {
 	app.pb.OnRecordAuthWithPasswordRequest().
 		BindFunc(func(e *core.RecordAuthWithPasswordRequestEvent) error {
 			userRecord := e.Record
-			userRecord.Set("authWithPasswordAvailable", true)
-			app.pb.Save(userRecord)
+
+			if isAvailable := userRecord.GetBool("authWithPasswordAvailable"); !isAvailable {
+				userRecord.Set("authWithPasswordAvailable", true)
+				app.pb.Save(userRecord)
+			}
 
 			return e.Next()
 		})

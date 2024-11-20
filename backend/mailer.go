@@ -37,7 +37,8 @@ func (app *application) startNotifier() {
 }
 
 // loadAuthEmailTemplates loads custom email templates and overrides
-// the framework's default email verification and password reset emails
+// the framework's default account email verification, password reset
+// and "login from a new location" alert emails.
 func (app *application) loadAuthEmailTemplates() {
 	app.pb.OnMailerRecordVerificationSend().BindFunc(func(e *core.MailerRecordEvent) error {
 		title := "Long Habit - Verify Email"
@@ -74,6 +75,27 @@ func (app *application) loadAuthEmailTemplates() {
 				"title":  title,
 				"domain": app.pb.Settings().Meta.AppURL,
 				"token":  e.Meta["token"],
+			})
+		if err != nil {
+			return err
+		}
+
+		e.Message.Subject = title
+		e.Message.HTML = html
+
+		return e.Next()
+	})
+
+	app.pb.OnMailerRecordAuthAlertSend().BindFunc(func(e *core.MailerRecordEvent) error {
+		title := "Long Habit - Login from a new location"
+
+		registry := template.NewRegistry()
+		html, err := registry.LoadFS(embeddedTemplates,
+			"templates/base.layout.gohtml",
+			"templates/styles.partial.gohtml",
+			"templates/auth-alert.page.gohtml").
+			Render(map[string]any{
+				"title": title,
 			})
 		if err != nil {
 			return err

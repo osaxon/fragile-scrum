@@ -11,14 +11,6 @@
     font-style: normal;
   }
 
-  @font-face {
-    font-family: 'Inter';
-    src: url('/fonts/inter-italic.ttf') format('truetype');
-    font-weight: 100 900;
-    font-display: swap;
-    font-style: italic;
-  }
-
   :root {
     --font-sans: Inter;
 
@@ -79,7 +71,7 @@
 
   input[type='file']::-webkit-file-upload-button,
   input[type='file']::file-selector-button {
-    @apply text-foreground
+    @apply text-foreground;
   }
 }
 

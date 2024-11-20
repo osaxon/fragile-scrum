@@ -1,11 +1,7 @@
 import { setTheme } from '@/lib/set-theme'
-import { User, userWithSettingsSchema } from '@/schemas/user-schema'
+import { User, userSchema, userWithSettingsSchema } from '@/schemas/user-schema'
 import { queryOptions } from '@tanstack/react-query'
 import { pb } from './pocketbase'
-
-export async function authRefresh() {
-  await pb.collection('users').authRefresh({ requestKey: null })
-}
 
 export function checkUserIsLoggedIn() {
   return pb.authStore.isValid
@@ -17,6 +13,11 @@ export function checkEmailIsVerified() {
 
 export function checkVerifiedUserIsLoggedIn() {
   return checkUserIsLoggedIn() && checkEmailIsVerified()
+}
+
+export async function authRefresh() {
+  if (!checkUserIsLoggedIn()) return
+  await pb.collection('users').authRefresh({ requestKey: null })
 }
 
 export async function sendVerificationEmail(email: string) {
@@ -78,7 +79,7 @@ export async function subscribeToUserChanges(
   callback: (record: User) => void
 ) {
   pb.collection('users').subscribe(userId, (e) => {
-    const userData = e.record as unknown as User
+    const userData = userSchema.parse(e.record)
     callback(userData)
   })
 }
@@ -111,5 +112,6 @@ export const userQueryOptions = queryOptions({
     })
 
     return userData
-  }
+  },
+  staleTime: 60 * 1000
 })

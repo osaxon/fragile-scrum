@@ -59,7 +59,7 @@ func (n *Notifier) formatReminderMessage(reminder TaskReminder) string {
 }
 
 // renderHTMLTemplate renders an HTML page with reminders to be sent via email.
-func (n *Notifier) renderHTMLTemplate(reminders []TaskReminder) (string, error) {
+func (n *Notifier) renderHTMLTemplate(reminders []TaskReminder, title string) (string, error) {
 	formattedReminders := make([]string, 0, len(reminders))
 	for _, reminder := range reminders {
 		formattedReminders = append(formattedReminders, n.formatReminderMessage(reminder))
@@ -71,7 +71,7 @@ func (n *Notifier) renderHTMLTemplate(reminders []TaskReminder) (string, error) 
 		"templates/styles.partial.gohtml",
 		"templates/tasks.page.gohtml").
 		Render(map[string]any{
-			"title":     "Long Habit - Reminder",
+			"title":     title,
 			"reminders": formattedReminders,
 			"domain":    n.pb.Settings().Meta.AppURL,
 		})

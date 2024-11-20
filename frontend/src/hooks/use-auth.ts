@@ -2,6 +2,7 @@ import { errorToast, successToast } from '@/lib/toast'
 import { RegisterFields } from '@/schemas/auth-schema'
 import { User, UserWithSettings } from '@/schemas/user-schema'
 import {
+  authRefresh,
   confirmPasswordReset as confirmPasswordResetApi,
   createNewUser,
   loginWithGoogle as loginWithGoogleApi,
@@ -29,7 +30,8 @@ export default function useAuth() {
     router.navigate({ to: '/' })
   }
 
-  const subscribeUserChangeCallback = (record: User) => {
+  const subscribeUserChangeCallback = async (record: User) => {
+    await authRefresh()
     router.invalidate()
     queryClient.setQueryData(['user'], record)
   }
