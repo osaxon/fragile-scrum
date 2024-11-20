@@ -12,6 +12,7 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { lazy } from 'react'
+import Spinner from './components/spinner'
 import { setTheme } from './lib/set-theme'
 import ForgotPasswordPage from './pages/auth/forgot-password'
 import LoginPage from './pages/auth/login'
@@ -112,6 +113,7 @@ const tasksRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'tasks',
   component: lazy(() => import('./pages/tasks/tasks')),
+  pendingComponent: Spinner,
   beforeLoad: () => {
     if (!checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/login' })
   },

@@ -42,15 +42,17 @@ export default function PasswordField<T extends FieldValues>({
                 {...field}
               />
             </FormControl>
-            <div
-              className='absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer'
-              onClick={() => setIsVisible((current) => !current)}>
-              {isVisible ? (
-                <EyeNoneIcon className='size-4 text-muted-foreground' />
-              ) : (
-                <EyeOpenIcon className='size-4 text-muted-foreground' />
-              )}
-            </div>
+            {!!field.value.length && (
+              <div
+                className='absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer'
+                onClick={() => setIsVisible((current) => !current)}>
+                {isVisible ? (
+                  <EyeNoneIcon className='size-4 text-muted-foreground' />
+                ) : (
+                  <EyeOpenIcon className='size-4 text-muted-foreground' />
+                )}
+              </div>
+            )}
           </div>
         </FormItem>
       )}
