@@ -1,3 +1,6 @@
+import InputField from '@/components/form/input-field'
+import PasswordField from '@/components/form/password-field'
+import SwitchField from '@/components/form/switch-field'
 import ThemeSwitch from '@/components/theme-switch'
 import { Button } from '@/components/ui/button'
 import {
@@ -26,7 +29,6 @@ import {
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet'
-import { Switch } from '@/components/ui/switch'
 import useAuth from '@/hooks/use-auth'
 import useSettings from '@/hooks/use-settings'
 import {
@@ -112,21 +114,7 @@ export default function SettingsPage() {
               )}
             />
 
-            <FormField
-              control={form.control}
-              name='name'
-              render={({ field }) => (
-                <FormItem className='w-full'>
-                  <div className='flex items-baseline justify-between'>
-                    <FormLabel>Name</FormLabel>
-                    <FormMessage className='text-xs font-normal' />
-                  </div>
-                  <FormControl>
-                    <Input {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+            <InputField form={form} name='name' />
 
             <FormField
               control={form.control}
@@ -153,39 +141,17 @@ export default function SettingsPage() {
               Notification Settings
             </p>
 
-            <FormField
-              control={form.control}
+            <InputField
+              form={form}
               name='remindEmail'
-              render={({ field }) => (
-                <FormItem className='w-full'>
-                  <div className='flex items-baseline justify-between'>
-                    <FormLabel>Email for reminders</FormLabel>
-                    <FormMessage className='text-xs font-normal' />
-                  </div>
-                  <FormControl>
-                    <Input type='email' {...field} />
-                  </FormControl>
-                </FormItem>
-              )}
+              type='email'
+              label='Email for reminders'
             />
 
-            <FormField
-              control={form.control}
+            <SwitchField
+              form={form}
               name='remindByEmailEnabled'
-              render={({ field }) => (
-                <FormItem className='mr-auto flex items-center gap-x-2 py-1'>
-                  <FormControl>
-                    <Switch
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className='!mt-0 cursor-pointer'>
-                    Enable email reminders
-                  </FormLabel>
-                  <FormMessage />
-                </FormItem>
-              )}
+              label='Enable email reminders '
             />
 
             {authWithPasswordAvailable && (
@@ -193,50 +159,23 @@ export default function SettingsPage() {
                 <p className='w-full text-xl font-light text-muted-foreground'>
                   Change Password
                 </p>
-                <FormField
-                  control={form.control}
+
+                <PasswordField
+                  form={form}
                   name='oldPassword'
-                  render={({ field }) => (
-                    <FormItem className='w-full'>
-                      <div className='flex items-baseline justify-between'>
-                        <FormLabel>Current password</FormLabel>
-                        <FormMessage className='text-xs font-normal' />
-                      </div>
-                      <FormControl>
-                        <Input type='password' {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  label='Current password'
                 />
-                <FormField
-                  control={form.control}
+
+                <PasswordField
+                  form={form}
                   name='password'
-                  render={({ field }) => (
-                    <FormItem className='w-full'>
-                      <div className='flex items-baseline justify-between'>
-                        <FormLabel>New password</FormLabel>
-                        <FormMessage className='text-xs font-normal' />
-                      </div>
-                      <FormControl>
-                        <Input type='password' {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  label='New password'
                 />
-                <FormField
-                  control={form.control}
+
+                <PasswordField
+                  form={form}
                   name='passwordConfirm'
-                  render={({ field }) => (
-                    <FormItem className='w-full'>
-                      <div className='flex items-baseline justify-between'>
-                        <FormLabel>Confirm new password</FormLabel>
-                        <FormMessage className='text-xs font-normal' />
-                      </div>
-                      <FormControl>
-                        <Input type='password' {...field} />
-                      </FormControl>
-                    </FormItem>
-                  )}
+                  label='Confirm new password'
                 />
               </>
             )}

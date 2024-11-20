@@ -18,14 +18,12 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import {
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet'
-import { Switch } from '@/components/ui/switch'
 import useTasks from '@/hooks/use-tasks'
 import { Task, taskSchema } from '@/schemas/task-schema'
 import { userQueryOptions } from '@/services/api-auth'
@@ -33,7 +31,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
-import { Textarea } from './ui/textarea'
+import InputField from './form/input-field'
+import SwitchField from './form/switch-field'
 
 export default function TaskForm({
   selectedTask
@@ -86,105 +85,30 @@ export default function TaskForm({
           </SheetTitle>
           <SheetDescription className='hidden'>{pageTitle}</SheetDescription>
         </SheetHeader>
-        <FormField
-          control={form.control}
-          name='name'
-          render={({ field }) => (
-            <FormItem>
-              <div className='flex items-baseline justify-between'>
-                <FormLabel>Name</FormLabel>
-                <FormMessage className='text-xs font-normal' />
-              </div>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='description'
-          render={({ field }) => (
-            <FormItem>
-              <div className='flex items-baseline justify-between'>
-                <FormLabel>Description</FormLabel>
-                <FormMessage className='text-xs font-normal' />
-              </div>
-              <FormControl>
-                <Textarea rows={3} {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name='category'
-          render={({ field }) => (
-            <FormItem>
-              <div className='flex items-baseline justify-between'>
-                <FormLabel>Category</FormLabel>
-                <FormMessage className='text-xs font-normal' />
-              </div>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
+
+        <InputField form={form} name='name' />
+        <InputField form={form} name='description' />
+        <InputField form={form} name='category' />
+        <InputField
+          form={form}
+          type='number'
           name='daysRepeat'
-          render={({ field }) => (
-            <FormItem>
-              <div className='flex items-baseline justify-between'>
-                <FormLabel>Repeat every x days</FormLabel>
-                <FormMessage className='text-xs font-normal' />
-              </div>
-              <FormControl>
-                <Input type='number' min={1} step={1} {...field} />
-              </FormControl>
-            </FormItem>
-          )}
+          label='Repeat every x days'
         />
-        <FormField
-          control={form.control}
+
+        <SwitchField
+          form={form}
           name='remindByEmail'
-          render={({ field }) => (
-            <FormItem className='flex items-center gap-x-2 py-1'>
-              <FormControl>
-                <Switch
-                  checked={field.value}
-                  onCheckedChange={field.onChange}
-                />
-              </FormControl>
-              <FormLabel className='!mt-0 cursor-pointer'>
-                Send reminders by email
-              </FormLabel>
-              <FormMessage />
-            </FormItem>
-          )}
+          label='Send reminders by email'
         />
-        <FormField
-          control={form.control}
-          name='daysRemind'
-          render={({ field }) => (
-            <FormItem>
-              <div className='flex items-baseline justify-between'>
-                <FormLabel>Remind every x days</FormLabel>
-                <FormMessage className='text-xs font-normal' />
-              </div>
-              <FormControl>
-                <Input
-                  type='number'
-                  min={1}
-                  step={1}
-                  disabled={!form.watch('remindByEmail')}
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+
+        <InputField
+          form={form}
+          type='number'
+          name='daysRepeat'
+          label='Remind every x days'
         />
+
         <FormField
           control={form.control}
           name='history'

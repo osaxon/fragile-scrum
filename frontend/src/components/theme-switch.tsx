@@ -18,9 +18,9 @@ export default function ThemeSwitch({
   return (
     <ToggleGroup
       value={theme}
-      onValueChange={handleThemeChange}
       type='single'
-      className='h-9 rounded-md border p-1'>
+      className='h-9 rounded-md border p-1'
+      onValueChange={handleThemeChange}>
       <ToggleGroupItem value='light' className='size-full'>
         <SunIcon />
       </ToggleGroupItem>

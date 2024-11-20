@@ -59,6 +59,11 @@
     --input: 275 15% 17;
     --ring: 275 20 25%;
     --radius: 0.5rem;
+
+    ::selection {
+      color: #fff;
+      background: #9933cc;
+    }
   }
 
   * {

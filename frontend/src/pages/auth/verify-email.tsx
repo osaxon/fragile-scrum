@@ -1,13 +1,6 @@
+import InputField from '@/components/form/input-field'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
 import { VerifyEmailFields, verifyEmailSchema } from '@/schemas/auth-schema'
 import { userQueryOptions } from '@/services/api-auth'
@@ -66,21 +59,9 @@ export default function VerifyEmailPage() {
           <p className='text-center text-sm'>
             Or enter the verification token into the field below:
           </p>
-          <FormField
-            control={form.control}
-            name='token'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Verification token</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+
+          <InputField form={form} name='token' label='Verification token' />
+
           <Button
             className='mt-4 w-full'
             type='submit'

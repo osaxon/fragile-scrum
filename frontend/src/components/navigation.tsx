@@ -24,7 +24,7 @@ export default function Navigation() {
 
   return (
     <nav className='flex items-center justify-between'>
-      <Link to='/' className='flex items-center gap-x-2'>
+      <Link to='/' className='flex select-none items-center gap-x-2'>
         <img
           draggable={false}
           src='logo.svg'

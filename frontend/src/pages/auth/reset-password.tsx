@@ -1,13 +1,6 @@
+import PasswordField from '@/components/form/password-field'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
 import { ResetPasswordFields, resetPasswordSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -50,36 +43,13 @@ export default function ResetPasswordPage() {
         <form
           className='flex w-full flex-col items-center gap-y-4'
           onSubmit={form.handleSubmit(handleSubmit)}>
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>New password</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='password' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
+          <PasswordField form={form} name='password' label='New password' />
+          <PasswordField
+            form={form}
             name='passwordConfirm'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Confirm new password</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='password' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
+            label='Confirm new password'
           />
+
           <Button className='mt-4 w-full' type='submit'>
             Change Password
           </Button>

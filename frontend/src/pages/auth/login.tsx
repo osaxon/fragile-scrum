@@ -1,13 +1,7 @@
+import InputField from '@/components/form/input-field'
+import PasswordField from '@/components/form/password-field'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
 import { LoginFields, loginSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -67,36 +61,9 @@ export default function LoginPage() {
           onSubmit={form.handleSubmit(({ email, password }) =>
             loginWithPassword(email, password)
           )}>
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Email</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='email' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Password</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='password' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+          <InputField form={form} name='email' type='email' />
+          <PasswordField form={form} name='password' />
+
           <Link to='/forgot-password' className='ml-auto text-sm text-primary'>
             Forgot password
           </Link>

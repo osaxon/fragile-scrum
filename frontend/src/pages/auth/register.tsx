@@ -1,13 +1,7 @@
+import InputField from '@/components/form/input-field'
+import PasswordField from '@/components/form/password-field'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
+import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
 import { RegisterFields, registerSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -37,66 +31,15 @@ export default function RegisterPage() {
         <form
           className='flex w-full flex-col items-center gap-y-4'
           onSubmit={form.handleSubmit(register)}>
-          <FormField
-            control={form.control}
-            name='name'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Name</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Email</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='email' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Password</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='password' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
+          <InputField form={form} name='name' />
+          <InputField form={form} name='email' type='email' />
+          <PasswordField form={form} name='password' />
+          <PasswordField
+            form={form}
             name='passwordConfirm'
-            render={({ field }) => (
-              <FormItem className='w-full'>
-                <div className='flex items-baseline justify-between'>
-                  <FormLabel>Confirm password</FormLabel>
-                  <FormMessage className='text-xs font-normal' />
-                </div>
-                <FormControl>
-                  <Input type='password' {...field} />
-                </FormControl>
-              </FormItem>
-            )}
+            label='Confirm password'
           />
+
           <Button className='mt-4 w-full' type='submit'>
             Register
           </Button>

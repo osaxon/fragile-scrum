@@ -35,7 +35,7 @@ export async function createNewUser(newUserData: {
 }
 
 export async function verifyEmailByToken(token: string) {
-  await pb.collection('users').confirmVerification(token)
+  await pb.collection('users').confirmVerification(token, { requestKey: null })
   if (pb.authStore.model) await authRefresh()
 }
 
