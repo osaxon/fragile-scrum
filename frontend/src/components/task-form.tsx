@@ -136,6 +136,7 @@ export default function TaskForm({
           form={form}
           name='remindByEmail'
           label='Send reminders by email'
+          hidden={!remindByEmailEnabled}
           disabled={!remindByEmailEnabled || !form.watch('repeatGoalEnabled')}
         />
 
@@ -144,6 +145,7 @@ export default function TaskForm({
           type='number'
           name='daysRemind'
           label='Remind every x days'
+          hidden={!remindByEmailEnabled}
           disabled={
             !remindByEmailEnabled ||
             !form.watch('repeatGoalEnabled') ||

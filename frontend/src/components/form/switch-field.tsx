@@ -6,19 +6,22 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Switch } from '@/components/ui/switch'
+import { cn } from '@/lib/shadcn'
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
 export default function SwitchField<T extends FieldValues>({
   form,
   name,
   label,
-  disabled = false
+  disabled = false,
+  hidden = false
 }: {
   form: UseFormReturn<T>
   name: Path<T>
   label?: string
   type?: React.HTMLInputTypeAttribute
   disabled?: boolean
+  hidden?: boolean
 }) {
   label ??=
     name.length < 2 ? name : name[0].toUpperCase() + name.slice(1).toLowerCase()
@@ -27,9 +30,14 @@ export default function SwitchField<T extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className='flex w-full items-center gap-x-2 py-1'>
+        <FormItem
+          className={cn(
+            'flex w-full items-center gap-x-2 py-1',
+            hidden && 'hidden'
+          )}>
           <FormControl>
             <Switch
+              className={hidden ? 'hidden' : ''}
               checked={!!field.value}
               disabled={disabled}
               onCheckedChange={field.onChange}

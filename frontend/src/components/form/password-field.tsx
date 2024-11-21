@@ -6,6 +6,7 @@ import {
   FormMessage
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { cn } from '@/lib/shadcn'
 import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
@@ -13,11 +14,15 @@ import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 export default function PasswordField<T extends FieldValues>({
   form,
   name,
-  label
+  label,
+  disabled = false,
+  hidden = false
 }: {
   form: UseFormReturn<T>
   name: Path<T>
   label?: string
+  disabled?: boolean
+  hidden?: boolean
 }) {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -29,7 +34,7 @@ export default function PasswordField<T extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className='w-full'>
+        <FormItem className={cn('w-full', hidden && 'hidden')}>
           <div className='flex items-baseline justify-between'>
             <FormLabel>{label}</FormLabel>
             <FormMessage className='text-xs font-normal' />
@@ -40,6 +45,7 @@ export default function PasswordField<T extends FieldValues>({
                 className='pr-8'
                 type={isVisible ? 'text' : 'password'}
                 {...field}
+                disabled={disabled}
               />
             </FormControl>
             {!!field.value.length && (

@@ -5,6 +5,7 @@ import {
   FormLabel,
   FormMessage
 } from '@/components/ui/form'
+import { cn } from '@/lib/shadcn'
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 import { Textarea } from '../ui/textarea'
 
@@ -13,7 +14,8 @@ export default function TextAreaField<T extends FieldValues>({
   name,
   label,
   rows = 3,
-  disabled = false
+  disabled = false,
+  hidden = false
 }: {
   form: UseFormReturn<T>
   name: Path<T>
@@ -21,6 +23,7 @@ export default function TextAreaField<T extends FieldValues>({
   type?: React.HTMLInputTypeAttribute
   rows?: number
   disabled?: boolean
+  hidden?: boolean
 }) {
   label ??=
     name.length < 2 ? name : name[0].toUpperCase() + name.slice(1).toLowerCase()
@@ -29,7 +32,7 @@ export default function TextAreaField<T extends FieldValues>({
       control={form.control}
       name={name}
       render={({ field }) => (
-        <FormItem className='w-full'>
+        <FormItem className={cn('w-full', hidden && 'hidden')}>
           <div className='flex items-baseline justify-between'>
             <FormLabel>{label}</FormLabel>
             <FormMessage className='text-xs font-normal' />
