@@ -24,6 +24,7 @@ import {
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet'
+import useSettings from '@/hooks/use-settings'
 import useTasks from '@/hooks/use-tasks'
 import { Task, taskSchema } from '@/schemas/task-schema'
 import { userQueryOptions } from '@/services/api-auth'
@@ -50,6 +51,8 @@ export default function TaskForm({
   const { createTask, updateTask, deleteTask } = useTasks()
   const queryClient = useQueryClient()
   const userQuery = useSuspenseQuery(userQueryOptions)
+
+  const { remindByEmailEnabled } = useSettings()
 
   const { data: categories } = useQuery({
     queryKey: ['categories'],
@@ -133,6 +136,7 @@ export default function TaskForm({
           form={form}
           name='remindByEmail'
           label='Send reminders by email'
+          disabled={!remindByEmailEnabled || !form.watch('repeatGoalEnabled')}
         />
 
         <InputField
@@ -140,7 +144,11 @@ export default function TaskForm({
           type='number'
           name='daysRemind'
           label='Remind every x days'
-          disabled={!form.watch('remindByEmail')}
+          disabled={
+            !remindByEmailEnabled ||
+            !form.watch('repeatGoalEnabled') ||
+            !form.watch('remindByEmail')
+          }
         />
 
         <FormField
