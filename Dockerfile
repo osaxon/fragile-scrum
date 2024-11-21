@@ -15,11 +15,10 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -tags production -o longhabit
 
 # Deploy binary
-FROM alpine:latest AS runner
+FROM scratch AS runner
 WORKDIR /app
 
 COPY --from=builder-go /app/longhabit .
-RUN chmod +x /app/longhabit
 
 EXPOSE 8090
 
