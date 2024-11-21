@@ -150,12 +150,17 @@ export default function TaskForm({
 
                 <DialogFooter className='flex items-center gap-4 sm:justify-between'>
                   <DialogClose asChild>
-                    <Button type='button' className='w-full' variant='outline'>
+                    <Button
+                      type='button'
+                      size='sm'
+                      className='w-full'
+                      variant='outline'>
                       Cancel
                     </Button>
                   </DialogClose>
                   <Button
                     className='w-full'
+                    size='sm'
                     variant='destructive'
                     onClick={() => deleteTask(selectedTask)}>
                     Delete{' '}
