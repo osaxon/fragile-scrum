@@ -16,8 +16,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table'
-import { getNextDueDate } from '@/lib/date-convert'
 import { cn } from '@/lib/shadcn'
+import { getTaskStatusLabels, sortTaskStatusColumn } from '@/lib/task-status'
 import { CaretSortIcon, PlusIcon } from '@radix-ui/react-icons'
 import { useNavigate } from '@tanstack/react-router'
 import {
@@ -29,7 +29,6 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table'
-import { format } from 'date-fns'
 import { useState } from 'react'
 import { Task } from '../schemas/task-schema'
 import { TaskDone } from './task-done'
@@ -37,7 +36,7 @@ import { TaskDone } from './task-done'
 export const columns: ColumnDef<Task>[] = [
   {
     accessorKey: 'done',
-    header: () => <p className='pl-1'>Done</p>,
+    header: () => '',
     cell: ({ row }) => {
       return <TaskDone task={row.original} />
     }
@@ -56,6 +55,7 @@ export const columns: ColumnDef<Task>[] = [
       )
     },
     cell: ({ row }) => {
+      const repeatGoalEnabled = row.original.repeatGoalEnabled
       const taskName: string = row.getValue('name')
       const daysRepeat = row.original.daysRepeat
 
@@ -64,7 +64,11 @@ export const columns: ColumnDef<Task>[] = [
           <p className='text-left text-sm font-light text-muted-foreground'>
             {taskName}
           </p>
-          <p className='text-xs'>{`every ${daysRepeat} day${daysRepeat === 1 ? '' : 's'}`}</p>
+          <p className='text-xs'>
+            {repeatGoalEnabled
+              ? `every ${daysRepeat} day${daysRepeat === 1 ? '' : 's'}`
+              : 'no goal'}
+          </p>
         </div>
       )
     }
@@ -80,63 +84,29 @@ export const columns: ColumnDef<Task>[] = [
             onClick={() =>
               column.toggleSorting(column.getIsSorted() === 'asc')
             }>
-            Next Date
+            Status
             <CaretSortIcon />
           </Button>
         </div>
       )
     },
     cell: ({ row }) => {
-      const nextDate = getNextDueDate(
-        row.original.history,
-        row.original.daysRepeat
+      const { dateText, daysText, taskIsLate } = getTaskStatusLabels(
+        row.original.repeatGoalEnabled,
+        row.original.daysRepeat,
+        row.original.history
       )
-
-      const today = new Date()
-      today.setHours(0, 0, 0, 0)
-      nextDate.setHours(0, 0, 0, 0)
-
-      const taskIsLate = today.getTime() >= nextDate.getTime()
-
-      let daysText
-      if (nextDate.getTime() === today.getTime()) {
-        daysText = 'due today'
-      } else {
-        const diffDays = Math.floor(
-          (today.getTime() - nextDate.getTime()) / (24 * 60 * 60 * 1000)
-        )
-        if (diffDays > 0) {
-          daysText = `${diffDays} day${diffDays === 1 ? '' : 's'} late`
-        } else {
-          daysText = `due in ${Math.abs(diffDays)} day${Math.abs(diffDays) === 1 ? '' : 's'}`
-        }
-      }
 
       return (
         <div className='text-right'>
-          <p className='hidden text-sm font-light text-muted-foreground sm:block'>
-            {format(nextDate, 'iii dd MMM yyyy')}
-          </p>
-          <p className='text-sm font-light text-muted-foreground sm:hidden'>
-            {format(nextDate, 'dd MMM yyyy')}
-          </p>
+          <p className='text-sm font-light text-muted-foreground'>{dateText}</p>
           <p className={cn('text-xs', taskIsLate ? 'text-destructive' : '')}>
             {daysText}
           </p>
         </div>
       )
     },
-    sortingFn: (rowA, rowB) => {
-      const dateA = getNextDueDate(
-        rowA.original.history,
-        rowA.original.daysRepeat
-      )
-      const dateB = getNextDueDate(
-        rowB.original.history,
-        rowB.original.daysRepeat
-      )
-      return dateA.getTime() - dateB.getTime()
-    }
+    sortingFn: sortTaskStatusColumn
   }
 ]
 

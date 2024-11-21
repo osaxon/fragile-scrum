@@ -4,7 +4,6 @@ import { addDays, format, isValid } from 'date-fns'
 export function stringToDate(dateString: string) {
   const parsedDateString = taskHistoryDateSchema.parse(dateString)
   const date = new Date(parsedDateString)
-  date.setHours(12, 0, 0, 0)
   return date
 }
 
@@ -15,10 +14,10 @@ export function dateToString(date: Date = new Date()) {
   return format(date, 'yyyy-MM-dd')
 }
 
-export const getNextDueDate = (history: string[], daysRepeat: number) => {
+export function getNextDueDate(history: string[], daysRepeat: number) {
   const lastCompleteDate = history?.length
     ? stringToDate(history[0])
-    : new Date().setHours(12, 0, 0, 0)
+    : new Date()
 
   return addDays(lastCompleteDate, daysRepeat)
 }

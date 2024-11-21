@@ -12,12 +12,14 @@ export default function InputField<T extends FieldValues>({
   form,
   name,
   label,
-  type = 'text'
+  type = 'text',
+  disabled = false
 }: {
   form: UseFormReturn<T>
   name: Path<T>
   label?: string
   type?: React.HTMLInputTypeAttribute
+  disabled?: boolean
 }) {
   label ??=
     name.length < 2 ? name : name[0].toUpperCase() + name.slice(1).toLowerCase()
@@ -32,7 +34,7 @@ export default function InputField<T extends FieldValues>({
             <FormMessage className='text-xs font-normal' />
           </div>
           <FormControl>
-            <Input type={type} {...field} />
+            <Input type={type} {...field} disabled={disabled} />
           </FormControl>
         </FormItem>
       )}

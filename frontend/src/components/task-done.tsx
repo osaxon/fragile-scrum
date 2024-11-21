@@ -21,7 +21,7 @@ export function TaskDone({ task }: { task: Task }) {
   return (
     <Checkbox
       checked={doneToday}
-      className='ml-2 size-4'
+      className='mx-2 size-4'
       aria-label='Mark done'
       onCheckedChange={handleCheck}
       onClick={(e) => e.stopPropagation()}

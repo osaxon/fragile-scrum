@@ -1,5 +1,6 @@
 import { PbId } from '@/schemas/pb-schema'
 import {
+  categoryListSchema,
   Task,
   TaskHistoryDate,
   taskListSchema,
@@ -16,6 +17,18 @@ export async function getAllTasks() {
 export async function getTaskById(taskId: PbId) {
   const task = await pb.collection('tasks').getOne(taskId)
   return taskSchema.parse(task)
+}
+
+export async function getCategoryList() {
+  const data = await pb.collection('tasks').getFullList({ fields: 'category' })
+
+  const categoryList = categoryListSchema.parse(data)
+  if (categoryList.length === 0) return []
+
+  const categories = categoryList
+    .map((task) => task.category)
+    .filter((category): category is string => !!category)
+  return [...new Set(categories)]
 }
 
 export async function createTask(userId: PbId, data: Task) {

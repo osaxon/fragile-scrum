@@ -27,10 +27,16 @@ import {
 import useTasks from '@/hooks/use-tasks'
 import { Task, taskSchema } from '@/schemas/task-schema'
 import { userQueryOptions } from '@/services/api-auth'
+import { getCategoryList } from '@/services/api-tasks'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import {
+  useQuery,
+  useQueryClient,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
+import AutoCompleteField from './form/autocomplete-field'
 import InputField from './form/input-field'
 import SwitchField from './form/switch-field'
 
@@ -41,8 +47,23 @@ export default function TaskForm({
 }) {
   const navigate = useNavigate()
   const { createTask, updateTask, deleteTask } = useTasks()
-
+  const queryClient = useQueryClient()
   const userQuery = useSuspenseQuery(userQueryOptions)
+
+  const { data: categories } = useQuery({
+    queryKey: ['categories'],
+    queryFn: () => {
+      const cachedTasks = queryClient.getQueryData<Task[]>(['tasks'])
+
+      if (cachedTasks) {
+        const categories = cachedTasks
+          .map((task) => task.category)
+          .filter((category): category is string => !!category)
+        return [...new Set(categories)]
+      }
+      return getCategoryList()
+    }
+  })
 
   const form = useForm<Task>({
     resolver: zodResolver(taskSchema),
@@ -50,6 +71,7 @@ export default function TaskForm({
       name: selectedTask ? selectedTask.name : '',
       description: selectedTask ? selectedTask.description : '',
       category: selectedTask ? selectedTask.category : '',
+      repeatGoalEnabled: selectedTask ? selectedTask.repeatGoalEnabled : false,
       daysRepeat: selectedTask ? selectedTask.daysRepeat : 7,
       daysRemind: (selectedTask && selectedTask.daysRemind) || '',
       remindByEmail: selectedTask ? selectedTask.remindByEmail : false,
@@ -88,12 +110,21 @@ export default function TaskForm({
 
         <InputField form={form} name='name' />
         <InputField form={form} name='description' />
-        <InputField form={form} name='category' />
+
+        <AutoCompleteField form={form} name='category' options={categories} />
+
+        <SwitchField
+          form={form}
+          name='repeatGoalEnabled'
+          label='Set goal to repeat regularly'
+        />
+
         <InputField
           form={form}
           type='number'
           name='daysRepeat'
           label='Repeat every x days'
+          disabled={!form.watch('repeatGoalEnabled')}
         />
 
         <SwitchField
@@ -107,6 +138,7 @@ export default function TaskForm({
           type='number'
           name='daysRemind'
           label='Remind every x days'
+          disabled={!form.watch('remindByEmail')}
         />
 
         <FormField

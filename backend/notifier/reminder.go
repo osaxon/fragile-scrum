@@ -15,11 +15,12 @@ func (n *Notifier) calculateDailyReminders(emailAddress, userID string, userTask
 
 	for _, record := range userTasks {
 		history := record.GetStringSlice("history")
+		repeatGoalEnabled := record.GetBool("repeatGoalEnabled")
 		daysRepeat := record.GetInt("daysRepeat")
 		daysRemind := record.GetInt("daysRemind")
 		taskName := record.GetString("name")
 
-		if len(history) == 0 || daysRepeat <= 0 {
+		if !repeatGoalEnabled || daysRepeat <= 0 || len(history) == 0 {
 			continue
 		}
 

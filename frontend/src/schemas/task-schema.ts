@@ -18,6 +18,7 @@ export const taskSchema = z.object({
   name: z.string().min(2, 'Too short'),
   description: z.string().optional(),
   category: z.string().optional(),
+  repeatGoalEnabled: z.boolean().default(false),
   daysRepeat: z.coerce.number().int().min(1, 'Invalid number of days'),
   daysRemind: z
     .union([
@@ -34,3 +35,9 @@ export const taskSchema = z.object({
 export const taskListSchema = z.array(taskSchema)
 
 export type Task = z.infer<typeof taskSchema>
+
+export const categoryListSchema = z.array(
+  z.object({ category: z.string().optional() })
+)
+
+export type CategoryList = z.infer<typeof categoryListSchema>
