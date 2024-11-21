@@ -39,6 +39,7 @@ import { useForm } from 'react-hook-form'
 import AutoCompleteField from './form/autocomplete-field'
 import InputField from './form/input-field'
 import SwitchField from './form/switch-field'
+import TextAreaField from './form/text-area-field'
 
 export default function TaskForm({
   selectedTask
@@ -109,9 +110,10 @@ export default function TaskForm({
         </SheetHeader>
 
         <InputField form={form} name='name' />
-        <InputField form={form} name='description' />
 
         <AutoCompleteField form={form} name='category' options={categories} />
+
+        <TextAreaField form={form} name='description' />
 
         <SwitchField
           form={form}
