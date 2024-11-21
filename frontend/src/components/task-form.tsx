@@ -105,7 +105,7 @@ export default function TaskForm({
         <InputField
           form={form}
           type='number'
-          name='daysRepeat'
+          name='daysRemind'
           label='Remind every x days'
         />
 
