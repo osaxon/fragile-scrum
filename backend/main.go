@@ -46,6 +46,7 @@ func main() {
 	app.mountFs()
 	app.loadAuthEmailTemplates()
 	app.setupAuthHooks()
+	app.disableHealthRouteLogging()
 	app.startNotifier()
 
 	log.Fatal(app.pb.Start())
