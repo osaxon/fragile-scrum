@@ -3,9 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
 import { VerifyEmailFields, verifyEmailSchema } from '@/schemas/auth-schema'
-import { userQueryOptions } from '@/services/api-auth'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, useSearch } from '@tanstack/react-router'
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -19,8 +17,7 @@ export default function VerifyEmailPage() {
     logout
   } = useAuth()
 
-  const userQuery = useSuspenseQuery(userQueryOptions)
-  const user = userQuery.data
+  const { user } = useAuth()
 
   const params = useSearch({ from: '/auth/verify-email' })
   const token = (params && params.token) || ''

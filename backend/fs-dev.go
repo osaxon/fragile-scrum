@@ -17,7 +17,7 @@ const frontEndDevURL = "http://localhost:5173"
 // mountFs configures a reverse proxy to forward all requests
 // to the frontend dev server during development.
 func (app *application) mountFs() {
-	app.pb.OnServe().BindFunc(func(e *core.ServeEvent) error {
+	app.pb.OnServe().BindFunc(func(se *core.ServeEvent) error {
 		target, err := url.Parse(frontEndDevURL)
 		if err != nil {
 			return fmt.Errorf("failed to parse proxy target URL: %w", err)
@@ -29,11 +29,11 @@ func (app *application) mountFs() {
 			http.Error(w, fmt.Sprintf("proxy error: %v", err), http.StatusBadGateway)
 		}
 
-		e.Router.Any("/{path...}", func(c *core.RequestEvent) error {
-			proxy.ServeHTTP(c.Response, c.Request)
+		se.Router.Any("/{path...}", func(re *core.RequestEvent) error {
+			proxy.ServeHTTP(re.Response, re.Request)
 			return nil
 		})
 
-		return e.Next()
+		return se.Next()
 	})
 }

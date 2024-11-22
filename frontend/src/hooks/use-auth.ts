@@ -12,9 +12,10 @@ import {
   sendVerificationEmail as sendVerificationEmailApi,
   subscribeToUserChanges,
   unsubscribeFromUserChanges,
+  userQueryOptions,
   verifyEmailByToken as verifyEmailByTokenApi
 } from '@/services/api-auth'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 
@@ -22,6 +23,8 @@ export default function useAuth() {
   const [emailSendCountdown, setEmailSendCountdown] = useState(0)
   const router = useRouter()
   const queryClient = useQueryClient()
+
+  const { data: user } = useSuspenseQuery(userQueryOptions)
 
   const logout = () => {
     logoutApi()
@@ -158,6 +161,7 @@ export default function useAuth() {
   }
 
   return {
+    user,
     logout,
     loginWithPassword,
     loginWithGoogle,

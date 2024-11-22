@@ -3,15 +3,38 @@ import { Task } from '@/schemas/task-schema'
 import {
   createTask as createTaskApi,
   deleteTask as deleteTaskApi,
+  getCategoryList,
+  tasksQueryOptions,
   updateTask as updateTaskApi,
   updateTaskHistory as updateTaskHistoryApi
 } from '@/services/api-tasks'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import {
+  useMutation,
+  useQueryClient,
+  useSuspenseQuery
+} from '@tanstack/react-query'
 import { useNavigate } from '@tanstack/react-router'
 
 export default function useTasks() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
+
+  const { data: tasks } = useSuspenseQuery(tasksQueryOptions)
+
+  const { data: categories } = useSuspenseQuery({
+    queryKey: ['categories'],
+    queryFn: () => {
+      const cachedTasks = queryClient.getQueryData<Task[]>(['tasks'])
+
+      if (cachedTasks) {
+        const categories = cachedTasks
+          .map((task) => task.category)
+          .filter((category): category is string => !!category)
+        return [...new Set(categories)]
+      }
+      return getCategoryList()
+    }
+  })
 
   const createMutation = useMutation({
     mutationFn: ({ userId, data }: { userId: string; data: Task }) =>
@@ -159,5 +182,12 @@ export default function useTasks() {
 
   const deleteTask = (taskData: Task) => deleteMutation.mutate(taskData)
 
-  return { createTask, updateTask, updateTaskHistory, deleteTask }
+  return {
+    tasks,
+    categories,
+    createTask,
+    updateTask,
+    updateTaskHistory,
+    deleteTask
+  }
 }

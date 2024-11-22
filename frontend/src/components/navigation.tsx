@@ -1,6 +1,5 @@
 import { Avatar, AvatarImage } from '@/components/ui/avatar'
-import { userQueryOptions } from '@/services/api-auth'
-import { useSuspenseQuery } from '@tanstack/react-query'
+import useAuth from '@/hooks/use-auth'
 import { Link } from '@tanstack/react-router'
 
 function DefaultAvatarLogo() {
@@ -19,8 +18,8 @@ function DefaultAvatarLogo() {
 }
 
 export default function Navigation() {
-  const userQuery = useSuspenseQuery(userQueryOptions)
-  const { avatar, id: userId, verified } = userQuery.data ?? {}
+  const { user } = useAuth()
+  const { avatar, id: userId, verified } = user ?? {}
 
   return (
     <nav className='flex items-center justify-between'>

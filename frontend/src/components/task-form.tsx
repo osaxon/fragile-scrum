@@ -24,17 +24,11 @@ import {
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet'
+import useAuth from '@/hooks/use-auth'
 import useSettings from '@/hooks/use-settings'
 import useTasks from '@/hooks/use-tasks'
 import { Task, taskSchema } from '@/schemas/task-schema'
-import { userQueryOptions } from '@/services/api-auth'
-import { getCategoryList } from '@/services/api-tasks'
 import { zodResolver } from '@hookform/resolvers/zod'
-import {
-  useQuery,
-  useQueryClient,
-  useSuspenseQuery
-} from '@tanstack/react-query'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 import AutoCompleteField from './form/autocomplete-field'
@@ -49,25 +43,10 @@ export default function TaskForm({
 }) {
   const navigate = useNavigate()
   const { createTask, updateTask, deleteTask } = useTasks()
-  const queryClient = useQueryClient()
-  const userQuery = useSuspenseQuery(userQueryOptions)
+  const { user } = useAuth()
 
   const { remindByEmailEnabled } = useSettings()
-
-  const { data: categories } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => {
-      const cachedTasks = queryClient.getQueryData<Task[]>(['tasks'])
-
-      if (cachedTasks) {
-        const categories = cachedTasks
-          .map((task) => task.category)
-          .filter((category): category is string => !!category)
-        return [...new Set(categories)]
-      }
-      return getCategoryList()
-    }
-  })
+  const { categories } = useTasks()
 
   const form = useForm<Task>({
     resolver: zodResolver(taskSchema),
@@ -94,7 +73,7 @@ export default function TaskForm({
     if (selectedTask) {
       selectedTask.id && updateTask(selectedTask.id, values)
     } else {
-      createTask(userQuery.data!.id, values)
+      user && createTask(user.id, values)
     }
   }
 

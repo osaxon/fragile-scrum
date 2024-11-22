@@ -9,14 +9,14 @@ import (
 // This prevents Docker Compose from polluting the logs with
 // constant healthcheck pings.
 func (app *application) disableHealthRouteLogging() {
-	app.pb.OnServe().BindFunc(func(e *core.ServeEvent) error {
-		e.Router.BindFunc(func(e *core.RequestEvent) error {
-			if e.Request.URL.Path == "/api/health" && e.Request.UserAgent() == "Wget" {
-				e.Set("__skipSuccessActivityLogger", true)
+	app.pb.OnServe().BindFunc(func(se *core.ServeEvent) error {
+		se.Router.BindFunc(func(re *core.RequestEvent) error {
+			if re.Request.URL.Path == "/api/health" && re.Request.UserAgent() == "Wget" {
+				re.Set("__skipSuccessActivityLogger", true)
 			}
-			return e.Next()
+			return re.Next()
 		})
 
-		return e.Next()
+		return se.Next()
 	})
 }
