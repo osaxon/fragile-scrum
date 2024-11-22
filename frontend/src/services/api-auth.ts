@@ -78,10 +78,21 @@ export async function subscribeToUserChanges(
   userId: string,
   callback: (record: User) => void
 ) {
-  pb.collection('users').subscribe(userId, (e) => {
-    const userData = userSchema.parse(e.record)
-    callback(userData)
-  })
+  try {
+    pb.collection('users').subscribe(
+      userId,
+      (event) => {
+        const userData = userSchema.parse(event.record)
+        callback(userData)
+      },
+      {
+        onError: (err: Error) =>
+          console.error('Realtime user subscription error:', err)
+      }
+    )
+  } catch (error) {
+    console.error('Failed to subscribe to realtime user data:', error)
+  }
 }
 
 export async function unsubscribeFromUserChanges() {
