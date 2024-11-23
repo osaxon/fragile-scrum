@@ -1,44 +1,102 @@
 import { Button } from '@/components/ui/button'
-import { GitHubLogoIcon } from '@radix-ui/react-icons'
 import { Link } from '@tanstack/react-router'
 
 export default function HomePage() {
   return (
-    <main className='flex flex-col items-center gap-y-4 text-center'>
-      <div className='mt-4 space-y-2 text-5xl font-bold'>
-        <h1>
-          The <span className='text-primary'>long-term</span>
+    <main className='mx-auto flex max-w-3xl flex-col items-center gap-y-12 px-4'>
+      <section className='w-full space-y-3 text-center'>
+        <h1 className='my-6 text-5xl font-bold'>
+          Long<span className='text-primary'> Habit</span>
         </h1>
-        <h1>habit tracker</h1>
-      </div>
-      <p className='text-xl font-light text-muted-foreground'>
-        A simple and effective system to stay on top of recurring tasks
-      </p>
-      <div className='flex flex-col gap-y-1'>
-        <p className='text-sm'>
-          &#8227; Light and fast, minimalistic modern UI, no bloat, no useless
-          features
+        <h2 className='text-2xl font-semibold'>
+          The perfect tracker for tasks that don&apos;t need daily attention
+        </h2>
+        <p className='text-xl font-light text-muted-foreground'>
+          Daily habits are easy to remember, but what about those important
+          tasks that come up every few weeks or months? Long Habit helps you
+          stay on top of these easily forgotten but crucial routines.
         </p>
-        <p className='text-sm'>
-          &#8227; Completely free, no ads, no spam, no e-begging
-        </p>
-        <p className='text-sm'>&#8227; Open source and self-hostable</p>
-        <p className='text-sm'>&#8227; Customizable notifications</p>
-        <p className='text-sm'>&#8227; Access from anywhere</p>
-      </div>
-      <div className='flex gap-x-2'>
-        <Button asChild className='mt-2 w-32'>
-          <Link to='/login'>Get Started</Link>
+      </section>
+
+      <section className='flex w-full flex-col justify-center gap-4 sm:flex-row'>
+        <Button asChild size='lg' className='w-full sm:w-40'>
+          <Link to='/register'>Get Started</Link>
         </Button>
-        <Button asChild variant='link' className='mt-2 w-32 hover:no-underline'>
-          <a
-            target='_blank'
-            rel='noreferrer'
-            href='https://github.com/s-petr/longhabit'>
-            <GitHubLogoIcon /> Source Code
-          </a>
+        <Button asChild variant='outline' size='lg' className='w-full sm:w-40'>
+          <Link to='/login'>Log in</Link>
         </Button>
-      </div>
+      </section>
+
+      <section className='w-full space-y-2'>
+        <h3 className='text-2xl font-semibold'>How it works</h3>
+        <ol className='list-decimal space-y-2 pl-4 text-sm text-muted-foreground'>
+          <li>Add tasks you want to track to a list</li>
+          <li>Set your ideal interval (every x days/weeks/months)</li>
+          <li>Mark tasks as completed on the days you do them</li>
+          <li>Get reminders when tasks become overdue</li>
+        </ol>
+      </section>
+
+      <section className='w-full space-y-4'>
+        <h3 className='text-2xl font-semibold'>Smart Features</h3>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Simple Tracking</h4>
+            <p className='text-sm text-muted-foreground'>
+              See when you last completed each task and how many days have
+              passed since
+            </p>
+          </div>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Flexible Goals</h4>
+            <p className='text-sm text-muted-foreground'>
+              Set up intervals for each recurring task
+            </p>
+          </div>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Smart Reminders</h4>
+            <p className='text-sm text-muted-foreground'>
+              Receive customizable notifications by email
+            </p>
+          </div>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Easy Navigation</h4>
+            <p className='text-sm text-muted-foreground'>
+              Search, filter and group tasks into categories
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className='mb-16 w-full space-y-4'>
+        <h3 className='text-2xl font-semibold'>Why Choose Long Habit?</h3>
+        <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Minimalist Design</h4>
+            <p className='text-sm text-muted-foreground'>
+              Light, fast and focused on the essential
+            </p>
+          </div>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Completely Free</h4>
+            <p className='text-sm text-muted-foreground'>
+              No ads, no spam, no e-begging
+            </p>
+          </div>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Privacy First</h4>
+            <p className='text-sm text-muted-foreground'>
+              Open source and self-hostable
+            </p>
+          </div>
+          <div className='space-y-1'>
+            <h4 className='font-semibold'>Access Anywhere</h4>
+            <p className='text-sm text-muted-foreground'>
+              Web-based, use from any device, anytime
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
   )
 }

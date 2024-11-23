@@ -1,7 +1,7 @@
+import { Checkbox } from '@/components/ui/checkbox'
 import useTasks from '@/hooks/use-tasks'
 import { dateToString } from '@/lib/date-convert'
-import { Task } from '../schemas/task-schema'
-import { Checkbox } from './ui/checkbox'
+import { Task } from '@/schemas/task-schema'
 
 export function TaskDone({ task }: { task: Task }) {
   const today = dateToString()

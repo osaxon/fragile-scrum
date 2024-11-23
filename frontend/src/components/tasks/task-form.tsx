@@ -1,4 +1,8 @@
-import { DatePicker } from '@/components/date-picker'
+import AutoCompleteField from '@/components/form/autocomplete-field'
+import InputField from '@/components/form/input-field'
+import SwitchField from '@/components/form/switch-field'
+import TextAreaField from '@/components/form/text-area-field'
+import { DatePicker } from '@/components/settings/date-picker'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -31,10 +35,6 @@ import { Task, taskSchema } from '@/schemas/task-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
-import AutoCompleteField from './form/autocomplete-field'
-import InputField from './form/input-field'
-import SwitchField from './form/switch-field'
-import TextAreaField from './form/text-area-field'
 
 export default function TaskForm({
   selectedTask

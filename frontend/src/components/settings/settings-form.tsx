@@ -1,7 +1,7 @@
 import InputField from '@/components/form/input-field'
 import PasswordField from '@/components/form/password-field'
 import SwitchField from '@/components/form/switch-field'
-import ThemeSwitch from '@/components/theme-switch'
+import ThemeSwitch from '@/components/settings/theme-switch'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,

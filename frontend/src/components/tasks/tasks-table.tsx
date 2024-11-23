@@ -30,7 +30,7 @@ import {
   useReactTable
 } from '@tanstack/react-table'
 import { useState } from 'react'
-import { Task } from '../schemas/task-schema'
+import { Task } from '../../schemas/task-schema'
 import { TaskDone } from './task-done'
 
 export const columns: ColumnDef<Task>[] = [
@@ -161,6 +161,7 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
           value={categoryFilter ?? 'All'}
           onValueChange={setCategoryFilter}>
           <SelectTrigger
+            aria-label='Filter by category'
             className='w-32 rounded-l-none border-l-0 focus:ring-0 focus-visible:ring-0'
             onKeyDown={(event) =>
               event.key === 'Escape' && setCategoryFilter('All')
@@ -179,8 +180,8 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
           </SelectContent>
         </Select>
         <Button
-          className='ml-2 size-9 rounded-lg'
-          size='sm'
+          className='ml-2 size-10 rounded-full'
+          aria-label='Add new task'
           onClick={() => navigate({ to: '/tasks/new' })}>
           <PlusIcon />
         </Button>

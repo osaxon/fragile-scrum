@@ -1,4 +1,4 @@
-import TaskForm from '@/components/task-form'
+import TaskForm from '@/components/tasks/task-form'
 import { SheetContent } from '@/components/ui/sheet'
 import { taskSchema } from '@/schemas/task-schema'
 import { taskQueryOptions } from '@/services/api-tasks'

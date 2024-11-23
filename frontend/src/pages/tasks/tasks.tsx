@@ -1,5 +1,5 @@
-import Spinner from '@/components/spinner'
-import { TasksTable } from '@/components/tasks-table'
+import Spinner from '@/components/shared/spinner'
+import { TasksTable } from '@/components/tasks/tasks-table'
 import { Sheet } from '@/components/ui/sheet'
 import useTasks from '@/hooks/use-tasks'
 import { Outlet, useNavigate } from '@tanstack/react-router'

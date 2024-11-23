@@ -12,7 +12,7 @@ import {
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { lazy } from 'react'
-import Spinner from './components/spinner'
+import Spinner from './components/shared/spinner'
 import { setTheme } from './lib/set-theme'
 import ForgotPasswordPage from './pages/auth/forgot-password'
 import LoginPage from './pages/auth/login'
@@ -21,6 +21,7 @@ import ResetPasswordPage from './pages/auth/reset-password'
 import VerifyEmailPage from './pages/auth/verify-email'
 import ErrorPage from './pages/error'
 import HomePage from './pages/home'
+import PrivacyPolicyPage from './pages/privacy-policy'
 import {
   resetPasswordParamsSchema,
   verifyEmailParamsSchema
@@ -54,6 +55,12 @@ const homeRoute = createRoute({
   beforeLoad: async () => {
     if (checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/tasks' })
   }
+})
+
+const privacyPolicyRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/privacy-policy',
+  component: PrivacyPolicyPage
 })
 
 const authRoute = createRoute({
@@ -148,6 +155,7 @@ const editTaskRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   homeRoute,
+  privacyPolicyRoute,
   authRoute.addChildren([
     loginRoute,
     registerRoute,

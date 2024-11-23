@@ -1,4 +1,4 @@
-import SettingsForm from '@/components/settings-form'
+import SettingsForm from '@/components/settings/settings-form'
 import { SheetContent } from '@/components/ui/sheet'
 import useSettings from '@/hooks/use-settings'
 

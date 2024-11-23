@@ -1,5 +1,6 @@
 import InputField from '@/components/form/input-field'
 import PasswordField from '@/components/form/password-field'
+import { GoogleLogo } from '@/components/shared/logos'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
@@ -9,7 +10,7 @@ import { Link } from '@tanstack/react-router'
 import { useForm } from 'react-hook-form'
 
 export default function RegisterPage() {
-  const { register } = useAuth()
+  const { register, loginWithGoogle } = useAuth()
 
   const form = useForm<RegisterFields>({
     resolver: zodResolver(registerSchema),
@@ -42,6 +43,14 @@ export default function RegisterPage() {
 
           <Button className='mt-4 w-full' type='submit'>
             Register
+          </Button>
+          <Button
+            className='w-full'
+            variant='outline'
+            type='button'
+            onClick={loginWithGoogle}>
+            <GoogleLogo />
+            Sign Up with Google
           </Button>
         </form>
       </Form>
