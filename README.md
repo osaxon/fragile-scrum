@@ -4,16 +4,16 @@
 
 # Long Habit
 
-Long Habit is a simple CRUD application for tracking long-term habits and recurring tasks. It is a production-ready full-stack project built using Pocketbase and React. This is a comprehensive example of integrating Pocketbase into a larger Go project and combining it with a modern React frontend using best practices. The application is very simple and can be used as a template for starting new projects. Most of the boilerplate setup has been taken care of and common issues have been identified and fixed.
+Long Habit is a simple CRUD application for tracking long-term habits and recurring tasks. It is a production-ready full-stack project built using PocketBase and React. This is a comprehensive example of integrating PocketBase into a larger Go project and combining it with a modern React frontend using best practices. The application is very simple and can be used as a template for starting new projects. Most of the boilerplate setup has been taken care of and common issues have been identified and fixed.
 
 Try the live version: https://longhabit.com
 
 ## ✨ Key Features
 
 ### Backend Architecture
-- Ready for Pocketbase 0.23. All the functionality is working with Pocketbase v0.23-rc14
+- Ready for PocketBase 0.23. All the functionality is working with PocketBase v0.23-rc14
 - Single-binary build. Uses Go's "embed" package to embed a React front-end as a file system inside the compiled binary.
-- Pocketbase is installed as a Go package and used as a framework. The project makes use of many extension features including:
+- PocketBase is installed as a Go package and used as a framework. The project makes use of many extension features including:
   - Custom hooks and middleware
   - Route binding
   - Database operations
@@ -30,13 +30,13 @@ Try the live version: https://longhabit.com
 - Responsive design using all the best practices. Supports light and dark mode. Tested on desktop and mobile screens.
 - Complete authentication flow with customized forms. Works with email + password auth as well as Google OAuth.
 - TanStack Router configured using best practices. The Javascript bundle is split and lazy loaded based on route. All the authentication logic and data fetching happens in the router before the pages are loaded. Dynamic page title switching based on route.
-- TanStack Query fully integrated with Pocketbase and TanStack Router. Fresh data is fetched from the backend and loaded before the routes are rendered. TanStack Query is the best tool to manage data fetching and ensure that client-side state is up to date with server-side data.
+- TanStack Query fully integrated with PocketBase and TanStack Router. Fresh data is fetched from the backend and loaded before the routes are rendered. TanStack Query is the best tool to manage data fetching and ensure that client-side state is up to date with server-side data.
 - Loading states with a loading spinner display are implemented using the new React Suspense boundaries.
 - Dynamic forms with validation and error messages implemented using React Hook Form and Zod.
-- SEO stuff like sitemap.xml and robots.txt added and configured. Exclude rule for the Pocketbase admin "/_" URL added to prevent it from being indexed by crawlers.
+- SEO stuff like sitemap.xml and robots.txt added and configured. Exclude rule for the PocketBase admin "/_" URL added to prevent it from being indexed by crawlers.
 
 ### Developer Experience
-- Vite dev mode with hot reload works seamlessly with Pocketbase. No need to wait for Pocketbase to compile. Vite and Pocketbase proxy requests to and from each other while running on different ports.
+- Vite dev mode with hot reload works seamlessly with PocketBase. No need to wait for PocketBase to compile. Vite and PocketBase proxy requests to and from each other while running on different ports.
 - Fully working ESlint configuration written in the new ESlint 9 format. Includes all the relevant plugins for React, Tailwind and Prettier. 
 - Single-command production builds.
 - Run project locally in Docker Compose without additional configuration.
@@ -63,7 +63,7 @@ Try the live version: https://longhabit.com
   - [Date-fns](https://date-fns.org/docs/Getting-Started)
 - **Backend**
   - [Go 1.23](https://go.dev/doc/)
-  - [Pocketbase](https://pocketbase.io/docs/)
+  - [PocketBase](https://pocketbase.io/docs/)
   - [Pond (Worker Pool)](https://github.com/alitto/pond)
 - **Deployment**
   - [Docker](https://docs.docker.com/reference/)
@@ -91,8 +91,8 @@ Try the live version: https://longhabit.com
 - Build and run with Docker Compose `npm run compose` or `bun run compose`
 
 ### Post-deployment actions
-- Once the Pocketbase backend is up and running you need to import collections from the file [backend/pb_schema.json](backend/pb_schema.json) by going to the Pocketbase dashboard Settings -> Import collections
-- A folder `/db` will be created in the root directory. This will contain the database files. Docker Compose has been configured with a volume to read/write data to the same folder. You may need to adjust file permissions for this folder if Pocketbase cannot write to it from the Docker container.
+- Once the PocketBase backend is up and running you need to import collections from the file [backend/pb_schema.json](backend/pb_schema.json) by going to the PocketBase dashboard Settings -> Import collections
+- A folder `/db` will be created in the root directory. This will contain the database files. Docker Compose has been configured with a volume to read/write data to the same folder. You may need to adjust file permissions for this folder if PocketBase cannot write to it from the Docker container.
 
 ## 📝 License
 
