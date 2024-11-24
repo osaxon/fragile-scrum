@@ -1,7 +1,8 @@
-import { Checkbox } from '@/components/ui/checkbox'
 import useTasks from '@/hooks/use-tasks'
 import { dateToString } from '@/lib/date-convert'
+import { cn } from '@/lib/shadcn'
 import { Task } from '@/schemas/task-schema'
+import { CheckCircledIcon } from '@radix-ui/react-icons'
 
 export function TaskDone({ task }: { task: Task }) {
   const today = dateToString()
@@ -9,22 +10,30 @@ export function TaskDone({ task }: { task: Task }) {
 
   const { updateTaskHistory } = useTasks()
 
-  const handleCheck = (checked: boolean) => {
+  const handleCheck = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
     const history = task.history || []
-    const updatedHistory = checked
-      ? [...new Set([today, ...history])]
-      : history.filter((date) => date !== today)
+    const updatedHistory = doneToday
+      ? history.filter((date) => date !== today)
+      : [...new Set([today, ...history])]
 
     updateTaskHistory(task.id!, updatedHistory)
   }
 
   return (
-    <Checkbox
-      checked={doneToday}
-      className='mx-2 size-4'
-      aria-label='Mark done'
-      onCheckedChange={handleCheck}
-      onClick={(e) => e.stopPropagation()}
-    />
+    <button
+      type='button'
+      aria-label='Mark as done'
+      className={cn(
+        'mx-2 flex size-8 items-center justify-center rounded-full transition-all duration-75 ease-in-out',
+        doneToday
+          ? 'bg-primary hover:bg-primary/90'
+          : 'bg-secondary/75 hover:bg-secondary'
+      )}
+      onClick={handleCheck}>
+      {doneToday && (
+        <CheckCircledIcon className='size-5 text-primary-foreground' />
+      )}
+    </button>
   )
 }

@@ -23,7 +23,8 @@ export default function Footer() {
               rel='noreferrer'
               className='flex items-center justify-center'
               href='https://github.com/s-petr/longhabit'>
-              <GitHubLogoIcon className='mr-2' /> Source Code
+              <GitHubLogoIcon className='mr-1' />
+              Source Code
             </a>
           </div>
           <p className='text-center md:text-right'>
