@@ -193,7 +193,7 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
               <TableRow key={headerGroup.id} className='border-none'>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id} className='px-0'>
+                    <TableHead key={header.id} className='px-2'>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -215,7 +215,7 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={() => navigate({ to: `/tasks/${row.original.id}` })}>
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='px-0 py-1'>
+                    <TableCell key={cell.id} className='px-2 py-1'>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
