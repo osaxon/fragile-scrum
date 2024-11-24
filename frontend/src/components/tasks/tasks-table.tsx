@@ -18,11 +18,7 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/shadcn'
 import { getTaskStatusLabels, sortTaskStatusColumn } from '@/lib/task-status'
-import {
-  CaretSortIcon,
-  EnvelopeClosedIcon,
-  PlusIcon
-} from '@radix-ui/react-icons'
+import { CaretSortIcon, PlusIcon } from '@radix-ui/react-icons'
 import { useNavigate } from '@tanstack/react-router'
 import {
   ColumnDef,
@@ -35,6 +31,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 import { Task } from '../../schemas/task-schema'
+import TaskColumnDisplay from './task-column'
 import { TaskDone } from './task-done'
 
 export const columns: ColumnDef<Task>[] = [
@@ -58,28 +55,7 @@ export const columns: ColumnDef<Task>[] = [
         </Button>
       )
     },
-    cell: ({ row }) => {
-      const repeatGoalEnabled = row.original.repeatGoalEnabled
-      const taskName: string = row.getValue('name')
-      const daysRepeat = row.original.daysRepeat
-      const remindByEmail = row.original.remindByEmail
-
-      return (
-        <div>
-          <p className='text-left text-sm font-light text-muted-foreground'>
-            {taskName}
-          </p>
-          <p className='flex items-center gap-1 text-xs'>
-            {repeatGoalEnabled
-              ? `every ${daysRepeat} day${daysRepeat === 1 ? '' : 's'}`
-              : 'no goal'}
-            {remindByEmail && (
-              <EnvelopeClosedIcon className='size-2.5 text-muted-foreground' />
-            )}
-          </p>
-        </div>
-      )
-    }
+    cell: TaskColumnDisplay
   },
   {
     accessorKey: 'nextDate',
