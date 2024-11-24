@@ -30,10 +30,12 @@ export default function HomePage() {
       <section className='w-full space-y-2'>
         <h3 className='text-2xl font-semibold'>How it works</h3>
         <ol className='list-decimal space-y-2 pl-4 text-sm text-muted-foreground'>
-          <li>Add tasks you want to track to a list</li>
-          <li>Set your ideal interval (every x days/weeks/months)</li>
+          <li>Add tasks you want to track to the list</li>
+          <li>Set a goal. How often do you want to repeat the task?</li>
           <li>Mark tasks as completed on the days you do them</li>
-          <li>Get reminders when tasks become overdue</li>
+          <li>
+            Get reminders when you miss your goal and tasks become overdue
+          </li>
         </ol>
       </section>
 
