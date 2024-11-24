@@ -62,14 +62,14 @@ export default function HomePage() {
           <div className='space-y-1'>
             <h4 className='font-semibold'>Easy Navigation</h4>
             <p className='text-sm text-muted-foreground'>
-              Search, filter and group tasks into categories
+              Sort, search, filter and group tasks by category
             </p>
           </div>
         </div>
       </section>
 
       <section className='mb-16 w-full space-y-4'>
-        <h3 className='text-2xl font-semibold'>Why Choose Long Habit?</h3>
+        <h3 className='text-2xl font-semibold'>Why Use Long Habit?</h3>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='space-y-1'>
             <h4 className='font-semibold'>Minimalist Design</h4>
