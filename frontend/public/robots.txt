@@ -1,14 +1,5 @@
 User-agent: *
 
-Allow: /
-Allow: /privacy-policy
-Allow: /site.webmanifest
-Allow: /favicon-16x16.png
-Allow: /favicon-32x32.png
-Allow: /apple-touch-icon.png
-Allow: /android-chrome-192x192.png
-Allow: /android-chrome-512x512.png
-
 Disallow: /login
 Disallow: /register
 Disallow: /forgot-password
@@ -17,5 +8,6 @@ Disallow: /verify-email
 Disallow: /tasks
 Disallow: /tasks/*
 Disallow: /settings
+Disallow: /_
 
 Sitemap: https://longhabit.com/sitemap.xml
