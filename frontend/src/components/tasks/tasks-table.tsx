@@ -47,7 +47,7 @@ export const columns: ColumnDef<Task>[] = [
       return (
         <Button
           variant='ghost'
-          className='gap-x-0 pl-0 text-xs hover:bg-transparent sm:text-sm'
+          className='gap-x-0 pl-0 text-sm hover:bg-transparent'
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}>
           Task
           <CaretSortIcon />
@@ -80,7 +80,7 @@ export const columns: ColumnDef<Task>[] = [
         <div className='flex w-full justify-end'>
           <Button
             variant='ghost'
-            className='gap-x-0 pr-0 text-xs hover:bg-transparent sm:text-sm'
+            className='gap-x-0 pr-0 text-sm hover:bg-transparent'
             onClick={() =>
               column.toggleSorting(column.getIsSorted() === 'asc')
             }>
@@ -191,9 +191,14 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id} className='border-none'>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map((header, columnIndex) => {
                   return (
-                    <TableHead key={header.id} className='px-2'>
+                    <TableHead
+                      key={header.id}
+                      className={cn(
+                        'px-2',
+                        columnIndex === 0 ? 'w-9' : 'w-fit'
+                      )}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
