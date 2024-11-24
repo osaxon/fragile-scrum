@@ -27,7 +27,7 @@ export default function HomePage() {
         </Button>
       </section>
 
-      <section className='w-full space-y-2'>
+      <section className='w-full space-y-2 rounded-lg bg-popover p-4'>
         <h3 className='text-2xl font-semibold'>How it Works</h3>
         <ol className='list-decimal space-y-2 pl-4 text-sm text-muted-foreground'>
           <li>Add tasks you want to track to the list</li>
@@ -39,7 +39,7 @@ export default function HomePage() {
         </ol>
       </section>
 
-      <section className='w-full space-y-4'>
+      <section className='w-full space-y-4 rounded-lg bg-popover p-4'>
         <h3 className='text-2xl font-semibold'>Smart Features</h3>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='space-y-1'>
@@ -70,7 +70,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className='mb-16 w-full space-y-4'>
+      <section className='mb-16 w-full space-y-4 rounded-lg bg-popover p-4'>
         <h3 className='text-2xl font-semibold'>Why Use Long Habit?</h3>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='space-y-1'>

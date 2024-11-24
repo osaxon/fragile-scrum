@@ -1,7 +1,17 @@
 {
   "name": "longhabit",
-  "private": true,
-  "version": "0.1.0",
+  "description": "The long-term habit tracker",
+  "author": {
+    "name": "Sergei Petrov",
+    "github": "s-petr"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/s-petr/longhabit"
+  },
+  "homepage": "https://longhabit.com",
+  "version": "0.2.0",
   "type": "module",
   "scripts": {
     "dev:client": "vite dev",

@@ -18,7 +18,7 @@
     --foreground: 275 1% 10%;
     --card: 275 1% 90%;
     --card-foreground: 275 1% 15%;
-    --popover: 275 1% 95%;
+    --popover: 275 1% 90%;
     --popover-foreground: 275 95% 10%;
     --primary: 275 50% 50%;
     --primary-foreground: 0 0% 100%;
@@ -41,9 +41,9 @@
 
     --background: 275 5% 10%;
     --foreground: 275 1% 80%;
-    --card: 275 1% 10%;
+    --card: 275 1% 15%;
     --card-foreground: 275 1% 90%;
-    --popover: 275 10% 10%;
+    --popover: 275 10% 15%;
     --popover-foreground: 275 1% 90%;
     --primary: 280 60% 50%;
     --primary-foreground: 0 0% 100%;
