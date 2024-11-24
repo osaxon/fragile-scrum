@@ -28,7 +28,7 @@ export default function HomePage() {
       </section>
 
       <section className='w-full space-y-2'>
-        <h3 className='text-2xl font-semibold'>How it works</h3>
+        <h3 className='text-2xl font-semibold'>How it Works</h3>
         <ol className='list-decimal space-y-2 pl-4 text-sm text-muted-foreground'>
           <li>Add tasks you want to track to the list</li>
           <li>Set a goal. How often do you want to repeat the task?</li>
