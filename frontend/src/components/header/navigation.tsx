@@ -12,7 +12,9 @@ export default function Navigation() {
       <Link to='/' disabled={verified}>
         <LongHabitMainLogo />
       </Link>
-      <Link to={verified ? '/tasks/settings' : '/login'}>
+      <Link
+        aria-label='user account or log in'
+        to={verified ? '/tasks/settings' : '/login'}>
         <Avatar className='flex items-center justify-center ring-offset-background transition duration-300 ease-in-out hover:ring-ring hover:ring-offset-0'>
           {avatar ? (
             <AvatarImage
