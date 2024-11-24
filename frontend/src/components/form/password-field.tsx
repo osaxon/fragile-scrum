@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/shadcn'
-import { EyeNoneIcon, EyeOpenIcon } from '@radix-ui/react-icons'
+import { EyeClosedIcon, EyeOpenIcon } from '@radix-ui/react-icons'
 import { useState } from 'react'
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 
@@ -53,9 +53,9 @@ export default function PasswordField<T extends FieldValues>({
                 className='absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer'
                 onClick={() => setIsVisible((current) => !current)}>
                 {isVisible ? (
-                  <EyeNoneIcon className='size-4 text-muted-foreground' />
-                ) : (
                   <EyeOpenIcon className='size-4 text-muted-foreground' />
+                ) : (
+                  <EyeClosedIcon className='size-4 text-muted-foreground' />
                 )}
               </div>
             )}
