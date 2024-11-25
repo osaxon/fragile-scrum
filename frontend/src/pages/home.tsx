@@ -9,7 +9,7 @@ export default function HomePage() {
           Long<span className='text-primary'> Habit</span>
         </h1>
         <h2 className='text-2xl font-semibold'>
-          The perfect tracker for tasks that don&apos;t need daily attention
+          The perfect tracker for tasks that don&apos;t get daily attention
         </h2>
         <p className='text-xl font-light text-muted-foreground'>
           Daily habits are easy to remember, but what about those important

@@ -11,8 +11,8 @@ Try the live version: https://longhabit.com
 ## ✨ Key Features
 
 ### Backend Architecture
-- Ready for PocketBase 0.23. All the functionality is working with PocketBase v0.23-rc14
-- Single-binary build. Uses Go's "embed" package to embed a React front-end as a file system inside the compiled binary.
+- Running the latest version of Pocketbase (v0.23).
+- Single-binary build. Uses Go's "embed" package to embed the React front-end as a file system inside the compiled binary.
 - PocketBase is installed as a Go package and used as a framework. The project makes use of many extension features including:
   - Custom hooks and middleware
   - Route binding
@@ -20,7 +20,7 @@ Try the live version: https://longhabit.com
   - Scheduled tasks with cron
   - HTML email templates
   - Custom logging configuration
-- Worker pool implementation for bulk email processing using the Pond library
+- Worker pool implementation for bulk email processing done using the Pond library
 - Idiomatic Go code organization with clean separation of concerns
 
 ### Frontend Implementation
@@ -30,8 +30,8 @@ Try the live version: https://longhabit.com
 - Responsive design using all the best practices. Supports light and dark mode. Tested on desktop and mobile screens.
 - Complete authentication flow with customized forms. Works with email + password auth as well as Google OAuth.
 - TanStack Router configured using best practices. The Javascript bundle is split and lazy loaded based on route. All the authentication logic and data fetching happens in the router before the pages are loaded. Dynamic page title switching based on route.
-- TanStack Query fully integrated with PocketBase and TanStack Router. Fresh data is fetched from the backend and loaded before the routes are rendered. TanStack Query is the best tool to manage data fetching and ensure that client-side state is up to date with server-side data.
-- Loading states with a loading spinner display are implemented using the new React Suspense boundaries.
+- TanStack Query fully integrated with PocketBase and TanStack Router. Fresh data is fetched from the backend and loaded before the routes are rendered. TanStack Query takes care of data fetching and ensures that client-side state is up to date with server-side data.
+- Loading states are implemented using the new React Suspense boundaries. 
 - Dynamic forms with validation and error messages implemented using React Hook Form and Zod.
 - SEO stuff like sitemap.xml and robots.txt added and configured. Exclude rule for the PocketBase admin "/_" URL added to prevent it from being indexed by crawlers.
 
@@ -51,23 +51,24 @@ Try the live version: https://longhabit.com
 ## 🛠️ Tech Stack
 
 - **Frontend**
-  - [TypeScript](https://www.typescriptlang.org/docs/)
-  - [React 19](https://react.dev/blog/2024/04/25/react-19)
-  - [Vite](https://vite.dev/guide/)
-  - [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview)
-  - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview)
-  - [TanStack Table](https://tanstack.com/table/latest/docs/introduction)
-  - [ShadCN UI](https://ui.shadcn.com/docs)
-  - [TailwindCSS](https://tailwindcss.com/docs/installation)
-  - [Zod](https://zod.dev/?id=table-of-contents)
-  - [Date-fns](https://date-fns.org/docs/Getting-Started)
+  - [TypeScript](https://www.typescriptlang.org/docs/) - Frontend language
+  - [React 19](https://react.dev/blog/2024/04/25/react-19) - Frontend framework
+  - [Vite](https://vite.dev/guide/) - Build tool
+  - [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) - Router
+  - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) - Data fetching and state management
+  - [TanStack Table](https://tanstack.com/table/latest/docs/introduction) - Table / data grid library
+  - [React Hook Form](https://www.react-hook-form.com/api/) - Forms library for react
+  - [ShadCN UI](https://ui.shadcn.com/docs) - React components library based on TailwindCSS and Radix UI
+  - [TailwindCSS](https://tailwindcss.com/docs/installation) - Utility-first CSS framework
+  - [Zod](https://zod.dev/?id=table-of-contents) - Typescript schema validation
+  - [Date-fns](https://date-fns.org/docs/Getting-Started) - Dates manipulation library
 - **Backend**
-  - [Go 1.23](https://go.dev/doc/)
-  - [PocketBase](https://pocketbase.io/docs/)
-  - [Pond (Worker Pool)](https://github.com/alitto/pond)
+  - [Go 1.23](https://go.dev/doc/) - Backend language
+  - [PocketBase](https://pocketbase.io/docs/) - Backend framework
+  - [Pond](https://github.com/alitto/pond) - Worker pool Go library
 - **Deployment**
-  - [Docker](https://docs.docker.com/reference/)
-  - [Coolify](https://coolify.io/docs)
+  - [Docker](https://docs.docker.com/reference/) - Containerization tool
+  - [Coolify](https://coolify.io/docs) - Open source hosting platform
 
 ## 🚦 Getting Started
 
@@ -78,7 +79,7 @@ Try the live version: https://longhabit.com
 
 ### Local Development
 
-- Clone the repository`git clone https://github.com/s-petr/longhabit`
+- Clone the repository `git clone https://github.com/s-petr/longhabit`
 - Install dependencies `npm install --force` or `bun install`. The `--force` tag is required for npm to install React 19 RC. This is a temporary fix and won't be needed in the future.
 - Start development servers `npm run dev` or `bun run dev`
  

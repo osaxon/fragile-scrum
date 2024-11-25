@@ -167,7 +167,7 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
           className='ml-2 size-10 rounded-full'
           aria-label='Add new task'
           onClick={() => navigate({ to: '/tasks/new' })}>
-          <PlusIcon />
+          <PlusIcon className='scale-125' />
         </Button>
       </div>
       <div className='space-y-4'>

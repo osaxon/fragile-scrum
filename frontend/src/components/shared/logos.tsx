@@ -1,6 +1,6 @@
 export function GoogleLogo() {
   return (
-    <div className='size-4'>
+    <figure className='size-4'>
       <svg
         xmlns='http://www.w3.org/2000/svg'
         height='24'
@@ -24,13 +24,14 @@ export function GoogleLogo() {
         />
         <path d='M1 1h22v22H1z' fill='none' />
       </svg>
-    </div>
+      <figcaption className='hidden'>Google logo</figcaption>
+    </figure>
   )
 }
 
 export function LongHabitMainLogo() {
   return (
-    <figure className='flex select-none items-center gap-x-1'>
+    <figure className='flex select-none items-center justify-center gap-x-1'>
       <div className='my-4 h-6'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
