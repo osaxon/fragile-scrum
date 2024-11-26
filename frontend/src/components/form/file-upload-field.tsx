@@ -8,7 +8,7 @@ import {
 import { Input } from '@/components/ui/input'
 import useAuth from '@/hooks/use-auth'
 import { cn } from '@/lib/shadcn'
-import { ImageIcon, TrashIcon } from '@radix-ui/react-icons'
+import { TrashIcon, UploadIcon } from '@radix-ui/react-icons'
 import { useEffect, useRef, useState } from 'react'
 import { FieldValues, Path, UseFormReturn } from 'react-hook-form'
 import { Avatar, AvatarImage } from '../ui/avatar'
@@ -124,9 +124,9 @@ export default function UploadFileField<T extends FieldValues>({
                 type='button'
                 size='sm'
                 variant='outline'
-                className='flex h-9 w-32 gap-1'
+                className='w-42 flex h-9 gap-1.5'
                 onClick={() => fileUploadRef.current?.click()}>
-                <ImageIcon className='size-4' />
+                <UploadIcon className='size-4' />
                 Choose file
               </Button>
             </div>
