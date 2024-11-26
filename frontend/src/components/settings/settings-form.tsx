@@ -18,10 +18,8 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
-  FormMessage
+  FormLabel
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import {
   SheetDescription,
   SheetFooter,
@@ -37,6 +35,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
+import UploadFileField from '../form/upload-file-field'
 
 export default function SettingsForm() {
   const formRef = useRef<HTMLFormElement>(null)
@@ -84,26 +83,7 @@ export default function SettingsForm() {
           Account Settings
         </p>
 
-        <FormField
-          control={form.control}
-          name='avatar'
-          render={({ field }) => (
-            <FormItem className='w-full'>
-              <div className='flex items-baseline justify-between'>
-                <FormLabel>Upload avatar image</FormLabel>
-                <FormMessage className='text-xs font-normal' />
-              </div>
-              <FormControl>
-                <Input
-                  type='file'
-                  onChange={(e) =>
-                    e.target.files?.length && field.onChange(e.target.files[0])
-                  }
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+        <UploadFileField form={form} name='avatar' label='Avatar image' />
 
         <InputField form={form} name='name' />
 

@@ -31,7 +31,7 @@ export function GoogleLogo() {
 
 export function LongHabitMainLogo() {
   return (
-    <figure className='flex select-none items-center justify-center gap-x-1'>
+    <figure className='flex w-44 select-none items-center justify-center gap-x-1'>
       <div className='my-4 h-6'>
         <svg
           xmlns='http://www.w3.org/2000/svg'

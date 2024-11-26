@@ -146,7 +146,7 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
           onValueChange={setCategoryFilter}>
           <SelectTrigger
             aria-label='Filter by category'
-            className='w-32 rounded-l-none border-l-0 focus:ring-0 focus-visible:ring-0'
+            className='w-32 select-none rounded-l-none border-l-0 focus:ring-0 focus-visible:ring-0'
             onKeyDown={(event) =>
               event.key === 'Escape' && setCategoryFilter('All')
             }>

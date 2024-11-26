@@ -9,17 +9,18 @@ export default function Navigation() {
 
   return (
     <nav className='flex items-center justify-between'>
-      <Link to='/' disabled={verified}>
+      <Link to='/' className='focus:outline-none'>
         <LongHabitMainLogo />
       </Link>
       <Link
         aria-label='user account or log in'
-        to={verified ? '/tasks/settings' : '/login'}>
-        <Avatar className='flex items-center justify-center ring-offset-background transition duration-300 ease-in-out hover:ring-ring hover:ring-offset-0'>
+        to={verified ? '/tasks/settings' : '/login'}
+        className='focus:outline-none'>
+        <Avatar className='flex size-10 items-center justify-center'>
           {avatar ? (
             <AvatarImage
               src={`/api/files/users/${userId}/${avatar}?thumb=100x100`}
-              alt='user icon'
+              alt='user avatar icon'
             />
           ) : (
             <DefaultUserAvatarLogo />

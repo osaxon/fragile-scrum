@@ -24,7 +24,7 @@ export const updateUserSettingsSchema = z
   .object({
     remindEmail: z.string().email('Invalid email'),
     remindByEmailEnabled: z.boolean(),
-    avatar: z.instanceof(File).optional(),
+    avatar: z.instanceof(File).nullish().optional(),
     name: z.string().min(2, 'Too short').optional().or(z.literal('')),
     theme: themeSchema,
     oldPassword: z.string().optional(),

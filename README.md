@@ -57,15 +57,15 @@ Try the live version: https://longhabit.com
   - [TanStack Router](https://tanstack.com/router/latest/docs/framework/react/overview) - Router
   - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) - Data fetching and state management
   - [TanStack Table](https://tanstack.com/table/latest/docs/introduction) - Table / data grid library
-  - [React Hook Form](https://www.react-hook-form.com/api/) - Forms library for react
+  - [React Hook Form](https://www.react-hook-form.com/api/) - Forms library for React
   - [ShadCN UI](https://ui.shadcn.com/docs) - React components library based on TailwindCSS and Radix UI
   - [TailwindCSS](https://tailwindcss.com/docs/installation) - Utility-first CSS framework
   - [Zod](https://zod.dev/?id=table-of-contents) - Typescript schema validation
-  - [Date-fns](https://date-fns.org/docs/Getting-Started) - Dates manipulation library
+  - [Date-fns](https://date-fns.org/docs/Getting-Started) - Date manipulation library
 - **Backend**
   - [Go 1.23](https://go.dev/doc/) - Backend language
   - [PocketBase](https://pocketbase.io/docs/) - Backend framework
-  - [Pond](https://github.com/alitto/pond) - Worker pool Go library
+  - [Pond](https://github.com/alitto/pond) - Worker pool implementation in Go
 - **Deployment**
   - [Docker](https://docs.docker.com/reference/) - Containerization tool
   - [Coolify](https://coolify.io/docs) - Open source hosting platform

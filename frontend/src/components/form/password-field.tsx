@@ -50,6 +50,7 @@ export default function PasswordField<T extends FieldValues>({
             </FormControl>
             {!!field.value.length && (
               <div
+                role='button'
                 className='absolute right-2 top-1/2 -translate-y-1/2 cursor-pointer'
                 onClick={() => setIsVisible((current) => !current)}>
                 {isVisible ? (
