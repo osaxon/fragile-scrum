@@ -38,18 +38,17 @@ export default function UploadFileField<T extends FieldValues>({
   const { avatar, id: userId } = user ?? {}
 
   useEffect(() => {
-    if (imageFile) {
-      const url = URL.createObjectURL(imageFile)
-      setPreviewUrl(url)
-      return () => URL.revokeObjectURL(url)
-    }
+    if (!imageFile) return
+    const url = URL.createObjectURL(imageFile)
+    setPreviewUrl(url)
+    return () => URL.revokeObjectURL(url)
   }, [imageFile])
 
   return (
     <FormField
       control={form.control}
       name={name}
-      render={({ field }) => (
+      render={({ field: { onChange, value } }) => (
         <FormItem className={cn('w-full', hidden && 'hidden')}>
           <div className='flex items-baseline justify-between'>
             <FormLabel>{label}</FormLabel>
@@ -61,7 +60,7 @@ export default function UploadFileField<T extends FieldValues>({
                 <Avatar className='absolute left-2 top-1/2 flex size-6 -translate-y-1/2 items-center justify-center'>
                   <AvatarImage
                     src={
-                      field.value
+                      value
                         ? previewUrl || undefined
                         : avatar && userId && previewUrl !== 'delete'
                           ? `/api/files/users/${userId}/${avatar}?thumb=100x100`
@@ -75,7 +74,7 @@ export default function UploadFileField<T extends FieldValues>({
                   disabled
                   type='text'
                   value={
-                    field.value
+                    value
                       ? fileUploadRef.current?.value.replace(
                           /C:\\fakepath\\/,
                           ''
@@ -85,9 +84,6 @@ export default function UploadFileField<T extends FieldValues>({
                         : ''
                   }
                   className='pl-10 pr-4 disabled:opacity-100'
-                  onChange={(e) =>
-                    e.target.files?.length && field.onChange(e.target.files[0])
-                  }
                 />
                 <div
                   role='button'
@@ -95,7 +91,7 @@ export default function UploadFileField<T extends FieldValues>({
                   onClick={() => {
                     setImageFile(null)
                     setPreviewUrl('delete')
-                    field.onChange(null)
+                    onChange(null)
                   }}>
                   {avatar && previewUrl !== 'delete' && (
                     <TrashIcon className='size-4' />
@@ -106,7 +102,6 @@ export default function UploadFileField<T extends FieldValues>({
                   type='file'
                   accept='image/jpeg,image/png,image/gif,image/webp'
                   disabled={disabled}
-                  value={undefined}
                   className='hidden'
                   onChange={(e) => {
                     const uploadedFile = e.target.files?.[0] || null
@@ -121,7 +116,7 @@ export default function UploadFileField<T extends FieldValues>({
 
                     form.clearErrors(name)
                     setImageFile(uploadedFile)
-                    uploadedFile && field.onChange(uploadedFile)
+                    uploadedFile && onChange(uploadedFile)
                   }}
                 />
               </div>

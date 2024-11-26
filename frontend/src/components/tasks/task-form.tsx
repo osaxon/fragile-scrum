@@ -2,7 +2,7 @@ import AutoCompleteField from '@/components/form/autocomplete-field'
 import InputField from '@/components/form/input-field'
 import SwitchField from '@/components/form/switch-field'
 import TextAreaField from '@/components/form/text-area-field'
-import { DatePicker } from '@/components/settings/date-picker'
+import { DatePicker } from '@/components/tasks/date-picker'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -136,9 +136,9 @@ export default function TaskForm({
           control={form.control}
           name='history'
           render={({ field }) => (
-            <FormItem className='pb-4'>
+            <FormItem className='w-full pb-4 m'>
               <FormLabel className='w-full text-center'>
-                Dates Completed
+                Dates completed
               </FormLabel>
               <FormControl>
                 <DatePicker value={field.value} onChange={field.onChange} />

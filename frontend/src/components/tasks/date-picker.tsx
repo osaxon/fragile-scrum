@@ -11,14 +11,13 @@ export function DatePicker({ value, onChange }: DatePickerProps) {
     <Calendar
       mode='multiple'
       selected={value?.map(stringToDate)}
-      className='mr-auto w-fit rounded-md border'
       weekStartsOn={1}
       disabled={(date) => date > new Date()}
-      onSelect={(dates) => {
+      onSelect={(dates) =>
         onChange(
           dates?.map(dateToString).sort((a, b) => b.localeCompare(a)) ?? []
         )
-      }}
+      }
     />
   )
 }

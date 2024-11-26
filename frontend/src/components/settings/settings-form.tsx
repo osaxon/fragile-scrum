@@ -55,6 +55,7 @@ export default function SettingsForm() {
     resolver: zodResolver(updateUserSettingsSchema),
     defaultValues: {
       name,
+      avatar: null,
       theme,
       remindEmail,
       remindByEmailEnabled,
