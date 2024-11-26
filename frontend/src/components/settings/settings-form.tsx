@@ -35,7 +35,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRef } from 'react'
 import { useForm } from 'react-hook-form'
-import UploadFileField from '../form/upload-file-field'
+import UploadFileField from '../form/file-upload-field'
 
 export default function SettingsForm() {
   const formRef = useRef<HTMLFormElement>(null)
