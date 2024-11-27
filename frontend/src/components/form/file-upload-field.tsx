@@ -122,9 +122,8 @@ export default function UploadFileField<T extends FieldValues>({
               </div>
               <Button
                 type='button'
-                size='sm'
                 variant='outline'
-                className='w-42 flex h-9 gap-1.5'
+                className='w-42 flex gap-1.5'
                 onClick={() => fileUploadRef.current?.click()}>
                 <UploadIcon className='size-4' />
                 Choose file

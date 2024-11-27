@@ -86,7 +86,7 @@ export default function AutoCompleteField<T extends FieldValues>({
                     <CommandEmpty className='flex justify-center p-1'>
                       <Button
                         size='sm'
-                        className='h-8 w-full'
+                        className='w-full'
                         variant='ghost'
                         onClick={() => {
                           field.onChange(inputValue)

@@ -149,7 +149,7 @@ export default function SettingsForm() {
           </>
         )}
 
-        <SheetFooter className='grid w-full grid-cols-2 gap-4 sm:space-x-0'>
+        <SheetFooter className='mt-4 grid w-full grid-cols-2 gap-4 sm:space-x-0'>
           <Button disabled={!fieldsEdited} className='w-full' type='submit'>
             Update Settings
           </Button>
@@ -169,15 +169,11 @@ export default function SettingsForm() {
               </DialogHeader>
 
               <DialogFooter className='flex items-center gap-4 sm:justify-between'>
-                <Button className='w-full' size='sm' onClick={logout}>
+                <Button className='w-full' onClick={logout}>
                   Log out
                 </Button>
                 <DialogClose asChild>
-                  <Button
-                    type='button'
-                    className='w-full'
-                    size='sm'
-                    variant='secondary'>
+                  <Button type='button' className='w-full' variant='secondary'>
                     Cancel
                   </Button>
                 </DialogClose>

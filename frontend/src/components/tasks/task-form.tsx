@@ -148,7 +148,7 @@ export default function TaskForm({
             </FormItem>
           )}
         />
-        <SheetFooter className='grid w-full grid-cols-2 gap-4 sm:space-x-0'>
+        <SheetFooter className='mt-4 grid w-full grid-cols-2 gap-4 sm:space-x-0'>
           <Button
             type='submit'
             disabled={!fieldsEdited}
@@ -178,7 +178,6 @@ export default function TaskForm({
                 <DialogFooter className='flex items-center gap-4 sm:justify-between'>
                   <Button
                     className='w-full'
-                    size='sm'
                     variant='destructive'
                     onClick={() => deleteTask(selectedTask)}>
                     Delete
@@ -186,7 +185,6 @@ export default function TaskForm({
                   <DialogClose asChild>
                     <Button
                       type='button'
-                      size='sm'
                       className='w-full'
                       variant='secondary'>
                       Cancel
