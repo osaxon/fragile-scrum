@@ -83,7 +83,7 @@ export default function UploadFileField<T extends FieldValues>({
                         ? avatar
                         : ''
                   }
-                  className='pl-10 pr-4 disabled:opacity-100'
+                  className='pl-10 pr-7 disabled:opacity-100'
                 />
                 <div
                   role='button'
