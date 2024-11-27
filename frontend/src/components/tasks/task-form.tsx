@@ -198,7 +198,7 @@ export default function TaskForm({
           )}
           <Button
             asChild
-            variant='outline'
+            variant='secondary'
             type='button'
             className='col-span-2 w-full'>
             <Link to='/tasks'>Cancel</Link>
