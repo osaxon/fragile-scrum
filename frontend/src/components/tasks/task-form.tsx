@@ -31,6 +31,7 @@ import {
 import useAuth from '@/hooks/use-auth'
 import useSettings from '@/hooks/use-settings'
 import useTasks from '@/hooks/use-tasks'
+import { cn } from '@/lib/shadcn'
 import { Task, taskSchema } from '@/schemas/task-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate } from '@tanstack/react-router'
@@ -136,7 +137,7 @@ export default function TaskForm({
           control={form.control}
           name='history'
           render={({ field }) => (
-            <FormItem className='w-full pb-4 m'>
+            <FormItem className='m w-full pb-4'>
               <FormLabel className='w-full text-center'>
                 Dates completed
               </FormLabel>
@@ -147,14 +148,17 @@ export default function TaskForm({
             </FormItem>
           )}
         />
-        <SheetFooter className='flex items-center gap-4 sm:justify-between'>
-          <Button type='submit' disabled={!fieldsEdited} className='w-full'>
+        <SheetFooter className='grid w-full grid-cols-2 gap-4 sm:space-x-0'>
+          <Button
+            type='submit'
+            disabled={!fieldsEdited}
+            className={cn('w-full', !selectedTask && 'col-span-2')}>
             {selectedTask ? 'Update' : 'Create'}
           </Button>
-          {selectedTask ? (
+          {selectedTask && (
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant='outline' type='button' className='w-full'>
+                <Button variant='destructive' type='button' className='w-full'>
                   Delete
                 </Button>
               </DialogTrigger>
@@ -172,30 +176,33 @@ export default function TaskForm({
                 </DialogHeader>
 
                 <DialogFooter className='flex items-center gap-4 sm:justify-between'>
-                  <DialogClose asChild>
-                    <Button
-                      type='button'
-                      size='sm'
-                      className='w-full'
-                      variant='outline'>
-                      Cancel
-                    </Button>
-                  </DialogClose>
                   <Button
                     className='w-full'
                     size='sm'
                     variant='destructive'
                     onClick={() => deleteTask(selectedTask)}>
-                    Delete{' '}
+                    Delete
                   </Button>
+                  <DialogClose asChild>
+                    <Button
+                      type='button'
+                      size='sm'
+                      className='w-full'
+                      variant='secondary'>
+                      Cancel
+                    </Button>
+                  </DialogClose>
                 </DialogFooter>
               </DialogContent>
             </Dialog>
-          ) : (
-            <Button asChild variant='outline' type='button' className='w-full'>
-              <Link to='/tasks'>Cancel</Link>
-            </Button>
           )}
+          <Button
+            asChild
+            variant='outline'
+            type='button'
+            className='col-span-2 w-full'>
+            <Link to='/tasks'>Cancel</Link>
+          </Button>
         </SheetFooter>
       </form>
     </Form>
