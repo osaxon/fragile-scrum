@@ -3,12 +3,13 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        - COOLIFY_FQDN=${COOLIFY_FQDN}
+        - PLAUSIBLE_API_HOST=${PLAUSIBLE_API_HOST}
     container_name: longhabit
     restart: unless-stopped
     environment:
       - MAILER_CRON_SCHEDULE=${MAILER_CRON_SCHEDULE:-0 9 * * *}
-      - VITE_DOMAIN=${COOLIFY_FQDN}
-      - VITE_PLAUSIBLE_API_HOST=${PLAUSIBLE_API_HOST}
     ports:
       - '8090:8090'
     volumes:

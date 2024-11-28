@@ -4,6 +4,11 @@ WORKDIR /app
 
 COPY . .
 RUN bun install --frozen-lockfile
+
+ARG COOLIFY_FQDN
+ARG PLAUSIBLE_API_HOST
+RUN echo "VITE_DOMAIN=${COOLIFY_FQDN}\nVITE_PLAUSIBLE_API_HOST=${PLAUSIBLE_API_HOST}" > .env
+
 RUN bun run build:client
 
 # Build backend
@@ -12,7 +17,7 @@ WORKDIR /app
 
 COPY --from=builder-bun /app/backend .
 RUN go mod download
-RUN CGO_ENABLED=0 go build -tags production -o longhabit
+RUN go build -tags production -o longhabit
 
 # Deploy binary
 FROM alpine:latest AS runner
