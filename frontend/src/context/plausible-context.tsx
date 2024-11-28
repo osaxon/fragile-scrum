@@ -5,7 +5,6 @@ type TrackEvent = (eventName: string, options?: EventOptions) => void
 
 const plausible = Plausible({
   domain: import.meta.env.VITE_DOMAIN,
-  hashMode: true,
   apiHost: import.meta.env.VITE_PLAUSIBLE_API_HOST,
   trackLocalhost: true
 })
@@ -16,13 +15,8 @@ const PlausibleContext = createContext<{ trackEvent: TrackEvent }>({
 
 function PlausibleProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
-    const autoPageViewsTrackingCleanup = plausible.enableAutoPageviews()
-    const outboundTrackingCleanup = plausible.enableAutoOutboundTracking()
-
-    return () => {
-      autoPageViewsTrackingCleanup()
-      outboundTrackingCleanup()
-    }
+    const cleanup = plausible.enableAutoPageviews()
+    return () => cleanup()
   }, [])
 
   return (
