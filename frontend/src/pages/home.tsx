@@ -77,7 +77,8 @@ export default function HomePage() {
 
       <section className='mb-16 w-full space-y-4 rounded-lg bg-popover p-4'>
         <h2 className='flex items-center gap-x-2 text-2xl font-semibold'>
-          <CircleHelpIcon className='size-6 text-primary/80' /> Why Use Long Habit?
+          <CircleHelpIcon className='size-6 text-primary/80' /> Why Use Long
+          Habit?
         </h2>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='space-y-1'>

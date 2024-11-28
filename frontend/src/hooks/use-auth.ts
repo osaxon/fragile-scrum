@@ -1,3 +1,4 @@
+import { usePlausible } from '@/context/plausible-context'
 import { errorToast, successToast } from '@/lib/toast'
 import { RegisterFields } from '@/schemas/auth-schema'
 import { User, UserWithSettings } from '@/schemas/user-schema'
@@ -23,6 +24,7 @@ export default function useAuth() {
   const [emailSendCountdown, setEmailSendCountdown] = useState(0)
   const router = useRouter()
   const queryClient = useQueryClient()
+  const { trackEvent } = usePlausible()
 
   const { data: user } = useSuspenseQuery(userQueryOptions)
 
@@ -42,6 +44,7 @@ export default function useAuth() {
   const loginWithPassword = async (email: string, password: string) => {
     try {
       const authResult = await loginWithPasswordApi(email, password)
+      trackEvent('login', { props: { method: 'password' } })
       subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
       queryClient.invalidateQueries({ queryKey: ['user'] })
       router.navigate({ to: '/tasks' })
@@ -53,6 +56,7 @@ export default function useAuth() {
   const loginWithGoogle = async () => {
     try {
       const authResult = await loginWithGoogleApi()
+      trackEvent('login', { props: { method: 'google' } })
       subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
       queryClient.invalidateQueries({ queryKey: ['user'] })
       router.invalidate()
@@ -65,6 +69,7 @@ export default function useAuth() {
   const register = async (newUserData: RegisterFields) => {
     try {
       await createNewUser(newUserData)
+      trackEvent('signup')
       successToast(
         'Registration successful!',
         'Please check your inbox for a verification email'
