@@ -30,7 +30,7 @@ export default function ScrollToTopButton({
       <Button
         variant='link'
         className={cn(
-          'mx-auto mb-2 size-10 items-center gap-1 rounded-full p-0 transition-all duration-150 ease-in-out hover:bg-muted',
+          'mx-auto mb-2 size-10 items-center gap-1 rounded-full p-0 transition-all duration-150 ease-in-out hover:bg-popover',
           className
         )}
         disabled={!showButton}

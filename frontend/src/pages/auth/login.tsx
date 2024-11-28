@@ -43,7 +43,7 @@ export default function LoginPage() {
           </Button>
           <Button
             className='w-full'
-            variant='outline'
+            variant='secondary'
             type='button'
             onClick={loginWithGoogle}>
             <GoogleLogo />

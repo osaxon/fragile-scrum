@@ -46,7 +46,7 @@ export default function RegisterPage() {
           </Button>
           <Button
             className='w-full'
-            variant='outline'
+            variant='secondary'
             type='button'
             onClick={loginWithGoogle}>
             <GoogleLogo />

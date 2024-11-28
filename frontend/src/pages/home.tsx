@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import { Link } from '@tanstack/react-router'
+import { BrainCircuitIcon, CircleHelpIcon, ListTodoIcon } from 'lucide-react'
 
 export default function HomePage() {
   return (
@@ -28,7 +29,9 @@ export default function HomePage() {
       </section>
 
       <section className='w-full space-y-2 rounded-lg bg-popover p-4'>
-        <h3 className='text-2xl font-semibold'>How it Works</h3>
+        <h2 className='flex items-center gap-x-2 text-2xl font-semibold'>
+          <ListTodoIcon className='size-6 text-primary/80' /> How it Works
+        </h2>
         <ol className='list-decimal space-y-2 pl-4 text-sm text-muted-foreground'>
           <li>Add tasks you want to track to the list</li>
           <li>Set a goal. How often do you want to repeat the task?</li>
@@ -40,7 +43,9 @@ export default function HomePage() {
       </section>
 
       <section className='w-full space-y-4 rounded-lg bg-popover p-4'>
-        <h3 className='text-2xl font-semibold'>Smart Features</h3>
+        <h2 className='flex items-center gap-x-2 text-2xl font-semibold'>
+          <BrainCircuitIcon className='size-6 text-primary/80' /> Smart Features
+        </h2>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='space-y-1'>
             <h4 className='font-semibold'>Simple Tracking</h4>
@@ -71,7 +76,9 @@ export default function HomePage() {
       </section>
 
       <section className='mb-16 w-full space-y-4 rounded-lg bg-popover p-4'>
-        <h3 className='text-2xl font-semibold'>Why Use Long Habit?</h3>
+        <h2 className='flex items-center gap-x-2 text-2xl font-semibold'>
+          <CircleHelpIcon className='size-6 text-primary/80' /> Why Use Long Habit?
+        </h2>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2'>
           <div className='space-y-1'>
             <h4 className='font-semibold'>Minimalist Design</h4>

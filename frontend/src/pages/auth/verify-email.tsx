@@ -69,7 +69,7 @@ export default function VerifyEmailPage() {
             <>
               <Button
                 className='w-full'
-                variant='outline'
+                variant='secondary'
                 type='button'
                 disabled={emailSendCountdown > 0}
                 onClick={() => sendVerificationEmail(user?.email)}>

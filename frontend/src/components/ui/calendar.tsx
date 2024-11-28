@@ -12,9 +12,17 @@ function Calendar({
   showOutsideDays = true,
   ...props
 }: CalendarProps) {
+  const [month, setMonth] = React.useState<Date>(new Date())
+
+  const handleDayClick = (day: Date, modifiers: any, e: React.MouseEvent) => {
+    modifiers.outside && setMonth(new Date(day))
+    props.onDayClick?.(day, modifiers, e)
+  }
+
   return (
     <DayPicker
       fixedWeeks
+      month={month}
       showOutsideDays={showOutsideDays}
       className={cn('rounded-md border p-4', className)}
       classNames={{
@@ -56,6 +64,8 @@ function Calendar({
         IconRight: () => <ChevronRight className='size-4' />
       }}
       {...props}
+      onDayClick={handleDayClick}
+      onMonthChange={setMonth}
     />
   )
 }

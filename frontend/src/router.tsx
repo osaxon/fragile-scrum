@@ -79,7 +79,7 @@ const homeRoute = createRoute({
   component: HomePage,
   beforeLoad: async () => {
     if (checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/tasks' })
-    return { getTitle: () => 'Home' }
+    return { getTitle: () => '' }
   }
 })
 
