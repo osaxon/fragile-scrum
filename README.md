@@ -58,7 +58,7 @@ Try the live version: https://longhabit.com
   - [TanStack Query](https://tanstack.com/query/latest/docs/framework/react/overview) - Data fetching and state management
   - [TanStack Table](https://tanstack.com/table/latest/docs/introduction) - Table / data grid library
   - [React Hook Form](https://www.react-hook-form.com/api/) - Forms library for React
-  - [ShadCN UI](https://ui.shadcn.com/docs) - React components library based on TailwindCSS and Radix UI
+  - [shadcn/ui](https://ui.shadcn.com/docs) - React component library based on TailwindCSS and Radix UI
   - [TailwindCSS](https://tailwindcss.com/docs/installation) - Utility-first CSS framework
   - [Zod](https://zod.dev/?id=table-of-contents) - Typescript schema validation
   - [Date-fns](https://date-fns.org/docs/Getting-Started) - Date manipulation library
