@@ -33,7 +33,7 @@ Try the live version: https://longhabit.com
 - TanStack Query fully integrated with PocketBase and TanStack Router. Fresh data is fetched from the backend and loaded before the routes are rendered. TanStack Query takes care of data fetching and ensures that client-side state is up to date with server-side data.
 - Loading states are implemented using the new React Suspense boundaries. 
 - Dynamic forms with validation and error messages implemented using React Hook Form and Zod.
-- SEO stuff like sitemap.xml and robots.txt added and configured. Exclude rule for the PocketBase admin "/_" URL added to prevent it from being indexed by crawlers.
+- SEO optimizations like meta description and social media cards meta tags added to root HTML page, sitemap.xml and robots.txt added and configured. Exclude rule for the PocketBase admin "/_" URL added to prevent it from being indexed by crawlers.
 
 ### Developer Experience
 - Vite dev mode with hot reload works seamlessly with PocketBase. No need to wait for PocketBase to compile. Vite and PocketBase proxy requests to and from each other while running on different ports.
