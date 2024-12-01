@@ -51,7 +51,7 @@ export default function UploadFileField<T extends FieldValues>({
       render={({ field: { onChange, value } }) => (
         <FormItem className={cn('w-full', hidden && 'hidden')}>
           <div className='flex items-baseline justify-between'>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel disabled={disabled}>{label}</FormLabel>
             <FormMessage className='text-xs font-normal' />
           </div>
           <FormControl>

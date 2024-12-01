@@ -43,7 +43,9 @@ export default function SwitchField<T extends FieldValues>({
               onCheckedChange={field.onChange}
             />
           </FormControl>
-          <FormLabel className='!mt-0 cursor-pointer'>{label}</FormLabel>
+          <FormLabel disabled={disabled} className='!mt-0 cursor-pointer'>
+            {label}
+          </FormLabel>
           <FormMessage />
         </FormItem>
       )}
