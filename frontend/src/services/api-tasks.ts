@@ -52,11 +52,17 @@ export async function deleteTask(taskId: PbId) {
 
 export const tasksQueryOptions = queryOptions({
   queryKey: ['tasks'],
-  queryFn: () => getAllTasks()
+  queryFn: () => getAllTasks(),
+  staleTime: 30 * 1000,
+  gcTime: 5 * 60 * 1000,
+  refetchInterval: 5 * 60 * 1000
 })
 
 export const taskQueryOptions = (taskId: string) =>
   queryOptions({
     queryKey: ['tasks', taskId],
-    queryFn: () => getTaskById(taskId)
+    queryFn: () => getTaskById(taskId),
+    staleTime: 30 * 1000,
+    gcTime: 5 * 60 * 1000,
+    refetchInterval: 5 * 60 * 1000
   })
