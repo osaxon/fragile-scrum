@@ -199,7 +199,9 @@ export default function TaskForm({
             variant='secondary'
             type='button'
             className='col-span-2 w-full'>
-            <Link to='/tasks'>Cancel</Link>
+            <Link to='/tasks' preload={false}>
+              Cancel
+            </Link>
           </Button>
         </SheetFooter>
       </form>
