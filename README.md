@@ -77,23 +77,25 @@ Try the live version: https://longhabit.com
 - Node.js 18+ or Bun
 - Docker (optional)
 
-### Local Development
+### Installation
 
 - Clone the repository `git clone https://github.com/s-petr/longhabit`
 - Install dependencies `npm install --force` or `bun install`. The `--force` tag is required for npm to install React 19 RC. This is a temporary fix and won't be needed in the future.
+- Create a new superuser (admin) account for the Pocketbase admin dashboard. First compile the binary `npm run build` or `bun run build`. Then run the command `./longhabit superuser upsert {{admin email}} {{admin password}}`
+- Once the PocketBase backend is up and running you need to set up the database tables. Log in to the Pocketbase dashboard `http://localhost:8090/_/` using your superuser credentials. Go to Settings -> Import collections -> Load from JSON file. Select file [backend/pb_schema.json](backend/pb_schema.json) and import it.
+- A folder `/db` will be created in the root directory. This will contain the database files. Docker Compose has been configured with a volume to read/write data to the same folder. You may need to adjust file permissions for this folder if PocketBase cannot write to it from the Docker container.
+
+### Local Development
+
 - Start development servers `npm run dev` or `bun run dev`
  
 ### Production Build
 
 - Build frontend and backend `npm run build` or `bun run build`
-- Run the compiled binary `./longhabit serve`
+- Run the compiled binary `npm run preview` or `bun run preview`
 
 ### Docker Deployment
 - Build and run with Docker Compose `npm run compose` or `bun run compose`
-
-### Post-deployment actions
-- Once the PocketBase backend is up and running you need to import collections from the file [backend/pb_schema.json](backend/pb_schema.json) by going to the PocketBase dashboard Settings -> Import collections
-- A folder `/db` will be created in the root directory. This will contain the database files. Docker Compose has been configured with a volume to read/write data to the same folder. You may need to adjust file permissions for this folder if PocketBase cannot write to it from the Docker container.
 
 ## 📝 License
 
