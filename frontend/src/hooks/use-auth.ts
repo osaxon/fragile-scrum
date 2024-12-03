@@ -30,7 +30,7 @@ export default function useAuth() {
 
   const logout = () => {
     logoutApi()
-    queryClient.invalidateQueries({ queryKey: ['user'] })
+    queryClient.clear()
     unsubscribeFromUserChanges()
     router.navigate({ to: '/' })
   }
