@@ -62,7 +62,7 @@ export default function VerifyEmailPage() {
           <Button
             className='mt-4 w-full'
             type='submit'
-            disabled={!form.watch('token')}>
+            disabled={!form.formState.isValid}>
             Verify Using Token
           </Button>
           {user ? (

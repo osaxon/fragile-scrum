@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
           <Button
             className='mt-4 w-full'
             type='submit'
-            disabled={emailSendCountdown > 0}>
+            disabled={emailSendCountdown > 0 || !form.formState.isValid}>
             {emailSendCountdown > 0
               ? `Send Again (${emailSendCountdown})`
               : 'Request Reset'}

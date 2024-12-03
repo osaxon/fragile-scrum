@@ -50,7 +50,10 @@ export default function ResetPasswordPage() {
             label='Confirm new password'
           />
 
-          <Button className='mt-4 w-full' type='submit'>
+          <Button
+            className='mt-4 w-full'
+            type='submit'
+            disabled={!form.formState.isValid}>
             Change Password
           </Button>
         </form>

@@ -41,7 +41,10 @@ export default function RegisterPage() {
             label='Confirm password'
           />
 
-          <Button className='mt-4 w-full' type='submit'>
+          <Button
+            className='mt-4 w-full'
+            type='submit'
+            disabled={!form.formState.isValid}>
             Register
           </Button>
           <Button

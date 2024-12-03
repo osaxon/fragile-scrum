@@ -38,7 +38,10 @@ export default function LoginPage() {
           <Link to='/forgot-password' className='ml-auto text-sm text-primary'>
             Forgot password
           </Link>
-          <Button className='w-full' type='submit'>
+          <Button
+            className='w-full'
+            type='submit'
+            disabled={!form.formState.isValid}>
             Login
           </Button>
           <Button

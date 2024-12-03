@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { pbTokenSchema } from './pb-schema'
 
 export const loginSchema = z.object({
-  email: z.string().min(2, 'Invalid email'),
+  email: z.string().email('Invalid email'),
   password: z.string().min(8, 'Invalid password')
 })
 
