@@ -47,6 +47,8 @@ export const resetPasswordSchema = z
     path: ['passwordConfirm']
   })
 
-export const resetPasswordParamsSchema = z.object({ token: pbTokenSchema.catch('') })
+export const resetPasswordParamsSchema = z.object({
+  token: pbTokenSchema.catch('')
+})
 
 export type ResetPasswordFields = z.infer<typeof resetPasswordSchema>
