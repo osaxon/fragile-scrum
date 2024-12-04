@@ -4,6 +4,7 @@ import { GoogleLogo } from '@/components/shared/logos'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
+import { useThrottle } from '@/hooks/use-throttle'
 import { RegisterFields, registerSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
@@ -22,6 +23,8 @@ export default function RegisterPage() {
     }
   })
 
+  const [handleRegister, isRegistering] = useThrottle(register)
+
   return (
     <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
       <h2 className='mt-4 text-4xl font-bold'>Register</h2>
@@ -31,7 +34,7 @@ export default function RegisterPage() {
       <Form {...form}>
         <form
           className='flex w-full flex-col items-center gap-y-4'
-          onSubmit={form.handleSubmit(register)}>
+          onSubmit={form.handleSubmit(handleRegister)}>
           <InputField form={form} name='name' />
           <InputField form={form} name='email' type='email' />
           <PasswordField form={form} name='password' />
@@ -44,7 +47,7 @@ export default function RegisterPage() {
           <Button
             className='mt-4 w-full'
             type='submit'
-            disabled={!form.formState.isValid}>
+            disabled={!form.formState.isDirty || isRegistering}>
             Register
           </Button>
           <Button

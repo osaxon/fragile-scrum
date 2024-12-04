@@ -2,6 +2,7 @@ import PasswordField from '@/components/form/password-field'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
+import { useThrottle } from '@/hooks/use-throttle'
 import { ResetPasswordFields, resetPasswordSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
@@ -21,15 +22,10 @@ export default function ResetPasswordPage() {
     }
   })
 
-  const handleSubmit = ({
-    password,
-    passwordConfirm
-  }: {
-    password: string
-    passwordConfirm: string
-  }) => {
-    confirmPasswordReset(password, passwordConfirm, token)
-  }
+  const [handleResetPassword, isResettingPassword] = useThrottle(
+    ({ password, passwordConfirm }: ResetPasswordFields) =>
+      confirmPasswordReset(password, passwordConfirm, token)
+  )
 
   if (!token) return navigate({ to: '/login' })
 
@@ -42,7 +38,7 @@ export default function ResetPasswordPage() {
       <Form {...form}>
         <form
           className='flex w-full flex-col items-center gap-y-4'
-          onSubmit={form.handleSubmit(handleSubmit)}>
+          onSubmit={form.handleSubmit(handleResetPassword)}>
           <PasswordField form={form} name='password' label='New password' />
           <PasswordField
             form={form}
@@ -53,7 +49,7 @@ export default function ResetPasswordPage() {
           <Button
             className='mt-4 w-full'
             type='submit'
-            disabled={!form.formState.isValid}>
+            disabled={!form.formState.isDirty || isResettingPassword}>
             Change Password
           </Button>
         </form>

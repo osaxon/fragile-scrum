@@ -2,6 +2,7 @@ import InputField from '@/components/form/input-field'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
+import { useThrottle } from '@/hooks/use-throttle'
 import { VerifyEmailFields, verifyEmailSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link, useSearch } from '@tanstack/react-router'
@@ -32,6 +33,10 @@ export default function VerifyEmailPage() {
     startEmailSendCountdown({ resetTargetTime: false })
   }, [])
 
+  const [handleVerifyEmail, isVerifyingEmail] = useThrottle(
+    ({ token }: VerifyEmailFields) => verifyEmailByToken(token)
+  )
+
   return (
     <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
       <h2 className='mt-4 text-4xl font-bold'>Verify Email</h2>
@@ -41,9 +46,7 @@ export default function VerifyEmailPage() {
       <Form {...form}>
         <form
           className='flex w-full flex-col items-center gap-y-4'
-          onSubmit={form.handleSubmit(({ token }) =>
-            verifyEmailByToken(token)
-          )}>
+          onSubmit={form.handleSubmit(handleVerifyEmail)}>
           <p className='text-center text-sm'>
             Check your inbox and click the registration link.
           </p>
@@ -62,7 +65,7 @@ export default function VerifyEmailPage() {
           <Button
             className='mt-4 w-full'
             type='submit'
-            disabled={!form.formState.isValid}>
+            disabled={isVerifyingEmail}>
             Verify Using Token
           </Button>
           {user ? (

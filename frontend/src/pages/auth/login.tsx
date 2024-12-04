@@ -4,6 +4,7 @@ import { GoogleLogo } from '@/components/shared/logos'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import useAuth from '@/hooks/use-auth'
+import { useThrottle } from '@/hooks/use-throttle'
 import { LoginFields, loginSchema } from '@/schemas/auth-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
@@ -20,6 +21,10 @@ export default function LoginPage() {
     }
   })
 
+  const [handleLogin, isLoggingIn] = useThrottle(
+    ({ email, password }: LoginFields) => loginWithPassword(email, password)
+  )
+
   return (
     <main className='mx-auto flex w-full max-w-[350px] flex-col items-center gap-y-4'>
       <h2 className='mt-4 text-4xl font-bold'>Log In</h2>
@@ -29,9 +34,7 @@ export default function LoginPage() {
       <Form {...form}>
         <form
           className='flex w-full flex-col items-center gap-y-4'
-          onSubmit={form.handleSubmit(({ email, password }) =>
-            loginWithPassword(email, password)
-          )}>
+          onSubmit={form.handleSubmit(handleLogin)}>
           <InputField form={form} name='email' type='email' />
           <PasswordField form={form} name='password' />
 
@@ -41,7 +44,7 @@ export default function LoginPage() {
           <Button
             className='w-full'
             type='submit'
-            disabled={!form.formState.isValid}>
+            disabled={!form.formState.isDirty || isLoggingIn}>
             Login
           </Button>
           <Button
