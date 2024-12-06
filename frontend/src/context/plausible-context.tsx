@@ -1,5 +1,5 @@
 import Plausible, { EventOptions } from 'plausible-tracker'
-import { createContext, useContext, useEffect } from 'react'
+import { createContext, use, useEffect } from 'react'
 
 type TrackEvent = (eventName: string, options?: EventOptions) => void
 
@@ -20,14 +20,14 @@ function PlausibleProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   return (
-    <PlausibleContext.Provider value={{ trackEvent: plausible.trackEvent }}>
+    <PlausibleContext value={{ trackEvent: plausible.trackEvent }}>
       {children}
-    </PlausibleContext.Provider>
+    </PlausibleContext>
   )
 }
 
 function usePlausible() {
-  const context = useContext(PlausibleContext)
+  const context = use(PlausibleContext)
   if (context === undefined)
     throw new Error('PlausibleContext is being used outside PlausibleProvider')
   return context

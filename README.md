@@ -25,7 +25,7 @@ Try the live version: https://longhabit.com
 
 ### Frontend Implementation
 - Modern React setup with TypeScript and Vite.
-- Ready for React 19. Works well with React 19 RC and React Compiler enabled.
+- Built for React 19. Works with React Compiler enabled.
 - TailwindCSS with ShadCN UI fully configured with a custom theme.
 - Responsive design using all the best practices. Supports light and dark mode. Tested on desktop and mobile screens.
 - Complete authentication flow with customized forms. Works with email + password auth as well as Google OAuth.
