@@ -174,7 +174,9 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className='border-none'>
+              <TableRow
+                key={headerGroup.id}
+                className='border-none hover:bg-inherit'>
                 {headerGroup.headers.map((header, columnIndex) => {
                   return (
                     <TableHead
@@ -200,11 +202,17 @@ export function TasksTable({ tasks }: { tasks: Task[] }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className='cursor-pointer border-none'
+                  className='cursor-pointer border-none hover:bg-popover/50'
                   data-state={row.getIsSelected() && 'selected'}
                   onClick={() => navigate({ to: `/tasks/${row.original.id}` })}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} className='px-2 py-1'>
+                  {row.getVisibleCells().map((cell, index, array) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        'px-2 py-1',
+                        index === 0 && 'rounded-l-md',
+                        index === array.length - 1 && 'rounded-r-md'
+                      )}>
                       {flexRender(
                         cell.column.columnDef.cell,
                         cell.getContext()
