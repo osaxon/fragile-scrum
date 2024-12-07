@@ -80,7 +80,7 @@ Try the live version: https://longhabit.com
 ### Installation
 
 - Clone the repository `git clone https://github.com/s-petr/longhabit`
-- Install dependencies `npm install --force` or `bun install`. The `--force` tag is required for npm to install React 19 RC. This is a temporary fix and won't be needed in the future.
+- Install dependencies `npm install --legacy-peer-deps` or `bun install`. The `--legacy-peer-deps` tag will silence peer dependency conflicts in NPM. The UI library shadcn.ui uses an older version of react-day-picker for the calendar. It works fine but will throw a dependency conflict with React 19. This is a temporary issue that will go away with future updates.
 - Create a new superuser (admin) account for the Pocketbase admin dashboard. First compile the binary `npm run build` or `bun run build`. Then run the command `./longhabit superuser upsert {{admin email}} {{admin password}}`
 - Once the PocketBase backend is up and running you need to set up the database tables. Log in to the Pocketbase dashboard `http://localhost:8090/_/` using your superuser credentials. Go to Settings -> Import collections -> Load from JSON file. Select file [backend/pb_schema.json](backend/pb_schema.json) and import it.
 - A folder `/db` will be created in the root directory. This will contain the database files. Docker Compose has been configured with a volume to read/write data to the same folder. You may need to adjust file permissions for this folder if PocketBase cannot write to it from the Docker container.
