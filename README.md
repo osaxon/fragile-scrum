@@ -1,6 +1,9 @@
 ![Version](https://img.shields.io/badge/version-0.2.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
 
+<a href="https://longhabit.com"><img src="https://longhabit.com/og-image.png" /></a>
+
+
 
 # Long Habit
 
