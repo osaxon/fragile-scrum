@@ -11,7 +11,7 @@ export default function NotFoundPage() {
   useEffect(() => {
     trackEvent('404', { props: { path: location.pathname } })
   }, [])
-  
+
   return (
     <main className='flex flex-col items-center gap-y-4 text-center'>
       <div className='mt-4 space-y-2 text-4xl font-bold sm:text-5xl'>

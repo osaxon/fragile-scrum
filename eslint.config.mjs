@@ -62,10 +62,7 @@ export default [
           ignoreRestSiblings: false
         }
       ],
-      'tailwindcss/no-custom-classname': [
-        'warn',
-        { whitelist: ['plausible-event-name--\\'] }
-      ],
+      'tailwindcss/no-custom-classname': ['warn', { whitelist: ['toaster'] }],
       'prettier/prettier': 'warn'
     }
   },

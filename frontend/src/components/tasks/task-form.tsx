@@ -137,7 +137,7 @@ export default function TaskForm({
           control={form.control}
           name='history'
           render={({ field }) => (
-            <FormItem className='m w-full pb-4'>
+            <FormItem className='w-full pb-4'>
               <FormLabel className='w-full text-center'>
                 Dates completed
               </FormLabel>

@@ -11,17 +11,19 @@
     "url": "https://github.com/s-petr/longhabit"
   },
   "homepage": "https://longhabit.com",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "type": "module",
   "scripts": {
     "dev:client": "vite dev",
     "dev:server": "cd backend && go run . --dir=../db serve",
     "dev": "npm run dev:client & npm run dev:server",
-    "build:client": "tsc -b && vite build",
+    "build:client": "npm run lint && vite build",
     "build:server": "cd backend && go build -tags production -o ../longhabit",
     "build": "npm run build:client && npm run build:server",
     "preview": "./longhabit serve",
-    "compose": "docker compose up --build -d"
+    "compose": "docker compose up --build -d",
+    "pretty": "prettier frontend/src --write",
+    "lint": "tsc --noEmit && eslint frontend/src --plugin file-progress --rule \"file-progress/activate: 1\""
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -59,7 +61,7 @@
   },
   "devDependencies": {
     "@tanstack/react-query-devtools": "^5.62.7",
-    "@tanstack/router-devtools": "^1.87.7",
+    "@tanstack/router-devtools": "^1.87.12",
     "@types/node": "^22.10.2",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
@@ -70,6 +72,7 @@
     "babel-plugin-react-compiler": "^19.0.0-beta-df7b47d-20241124",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-file-progress": "^3.0.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
