@@ -23,7 +23,7 @@
     "preview": "./longhabit serve",
     "compose": "docker compose up --build -d",
     "pretty": "prettier frontend/src --write",
-    "lint": "tsc --noEmit && eslint frontend/src --plugin file-progress --rule \"file-progress/activate: 1\""
+    "lint": "tsc --noEmit && eslint frontend/src"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -72,7 +72,6 @@
     "babel-plugin-react-compiler": "^19.0.0-beta-df7b47d-20241124",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-file-progress": "^3.0.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
