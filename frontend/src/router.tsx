@@ -12,7 +12,7 @@ import {
   useMatches
 } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { lazy, useEffect } from 'react'
+import { useEffect } from 'react'
 import Spinner from './components/shared/spinner'
 import { setTheme } from './lib/set-theme'
 import ForgotPasswordPage from './pages/auth/forgot-password'
@@ -23,6 +23,10 @@ import VerifyEmailPage from './pages/auth/verify-email'
 import ErrorPage from './pages/error'
 import HomePage from './pages/home'
 import PrivacyPolicyPage from './pages/privacy-policy'
+import EditTaskPage from './pages/tasks/edit-task'
+import NewTaskPage from './pages/tasks/new-task'
+import SettingsPage from './pages/tasks/settings'
+import TasksPage from './pages/tasks/tasks'
 import {
   resetPasswordParamsSchema,
   verifyEmailParamsSchema
@@ -77,6 +81,7 @@ const homeRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: HomePage,
+  pendingComponent: Spinner,
   beforeLoad: async () => {
     if (checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/tasks' })
     return { getTitle: () => '' }
@@ -87,6 +92,7 @@ const privacyPolicyRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/privacy-policy',
   component: PrivacyPolicyPage,
+  pendingComponent: Spinner,
   beforeLoad: () => {
     return { getTitle: () => 'Privacy Policy' }
   }
@@ -156,7 +162,7 @@ const resetPasswordRoute = createRoute({
 const tasksRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'tasks',
-  component: lazy(() => import('./pages/tasks/tasks')),
+  component: TasksPage,
   pendingComponent: Spinner,
   beforeLoad: () => {
     if (!checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/login' })
@@ -169,14 +175,14 @@ const tasksRoute = createRoute({
 const settingsRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: 'settings',
-  component: lazy(() => import('./pages/tasks/settings')),
+  component: SettingsPage,
   beforeLoad: () => ({ getTitle: () => 'Settings' })
 })
 
 const newTaskRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: 'new',
-  component: lazy(() => import('./pages/tasks/new-task')),
+  component: NewTaskPage,
   beforeLoad: () => {
     return { getTitle: () => 'New' }
   }
@@ -185,7 +191,7 @@ const newTaskRoute = createRoute({
 const editTaskRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: '$taskId',
-  component: lazy(() => import('./pages/tasks/edit-task')),
+  component: EditTaskPage,
   beforeLoad: () => {
     return { getTitle: () => 'Edit' }
   },
