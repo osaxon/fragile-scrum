@@ -101,7 +101,7 @@ export default function TaskForm({
         <SwitchField
           form={form}
           name='repeatGoalEnabled'
-          label='Set goal to repeat regularly'
+          label='Set a goal to repeat regularly'
         />
 
         <InputField
@@ -153,13 +153,13 @@ export default function TaskForm({
             type='submit'
             disabled={!fieldsEdited}
             className={cn('w-full', !selectedTask && 'col-span-2')}>
-            {selectedTask ? 'Update' : 'Create'}
+            {selectedTask ? 'Update Task' : 'Add Task'}
           </Button>
           {selectedTask && (
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant='destructive' type='button' className='w-full'>
-                  Delete
+                  Delete Task
                 </Button>
               </DialogTrigger>
               <DialogContent
@@ -200,7 +200,7 @@ export default function TaskForm({
             type='button'
             className='col-span-2 w-full'>
             <Link to='/tasks' preload={false}>
-              Cancel
+              {selectedTask ? 'Back' : 'Cancel'}
             </Link>
           </Button>
         </SheetFooter>

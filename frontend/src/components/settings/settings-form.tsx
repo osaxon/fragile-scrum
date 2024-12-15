@@ -186,7 +186,7 @@ export default function SettingsForm() {
             type='button'
             className='col-span-2 w-full'>
             <Link to='/tasks' preload={false}>
-              Cancel
+              Back
             </Link>
           </Button>
         </SheetFooter>
