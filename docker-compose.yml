@@ -4,12 +4,12 @@ services:
       context: .
       dockerfile: Dockerfile
       args:
-        - COOLIFY_FQDN=${COOLIFY_FQDN}
+        - DOMAIN_NAME=${DOMAIN_NAME}
         - PLAUSIBLE_API_HOST=${PLAUSIBLE_API_HOST}
     container_name: longhabit
     restart: unless-stopped
     environment:
-      - MAILER_CRON_SCHEDULE=${MAILER_CRON_SCHEDULE:-0 9 * * *}
+      - MAILER_CRON_SCHEDULE=${MAILER_CRON_SCHEDULE}
     ports:
       - '8090:8090'
     volumes:
