@@ -14,7 +14,7 @@ services:
       - '8090:8090'
     volumes:
       #- ./db:/app/db for testing on localhost
-      - ../files/db:/app/db # for deploying to production (Dokploy)
+      - ../files/db:/app/db # required for deploying to Dokploy (../files/ location for persistent volumes)
     healthcheck:
       test: wget --no-verbose --tries=1 --spider http://localhost:8090/api/health || exit 1
       start_period: 5s

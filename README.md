@@ -49,7 +49,7 @@ Try the live version: https://longhabit.com
 - Compile into a single executable binary or deploy using Docker containers.
 - Fully containerized, all the build steps happen in a multi-stage Dockerfile. Outputs a slim Alpine container that contains only the compiled binary.
 - Docker Compose deployment that works out of the box. Working health check endpoint included.
-- Ready for deployment on Coolify and similar platforms.
+- Ready for deployment on Dokploy, Coolify and similar platforms.
 
 ## 🛠️ Tech Stack
 
@@ -71,7 +71,7 @@ Try the live version: https://longhabit.com
   - [Pond](https://github.com/alitto/pond) - Worker pool implementation in Go
 - **Deployment**
   - [Docker](https://docs.docker.com/reference/) - Containerization tool
-  - [Coolify](https://coolify.io/docs) - Open source hosting platform
+  - [Dokploy](https://dokploy.com) - Open source hosting platform
 
 ## 🚦 Getting Started
 
