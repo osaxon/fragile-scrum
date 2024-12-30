@@ -32,7 +32,7 @@ Try the live version: https://longhabit.com
 - TailwindCSS with ShadCN UI fully configured with a custom theme.
 - Responsive design using all the best practices. Supports light and dark mode. Tested on desktop and mobile screens.
 - Complete authentication flow with customized forms. Works with email + password auth as well as Google OAuth.
-- TanStack Router configured using best practices. The Javascript bundle is split and lazy loaded based on route. All the authentication logic and data fetching happens in the router before the pages are loaded. Dynamic page title switching based on route.
+- TanStack Router configured using best practices. All the authentication logic and data fetching happens in the router before the pages are loaded. Dynamic page title switching based on route.
 - TanStack Query fully integrated with PocketBase and TanStack Router. Fresh data is fetched from the backend and loaded before the routes are rendered. TanStack Query takes care of data fetching and ensures that client-side state is up to date with server-side data.
 - Loading states are implemented using the new React Suspense boundaries. 
 - Dynamic forms with validation and error messages implemented using React Hook Form and Zod.
