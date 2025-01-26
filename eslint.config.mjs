@@ -10,18 +10,6 @@ import tailwindPlugin from 'eslint-plugin-tailwindcss'
 import unusedImportsPlugin from 'eslint-plugin-unused-imports'
 import globals from 'globals'
 
-// fixes a bug in the "globals" package that happens when running ESLint
-// TypeError: Key "languageOptions": Key "globals": 
-// Global "AudioWorkletGlobalScope " has leading or trailing whitespace
-const getBrowserGlobals = () => {
-  let browserGlobals = {...globals.browser}
-  if ('AudioWorkletGlobalScope ' in globals.browser) {
-    browserGlobals.AudioWorkletGlobalScope = globals.browser['AudioWorkletGlobalScope ']
-    delete browserGlobals['AudioWorkletGlobalScope ']
-  }
-  return browserGlobals
-}
-
 export default [
   {
     files: ['frontend/src/**/*.{js,jsx,mjs,cjs,ts,tsx}'],
@@ -32,7 +20,7 @@ export default [
         ecmaFeatures: { jsx: true },
         ecmaVersion: 'latest'
       },
-      globals: getBrowserGlobals()
+      globals: {...globals.browser}
     },
     plugins: {
       react: reactPlugin,
