@@ -17,15 +17,15 @@ WORKDIR /app
 
 COPY --from=builder-bun /app/backend .
 RUN go mod download
-RUN go build -tags production -o longhabit
+RUN go build -tags production -o fragile-scrum
 
 # Deploy binary
 FROM alpine:latest AS runner
 WORKDIR /app
 
-COPY --from=builder-go /app/longhabit .
-RUN chmod +x /app/longhabit
+COPY --from=builder-go /app/fragile-scrum .
+RUN chmod +x /app/fragile-scrum
 
 EXPOSE 8090
 
-CMD ["/app/longhabit", "serve", "--http=0.0.0.0:8090"]
+CMD ["/app/fragile-scrum", "serve", "--http=0.0.0.0:8090"]

@@ -1,4 +1,4 @@
-module github.com/s-petr/longhabit
+module github.com/osaxon/fragile-scrum
 
 go 1.23.0
 

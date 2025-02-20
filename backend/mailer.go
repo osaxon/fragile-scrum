@@ -3,10 +3,10 @@ package main
 import (
 	"embed"
 
+	"github.com/osaxon/fragile-scrum/notifier"
 	"github.com/pocketbase/pocketbase/core"
 	"github.com/pocketbase/pocketbase/tools/cron"
 	"github.com/pocketbase/pocketbase/tools/template"
-	"github.com/s-petr/longhabit/notifier"
 )
 
 //go:embed templates
@@ -41,7 +41,7 @@ func (app *application) startNotifier() {
 // and "login from a new location" alert emails.
 func (app *application) loadAuthEmailTemplates() {
 	app.pb.OnMailerRecordVerificationSend().BindFunc(func(e *core.MailerRecordEvent) error {
-		title := "Long Habit - Verify Email"
+		title := "Fragile Scrum - Verify Email"
 
 		registry := template.NewRegistry()
 		html, err := registry.LoadFS(embeddedTemplates,
@@ -87,7 +87,7 @@ func (app *application) loadAuthEmailTemplates() {
 	})
 
 	app.pb.OnMailerRecordAuthAlertSend().BindFunc(func(e *core.MailerRecordEvent) error {
-		title := "Long Habit - Login from a new location"
+		title := "Fragile Scrum - Login from a new location"
 
 		registry := template.NewRegistry()
 		html, err := registry.LoadFS(embeddedTemplates,
