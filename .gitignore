@@ -7,7 +7,7 @@ backend/dist
 .vscode/*
 
 # Compiled binary
-longhabit
+fragile-scrum
 
 # Database
 db
