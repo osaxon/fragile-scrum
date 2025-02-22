@@ -23,6 +23,9 @@ import VerifyEmailPage from './pages/auth/verify-email'
 import ErrorPage from './pages/error'
 import HomePage from './pages/home'
 import PrivacyPolicyPage from './pages/privacy-policy'
+import NewRoomPage from './pages/rooms/new-room'
+import RoomPage from './pages/rooms/room'
+import RoomsPage from './pages/rooms/rooms'
 import EditTaskPage from './pages/tasks/edit-task'
 import NewTaskPage from './pages/tasks/new-task'
 import SettingsPage from './pages/tasks/settings'
@@ -38,6 +41,7 @@ import {
   checkVerifiedUserIsLoggedIn,
   userQueryOptions
 } from './services/api-auth'
+import { roomsQueryOptions } from './services/api-rooms'
 
 interface RootContext {
   queryClient: QueryClient
@@ -73,7 +77,7 @@ const rootRoute = createRootRouteWithContext<RootContext>()({
   beforeLoad: async ({ context: { queryClient } }) => {
     const user = queryClient.getQueryData(userQueryOptions.queryKey)
     setTheme(user?.settings?.theme)
-    return { getTitle: () => 'Long Habit' }
+    return { getTitle: () => 'Fragile Scrum' }
   }
 })
 
@@ -172,6 +176,34 @@ const tasksRoute = createRoute({
     queryClient.ensureQueryData(tasksQueryOptions)
 })
 
+const roomsRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: 'rooms',
+  component: RoomsPage,
+  pendingComponent: Spinner,
+  beforeLoad: () => {
+    if (!checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/login' })
+    return { getTitle: () => 'Rooms' }
+  },
+  loader: ({ context: { queryClient } }) =>
+    queryClient.ensureQueryData(roomsQueryOptions)
+})
+
+const roomRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: 'rooms/$roomId',
+  component: RoomPage
+})
+
+const newRoomRoute = createRoute({
+  getParentRoute: () => roomsRoute,
+  path: 'new',
+  component: NewRoomPage,
+  beforeLoad: () => {
+    return { getTitle: () => 'New' }
+  }
+})
+
 const settingsRoute = createRoute({
   getParentRoute: () => tasksRoute,
   path: 'settings',
@@ -215,7 +247,9 @@ const routeTree = rootRoute.addChildren([
     forgotPasswordRoute,
     resetPasswordRoute
   ]),
-  tasksRoute.addChildren([settingsRoute, newTaskRoute, editTaskRoute])
+  tasksRoute.addChildren([settingsRoute, newTaskRoute, editTaskRoute]),
+  roomsRoute.addChildren([newRoomRoute]),
+  roomRoute
 ])
 
 const queryClient = new QueryClient()
@@ -224,7 +258,8 @@ const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
   defaultPreloadStaleTime: 0,
-  context: { queryClient }
+  context: { queryClient },
+  scrollRestoration: true
 })
 
 declare module '@tanstack/react-router' {

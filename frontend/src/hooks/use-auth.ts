@@ -1,4 +1,3 @@
-import { usePlausible } from '@/context/plausible-context'
 import { errorToast, successToast } from '@/lib/toast'
 import { RegisterFields } from '@/schemas/auth-schema'
 import { User, UserWithSettings } from '@/schemas/user-schema'
@@ -6,6 +5,7 @@ import {
   authRefresh,
   confirmPasswordReset as confirmPasswordResetApi,
   createNewUser,
+  loginWithGithub as loginWithGithubApi,
   loginWithGoogle as loginWithGoogleApi,
   loginWithPassword as loginWithPasswordApi,
   logout as logoutApi,
@@ -24,7 +24,7 @@ export default function useAuth() {
   const [emailSendCountdown, setEmailSendCountdown] = useState(0)
   const router = useRouter()
   const queryClient = useQueryClient()
-  const { trackEvent } = usePlausible()
+  //const { trackEvent } = usePlausible()
 
   const { data: user } = useSuspenseQuery(userQueryOptions)
 
@@ -44,7 +44,7 @@ export default function useAuth() {
   const loginWithPassword = async (email: string, password: string) => {
     try {
       const authResult = await loginWithPasswordApi(email, password)
-      trackEvent('login', { props: { method: 'password' } })
+      //trackEvent('login', { props: { method: 'password' } })
       subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
       queryClient.invalidateQueries({ queryKey: ['user'] })
       router.navigate({ to: '/tasks' })
@@ -56,7 +56,19 @@ export default function useAuth() {
   const loginWithGoogle = async () => {
     try {
       const authResult = await loginWithGoogleApi()
-      trackEvent('login', { props: { method: 'google' } })
+      //trackEvent('login', { props: { method: 'google' } })
+      subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.invalidate()
+      router.navigate({ to: '/tasks' })
+    } catch (error) {
+      errorToast('Could not log in', error)
+    }
+  }
+
+  const loginWithGithub = async () => {
+    try {
+      const authResult = await loginWithGithubApi()
       subscribeToUserChanges(authResult.record.id, subscribeUserChangeCallback)
       queryClient.invalidateQueries({ queryKey: ['user'] })
       router.invalidate()
@@ -69,7 +81,7 @@ export default function useAuth() {
   const register = async (newUserData: RegisterFields) => {
     try {
       await createNewUser(newUserData)
-      trackEvent('signup')
+      //trackEvent('signup')
       successToast(
         'Registration successful!',
         'Please check your inbox for a verification email'
@@ -170,6 +182,7 @@ export default function useAuth() {
     logout,
     loginWithPassword,
     loginWithGoogle,
+    loginWithGithub,
     register,
     requestPasswordReset,
     confirmPasswordReset,

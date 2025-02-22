@@ -1,4 +1,3 @@
-import { usePlausible } from '@/context/plausible-context'
 import { errorToast, successToast } from '@/lib/toast'
 import { Task } from '@/schemas/task-schema'
 import {
@@ -19,7 +18,7 @@ import { useNavigate } from '@tanstack/react-router'
 export default function useTasks() {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
-  const { trackEvent } = usePlausible()
+  //const { trackEvent } = usePlausible()
   const { data: tasks } = useSuspenseQuery(tasksQueryOptions)
 
   const { data: categories } = useSuspenseQuery({
@@ -45,7 +44,7 @@ export default function useTasks() {
       createTaskApi(userId, data),
 
     onSuccess: (_, context) => {
-      trackEvent('task-add')
+      //trackEvent('task-add')
       successToast(
         'New task added',
         `A new task "${context.data.name}" was created.`

@@ -49,7 +49,7 @@ export default function useSettings() {
     },
 
     onSuccess: () => {
-      trackEvent('settings-update')
+      //trackEvent('settings-update')
       successToast('Success!', 'Account details were updated successfully')
       navigate({ to: '/tasks' })
     },

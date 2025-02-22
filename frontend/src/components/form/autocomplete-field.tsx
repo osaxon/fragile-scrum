@@ -69,7 +69,7 @@ export default function AutoCompleteField<T extends FieldValues>({
                   <ChevronsUpDown className='ml-auto opacity-50' />
                 </Button>
               </PopoverTrigger>
-              <PopoverContent className='w-[--radix-popover-trigger-width] p-0'>
+              <PopoverContent className='w-(--radix-popover-trigger-width) p-0'>
                 <Command className='bg-transparent'>
                   <CommandInput
                     placeholder='Search categories...'

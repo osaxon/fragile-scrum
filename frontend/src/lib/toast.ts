@@ -9,7 +9,7 @@ export function successToast(title: string, message: string = '') {
       description: 'text-muted-foreground',
       icon: 'text-green-500',
       closeButton:
-        'right-1 top-1 left-auto !absolute scale-125 !bg-popover border-none'
+        'right-1 top-1 left-auto absolute! scale-125 bg-popover! border-none'
     },
     closeButton: true
   })
@@ -28,7 +28,7 @@ export function errorToast(title: string, messageData?: unknown) {
       description: 'text-muted-foreground',
       icon: 'text-destructive',
       closeButton:
-        'right-1 top-1 left-auto !absolute scale-125 !bg-popover border-none'
+        'right-1 top-1 left-auto absolute! scale-125 bg-popover! border-none'
     },
     closeButton: true
   })

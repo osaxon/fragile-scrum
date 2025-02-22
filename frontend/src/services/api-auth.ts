@@ -54,6 +54,14 @@ export async function loginWithGoogle() {
   return authResult
 }
 
+export async function loginWithGithub() {
+  const authResult = await pb
+    .collection('users')
+    .authWithOAuth2({ provider: 'github' })
+  await authRefresh()
+  return authResult
+}
+
 export function logout() {
   pb.authStore.clear()
 }

@@ -94,7 +94,7 @@ export default function SettingsForm() {
           name='theme'
           render={({ field }) => (
             <FormItem className='mr-auto'>
-              <FormLabel className='!mt-0 cursor-pointer'>Theme</FormLabel>
+              <FormLabel className='mt-0! cursor-pointer'>Theme</FormLabel>
               <div className='flex items-center gap-x-1'>
                 <FormControl>
                   <ThemeSwitch
@@ -102,7 +102,7 @@ export default function SettingsForm() {
                     onThemeChange={field.onChange}
                   />
                 </FormControl>
-                <FormLabel className='!mt-0 cursor-pointer capitalize'>
+                <FormLabel className='mt-0! cursor-pointer capitalize'>
                   {field.value}
                 </FormLabel>
               </div>

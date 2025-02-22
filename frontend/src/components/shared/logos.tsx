@@ -31,7 +31,7 @@ export function GoogleLogo() {
 
 export function LongHabitMainLogo() {
   return (
-    <figure className='flex w-48 select-none items-center justify-center gap-x-1'>
+    <figure className='flex w-48 items-center justify-center gap-x-1 select-none'>
       <div className='my-4 h-6'>
         <svg
           xmlns='http://www.w3.org/2000/svg'
@@ -56,8 +56,8 @@ export function LongHabitMainLogo() {
           </defs>
         </svg>
       </div>
-      <figcaption className='text-lg font-extrabold uppercase italic tracking-wider'>
-        Long Habit
+      <figcaption className='font-extrabold uppercase italic'>
+        Fragile Scrum
       </figcaption>
     </figure>
   )
