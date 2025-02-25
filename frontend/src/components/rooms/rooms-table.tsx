@@ -9,7 +9,7 @@ import {
   TableRow
 } from '@/components/ui/table'
 import { cn } from '@/lib/shadcn'
-import { Room } from '@/schemas/room-schema'
+import { RoomSelectModel } from '@/schemas/room.schema'
 import { CaretSortIcon, PlusIcon } from '@radix-ui/react-icons'
 import { useNavigate } from '@tanstack/react-router'
 import {
@@ -23,7 +23,7 @@ import {
 } from '@tanstack/react-table'
 import { useState } from 'react'
 
-export const columns: ColumnDef<Room>[] = [
+export const columns: ColumnDef<RoomSelectModel>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
@@ -48,7 +48,7 @@ export const columns: ColumnDef<Room>[] = [
   }
 ]
 
-export function RoomsTable({ rooms }: { rooms: Room[] }) {
+export function RoomsTable({ rooms }: { rooms: RoomSelectModel[] }) {
   rooms ??= []
   const [sorting, setSorting] = useState<SortingState>([])
   const [rowSelection, setRowSelection] = useState({})

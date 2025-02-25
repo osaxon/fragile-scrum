@@ -91,6 +91,7 @@ export type SuperusersRecord = {
 }
 
 export type RoomsRecord = {
+	activeStory?: RecordIdString
 	created?: IsoDateString
 	id: string
 	members?: RecordIdString[]

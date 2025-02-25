@@ -1,9 +1,11 @@
 import { errorToast, successToast } from '@/lib/toast'
-import { Room } from '@/schemas/room-schema'
+import { RoomInsertModel } from '@/schemas/room.schema'
+import { Vote } from '@/schemas/votes.schema'
 import {
   createRoom as createRoomApi,
   roomsQueryOptions
 } from '@/services/api-rooms'
+import { createVote as createVoteApi } from '@/services/api.votes'
 import {
   useMutation,
   useQueryClient,
@@ -18,7 +20,7 @@ export default function useRooms() {
   const { data: rooms } = useSuspenseQuery(roomsQueryOptions)
 
   const createMutatation = useMutation({
-    mutationFn: ({ data }: { data: Room }) => createRoomApi(data),
+    mutationFn: ({ data }: { data: RoomInsertModel }) => createRoomApi(data),
     onSuccess: (_, context) => {
       successToast(
         'New room created',
@@ -35,11 +37,23 @@ export default function useRooms() {
     }
   })
 
-  const createRoom = (roomData: Room) =>
+  const createVoteMutation = useMutation({
+    mutationFn: (voteData: Vote) => createVoteApi(voteData),
+    onSuccess: () => successToast('Vote added'),
+    onError: () => errorToast('Something went wrong!'),
+    onSettled: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['votes', data?.story] })
+    }
+  })
+
+  const addVote = (vote: Vote) => createVoteMutation.mutate(vote)
+
+  const createRoom = (roomData: RoomInsertModel) =>
     createMutatation.mutate({ data: roomData })
 
   return {
     rooms,
-    createRoom
+    createRoom,
+    addVote
   }
 }

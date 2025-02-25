@@ -41,7 +41,7 @@ import {
   checkVerifiedUserIsLoggedIn,
   userQueryOptions
 } from './services/api-auth'
-import { roomsQueryOptions } from './services/api-rooms'
+import { roomQueryOptions, roomsQueryOptions } from './services/api-rooms'
 
 interface RootContext {
   queryClient: QueryClient
@@ -192,7 +192,14 @@ const roomsRoute = createRoute({
 const roomRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: 'rooms/$roomId',
-  component: RoomPage
+  component: RoomPage,
+  pendingComponent: Spinner,
+  beforeLoad: () => {
+    if (!checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/login' })
+    return { getTitle: () => 'Rooms' }
+  },
+  loader: ({ context: { queryClient }, params }) =>
+    queryClient.ensureQueryData(roomQueryOptions(params.roomId))
 })
 
 const newRoomRoute = createRoute({

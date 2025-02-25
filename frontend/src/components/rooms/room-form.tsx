@@ -1,7 +1,7 @@
 import useAuth from '@/hooks/use-auth'
-import useRooms from '@/hooks/use-rooms'
+import useRooms from '@/hooks/use-votingroom'
 import { cn } from '@/lib/shadcn'
-import { Room, roomSchema } from '@/schemas/room-schema'
+import { RoomInsertModel, insertRoomSchema } from '@/schemas/room.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Link } from '@tanstack/react-router'
 import { RefreshCcwIcon } from 'lucide-react'
@@ -23,15 +23,15 @@ export default function RoomForm() {
   const { user } = useAuth()
   const { createRoom } = useRooms()
 
-  const form = useForm<Room>({
-    resolver: zodResolver(roomSchema),
+  const form = useForm<RoomInsertModel>({
+    resolver: zodResolver(insertRoomSchema),
     defaultValues: {
       name: generateSlug(2),
       user: user?.id
     }
   })
 
-  function onSubmit(values: Room) {
+  function onSubmit(values: RoomInsertModel) {
     console.log(values)
     createRoom(values)
   }

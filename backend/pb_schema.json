@@ -801,7 +801,7 @@
     {
         "id": "pbc_3085411453",
         "listRule": "@request.auth.id = user",
-        "viewRule": null,
+        "viewRule": "",
         "createRule": "@request.auth.verified = true",
         "updateRule": null,
         "deleteRule": null,
@@ -857,6 +857,19 @@
                 "maxSelect": 999,
                 "minSelect": 0,
                 "name": "members",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "relation"
+            },
+            {
+                "cascadeDelete": false,
+                "collectionId": "pbc_232317621",
+                "hidden": false,
+                "id": "relation2580728311",
+                "maxSelect": 1,
+                "minSelect": 0,
+                "name": "activeStory",
                 "presentable": false,
                 "required": false,
                 "system": false,
