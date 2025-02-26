@@ -32,7 +32,6 @@ export default function RoomForm() {
   })
 
   function onSubmit(values: RoomInsertModel) {
-    console.log(values)
     createRoom(values)
   }
 

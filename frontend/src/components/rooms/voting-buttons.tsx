@@ -16,8 +16,8 @@ export default function VotingButtons({
   lastVote?: Vote
 }) {
   return (
-    <div className='space-y-2'>
-      <p className='font-bold'>Select your score</p>
+    <div className='col-span-full space-y-4 rounded-md border p-4'>
+      <h3 className='text-lg font-bold'>Select your score</h3>
       <ul className='flex gap-2'>
         {scoreOptions.map((val) => (
           <Button

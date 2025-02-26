@@ -17,8 +17,8 @@ export default function RoomMembersList({
   if (!members) return null
 
   return (
-    <div className='space-y-2'>
-      <p className='font-bold'>Room members</p>
+    <div className='space-y-4 rounded-md border p-4'>
+      <h3 className='text-lg font-bold'>Room members</h3>
       <ul className='flex -space-x-2'>
         {members.map(({ name, avatar }) => (
           <Avatar key={name}>

@@ -4,17 +4,12 @@ import { queryOptions } from '@tanstack/react-query'
 import { pb } from './pocketbase'
 
 export async function getVotesByStoryId(storyId?: PbId) {
-  console.log('fetching votes')
-
-  if (!storyId) return null
-
   const votes = await pb.collection('votes').getFullList({
     filter: pb.filter('story = {:storyId}', { storyId }),
     sort: '-created',
     expand: 'story, user'
   })
 
-  console.log(votes, 'the votes')
   return voteListSchema.parse(votes)
 }
 

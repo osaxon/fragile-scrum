@@ -1,11 +1,12 @@
 import { errorToast, successToast } from '@/lib/toast'
-import { RoomSelectModel } from '@/schemas/room.schema'
+import { RoomExpanded, roomExpandedSchema } from '@/schemas/room.schema'
 import { Vote, voteSchema } from '@/schemas/votes.schema'
-import { roomQueryOptions } from '@/services/api-rooms'
 import {
-  createVote as createVoteApi,
-  votesByStoryQueryOptions
-} from '@/services/api.votes'
+  ExpandedRoomResponse,
+  roomQueryOptions,
+  setDisplayResults
+} from '@/services/api-rooms'
+import { createVote as createVoteApi } from '@/services/api.votes'
 import { pb } from '@/services/pocketbase'
 import {
   useMutation,
@@ -20,35 +21,40 @@ export default function useVotingRoom() {
 
   const queryClient = useQueryClient()
   const { data: room } = useSuspenseQuery(roomQueryOptions(roomId))
-  const { data: votes } = useSuspenseQuery(
-    votesByStoryQueryOptions(room.activeStory)
-  )
 
   useEffect(() => {
-    console.log('connecting...')
-    pb.collection('rooms').subscribe(
+    pb.collection('rooms').subscribe<ExpandedRoomResponse>(
       roomId,
       (e) => {
-        console.log(e.action)
-
         const members = e.record.members
         const activeStory = e.record.activeStory
+        const displayResults = e.record.displayResults
+        const isActive = e.record.isActive
 
-        if (!room.activeStory) return
+        if (!room.activeStory?.id) return
 
-        queryClient.setQueryData<unknown, string[], RoomSelectModel>(
-          ['room', room.activeStory],
+        console.log({
+          members,
+          activeStory,
+          displayResults
+        })
+        const parsedRecord = roomExpandedSchema.parse(e.record)
+
+        queryClient.setQueryData<unknown, string[], RoomExpanded>(
+          ['room', room.id],
           (old) =>
             old && {
               ...old,
-              members,
-              activeStory
+              members: parsedRecord.members,
+              activeStory: parsedRecord.activeStory,
+              displayResults,
+              isActive
             }
         )
       },
       {
-        expand: 'votes_via_room.activeStory',
-        fields: 'id, name, user, activeStory, expand.members.name'
+        expand:
+          'members, activeStory.votes_via_story, stories_via_room, stories_via_room.votes_via_story,'
       }
     )
 
@@ -58,15 +64,12 @@ export default function useVotingRoom() {
   }, [roomId])
 
   useEffect(() => {
-    console.log('subscribg to votes')
     pb.collection('votes').subscribe('*', (data) => {
-      console.log('votes updated')
-
       const newVote = voteSchema.parse(data.record)
 
-      queryClient.setQueryData<unknown, string[], Vote[]>(
-        ['votes', room.id],
-        (old) => old && [...old, { ...newVote }]
+      queryClient.setQueryData<unknown, string[], RoomExpanded>(
+        ['room', room.id],
+        (old) => old && old.votes && { ...old, votes: [...old.votes, newVote] }
       )
     })
 
@@ -84,12 +87,27 @@ export default function useVotingRoom() {
     }
   })
 
+  const displayResultsMutation = useMutation({
+    mutationFn: ({ roomId, current }: { roomId: string; current: boolean }) =>
+      setDisplayResults(roomId, current),
+    onError: () => errorToast('Something went wrong!'),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['room', roomId] })
+    }
+  })
+
   const addVote = (vote: Vote) => createVoteMutation.mutate(vote)
+  const displayResults = (roomId: string, current: boolean) =>
+    displayResultsMutation.mutate({
+      roomId,
+      current
+    })
 
   return {
     room,
-    votes,
+    votes: room.votes,
     addVote,
-    members: room.members
+    members: room.members,
+    displayResults
   }
 }

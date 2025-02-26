@@ -173,8 +173,8 @@
     },
     {
         "id": "_pb_users_auth_",
-        "listRule": "id = @request.auth.id",
-        "viewRule": "id = @request.auth.id",
+        "listRule": "",
+        "viewRule": "",
         "createRule": "",
         "updateRule": "id = @request.auth.id",
         "deleteRule": null,
@@ -347,9 +347,9 @@
         "oauth2": {
             "mappedFields": {
                 "id": "",
-                "name": "",
+                "name": "name",
                 "username": "username",
-                "avatarURL": ""
+                "avatarURL": "avatar"
             },
             "enabled": true
         },
@@ -800,10 +800,10 @@
     },
     {
         "id": "pbc_3085411453",
-        "listRule": "@request.auth.id = user",
+        "listRule": "",
         "viewRule": "",
         "createRule": "@request.auth.verified = true",
-        "updateRule": null,
+        "updateRule": "user = @request.auth.id",
         "deleteRule": null,
         "name": "rooms",
         "type": "base",
@@ -874,6 +874,24 @@
                 "required": false,
                 "system": false,
                 "type": "relation"
+            },
+            {
+                "hidden": false,
+                "id": "bool2666811872",
+                "name": "displayResults",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "bool"
+            },
+            {
+                "hidden": false,
+                "id": "bool2323052248",
+                "name": "isActive",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "bool"
             },
             {
                 "hidden": false,
@@ -997,8 +1015,8 @@
     },
     {
         "id": "pbc_232317621",
-        "listRule": null,
-        "viewRule": null,
+        "listRule": "",
+        "viewRule": "",
         "createRule": null,
         "updateRule": null,
         "deleteRule": null,
@@ -1048,158 +1066,15 @@
             },
             {
                 "hidden": false,
-                "id": "autodate2990389176",
-                "name": "created",
-                "onCreate": true,
-                "onUpdate": false,
-                "presentable": false,
-                "system": false,
-                "type": "autodate"
-            },
-            {
-                "hidden": false,
-                "id": "autodate3332085495",
-                "name": "updated",
-                "onCreate": true,
-                "onUpdate": true,
-                "presentable": false,
-                "system": false,
-                "type": "autodate"
-            }
-        ],
-        "indexes": [],
-        "system": false
-    },
-    {
-        "id": "z1jvm19uwrqnu8j",
-        "listRule": "@request.auth.id = user.id",
-        "viewRule": "@request.auth.id = user.id",
-        "createRule": "@request.auth.id = user.id",
-        "updateRule": "@request.auth.id = user.id",
-        "deleteRule": "@request.auth.id = user.id",
-        "name": "tasks",
-        "type": "base",
-        "fields": [
-            {
-                "autogeneratePattern": "[a-z0-9]{15}",
-                "hidden": false,
-                "id": "text3208210256",
-                "max": 15,
-                "min": 15,
-                "name": "id",
-                "pattern": "^[a-z0-9]+$",
-                "presentable": false,
-                "primaryKey": true,
-                "required": true,
-                "system": true,
-                "type": "text"
-            },
-            {
-                "cascadeDelete": true,
-                "collectionId": "_pb_users_auth_",
-                "hidden": false,
-                "id": "uv3bevsy",
-                "maxSelect": 1,
-                "minSelect": 0,
-                "name": "user",
-                "presentable": false,
-                "required": true,
-                "system": false,
-                "type": "relation"
-            },
-            {
-                "autogeneratePattern": "",
-                "hidden": false,
-                "id": "bhqcvzg5",
-                "max": 255,
-                "min": 0,
-                "name": "name",
-                "pattern": "",
-                "presentable": true,
-                "primaryKey": false,
-                "required": true,
-                "system": false,
-                "type": "text"
-            },
-            {
-                "autogeneratePattern": "",
-                "hidden": false,
-                "id": "tcqes8su",
-                "max": 1024,
-                "min": 0,
-                "name": "description",
-                "pattern": "",
-                "presentable": false,
-                "primaryKey": false,
-                "required": false,
-                "system": false,
-                "type": "text"
-            },
-            {
-                "autogeneratePattern": "",
-                "hidden": false,
-                "id": "bgnwnv3b",
-                "max": 100,
-                "min": 1,
-                "name": "category",
-                "pattern": "",
-                "presentable": false,
-                "primaryKey": false,
-                "required": false,
-                "system": false,
-                "type": "text"
-            },
-            {
-                "hidden": false,
-                "id": "bool3516879812",
-                "name": "repeatGoalEnabled",
-                "presentable": false,
-                "required": false,
-                "system": false,
-                "type": "bool"
-            },
-            {
-                "hidden": false,
-                "id": "n0dovftw",
-                "max": 3650,
-                "min": 1,
-                "name": "daysRepeat",
-                "onlyInt": true,
-                "presentable": false,
-                "required": true,
-                "system": false,
-                "type": "number"
-            },
-            {
-                "hidden": false,
-                "id": "fuwwbrft",
-                "max": 3650,
-                "min": 0,
-                "name": "daysRemind",
-                "onlyInt": true,
+                "id": "number848901969",
+                "max": null,
+                "min": null,
+                "name": "score",
+                "onlyInt": false,
                 "presentable": false,
                 "required": false,
                 "system": false,
                 "type": "number"
-            },
-            {
-                "hidden": false,
-                "id": "hbzzlxyf",
-                "name": "remindByEmail",
-                "presentable": false,
-                "required": false,
-                "system": false,
-                "type": "bool"
-            },
-            {
-                "hidden": false,
-                "id": "hatjwde8",
-                "maxSize": 2000000,
-                "name": "history",
-                "presentable": false,
-                "required": false,
-                "system": false,
-                "type": "json"
             },
             {
                 "hidden": false,
@@ -1227,9 +1102,9 @@
     },
     {
         "id": "pbc_2597176356",
-        "listRule": null,
-        "viewRule": null,
-        "createRule": null,
+        "listRule": "",
+        "viewRule": "",
+        "createRule": "",
         "updateRule": null,
         "deleteRule": null,
         "name": "votes",
@@ -1310,5 +1185,159 @@
         ],
         "indexes": [],
         "system": false
+    },
+    {
+        "id": "pbc_2477639207",
+        "listRule": "",
+        "viewRule": "",
+        "createRule": null,
+        "updateRule": null,
+        "deleteRule": null,
+        "name": "latest_scores",
+        "type": "view",
+        "fields": [
+            {
+                "autogeneratePattern": "",
+                "hidden": false,
+                "id": "text3208210256",
+                "max": 0,
+                "min": 0,
+                "name": "id",
+                "pattern": "^[a-z0-9]+$",
+                "presentable": false,
+                "primaryKey": true,
+                "required": true,
+                "system": true,
+                "type": "text"
+            },
+            {
+                "cascadeDelete": false,
+                "collectionId": "_pb_users_auth_",
+                "hidden": false,
+                "id": "_clone_yz26",
+                "maxSelect": 1,
+                "minSelect": 0,
+                "name": "user",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "relation"
+            },
+            {
+                "cascadeDelete": false,
+                "collectionId": "pbc_232317621",
+                "hidden": false,
+                "id": "_clone_UTFQ",
+                "maxSelect": 1,
+                "minSelect": 0,
+                "name": "story",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "relation"
+            },
+            {
+                "hidden": false,
+                "id": "_clone_kwTt",
+                "max": null,
+                "min": null,
+                "name": "latestScore",
+                "onlyInt": false,
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "number"
+            },
+            {
+                "hidden": false,
+                "id": "_clone_w8EH",
+                "name": "created",
+                "onCreate": true,
+                "onUpdate": false,
+                "presentable": false,
+                "system": false,
+                "type": "autodate"
+            }
+        ],
+        "indexes": [],
+        "system": false,
+        "viewQuery": "SELECT \n  v.id,\n  v.user,\n  v.story,\n  v.score AS latestScore,\n  v.created\nFROM \n  votes v\nINNER JOIN (\n  SELECT \n    story,\n    user,\n    MAX(created) AS latest_vote_time\n  FROM votes\n  GROUP BY \n    story,\n    user\n) AS latest ON v.story = latest.story\nAND v.user = latest.user\nAND v.created = latest.latest_vote_time"
+    },
+    {
+        "id": "pbc_1850512789",
+        "listRule": null,
+        "viewRule": null,
+        "createRule": null,
+        "updateRule": null,
+        "deleteRule": null,
+        "name": "story_metrics",
+        "type": "view",
+        "fields": [
+            {
+                "autogeneratePattern": "",
+                "hidden": false,
+                "id": "text3208210256",
+                "max": 0,
+                "min": 0,
+                "name": "id",
+                "pattern": "^[a-z0-9]+$",
+                "presentable": false,
+                "primaryKey": true,
+                "required": true,
+                "system": true,
+                "type": "text"
+            },
+            {
+                "autogeneratePattern": "",
+                "hidden": false,
+                "id": "_clone_VGJr",
+                "max": 0,
+                "min": 0,
+                "name": "name",
+                "pattern": "",
+                "presentable": false,
+                "primaryKey": false,
+                "required": false,
+                "system": false,
+                "type": "text"
+            },
+            {
+                "hidden": false,
+                "id": "number3010967085",
+                "max": null,
+                "min": null,
+                "name": "totalVotes",
+                "onlyInt": false,
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "number"
+            },
+            {
+                "hidden": false,
+                "id": "json3595586295",
+                "maxSize": 1,
+                "name": "avgScore",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "json"
+            },
+            {
+                "hidden": false,
+                "id": "number1199166857",
+                "max": null,
+                "min": null,
+                "name": "totalVoters",
+                "onlyInt": false,
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "number"
+            }
+        ],
+        "indexes": [],
+        "system": false,
+        "viewQuery": "SELECT\n  s.id,\n  s.name,\n  COUNT(v.id) AS totalVotes,\n  ROUND(AVG(v.score),1) AS avgScore,\n  COUNT(DISTINCT(v.user)) AS totalVoters\nFROM votes AS v\nJOIN stories AS s ON s.id = v.story"
     }
 ]

@@ -6,7 +6,7 @@ export const voteSchema = z.object({
   id: pbIdSchema.optional(),
   user: pbIdSchema,
   story: pbIdSchema,
-  created: z.coerce.date().optional(),
+  created: z.coerce.date(),
   score: z.number()
 })
 
