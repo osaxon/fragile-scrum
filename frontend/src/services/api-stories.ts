@@ -1,4 +1,5 @@
 import { PbId } from '@/schemas/pb-schema'
+import { scoresListSchema } from '@/schemas/scores.schema'
 import { storyMetricsListSchema, storySchema } from '@/schemas/story.schema'
 import { pb } from './pocketbase'
 
@@ -14,4 +15,15 @@ export async function getStoryMetrics(storyId: PbId) {
   })
 
   return storyMetricsListSchema.parse(metrics)
+}
+
+export async function getScoreMetrics(storyId: PbId) {
+  const metrics = await pb.collection('latest_scores').getFullList({
+    expand: 'user',
+    filter: pb.filter('story = {:storyId}', { storyId })
+  })
+
+  console.log(metrics)
+
+  return scoresListSchema.parse(metrics)
 }

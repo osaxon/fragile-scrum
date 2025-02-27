@@ -6,6 +6,10 @@ export const loginSchema = z.object({
   password: z.string().min(8, 'Invalid password')
 })
 
+export const guestAccountSchema = z.object({
+  username: z.string()
+})
+
 export type LoginFields = z.infer<typeof loginSchema>
 
 export const registerSchema = z
@@ -21,6 +25,7 @@ export const registerSchema = z
   })
 
 export type RegisterFields = z.infer<typeof registerSchema>
+export type GuestFields = z.infer<typeof guestAccountSchema>
 
 export const verifyEmailSchema = z.object({
   token: pbTokenSchema

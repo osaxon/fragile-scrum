@@ -10,7 +10,7 @@ export const storySchema = z.object({
 
 export const storyWithVotesSchema = storySchema.extend({
   expand: z.object({
-    votes_via_story: z.array(voteSchema)
+    votes_via_story: z.array(voteSchema).optional()
   })
 })
 

@@ -11,34 +11,30 @@ export const roomSchema = z.object({
   activeStory: z.string().optional()
 })
 
-export const roomMembersSchema = z
-  .array(
-    z.object({
-      id: pbIdSchema,
-      name: z.string(),
-      username: z.string(),
-      avatar: z.string()
-    })
-  )
-  .optional()
+export const roomMemberSchema = z.object({
+  id: pbIdSchema,
+  name: z.string(),
+  username: z.string(),
+  avatar: z.string()
+})
+
+export const roomMembersSchema = z.array(roomMemberSchema)
 
 export const roomExpandedSchema = roomSchema
   .omit({ activeStory: true })
   .extend({
-    expand: z
-      .object({
-        members: roomMembersSchema,
-        activeStory: storyWithVotesSchema,
-        stories_via_room: z.array(storySchema).optional()
-      })
-      .optional()
+    expand: z.object({
+      members: roomMembersSchema,
+      activeStory: storyWithVotesSchema,
+      stories_via_room: z.array(storySchema).optional()
+    })
   })
   .transform(({ expand, ...rest }) => ({
     ...rest,
     members: expand?.members,
     activeStory: expand?.activeStory,
     stories: expand?.stories_via_room,
-    votes: expand?.activeStory.expand.votes_via_story
+    votes: expand?.activeStory?.expand?.votes_via_story
   }))
 
 export const roomListSchema = z.array(roomSchema)

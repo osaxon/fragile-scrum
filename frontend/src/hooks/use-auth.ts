@@ -1,9 +1,10 @@
 import { errorToast, successToast } from '@/lib/toast'
-import { RegisterFields } from '@/schemas/auth-schema'
+import { GuestFields, RegisterFields } from '@/schemas/auth-schema'
 import { User, UserWithSettings } from '@/schemas/user-schema'
 import {
   authRefresh,
   confirmPasswordReset as confirmPasswordResetApi,
+  createGuestUser as createGuestUserApi,
   createNewUser,
   loginWithGithub as loginWithGithubApi,
   loginWithGoogle as loginWithGoogleApi,
@@ -19,6 +20,7 @@ import {
 import { useQueryClient, useSuspenseQuery } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 export default function useAuth() {
   const [emailSendCountdown, setEmailSendCountdown] = useState(0)
@@ -89,6 +91,19 @@ export default function useAuth() {
       router.navigate({ to: '/login' })
     } catch (error) {
       errorToast('Could not register', error)
+    }
+  }
+
+  const signUpAsGuest = async (guest: GuestFields) => {
+    try {
+      const newUser = await createGuestUserApi(guest)
+      toast.success('Success!')
+      queryClient.invalidateQueries({ queryKey: ['user'] })
+      router.invalidate()
+      return newUser // Return the newly created user
+    } catch (error) {
+      errorToast('Something went wrong', error)
+      throw error // Re-throw to handle in the calling function
     }
   }
 
@@ -189,6 +204,7 @@ export default function useAuth() {
     sendVerificationEmail,
     verifyEmailByToken,
     startEmailSendCountdown,
-    emailSendCountdown
+    emailSendCountdown,
+    signUpAsGuest
   }
 }

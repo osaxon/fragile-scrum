@@ -7,7 +7,7 @@ export type Theme = z.infer<typeof themeSchema>
 
 export const settingsSchema = z.object({
   id: pbIdSchema,
-  remindEmail: z.string().email('Invalid email'),
+  remindEmail: z.string().optional(),
   remindByEmailEnabled: z.coerce.boolean(),
   theme: themeSchema
 })

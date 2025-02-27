@@ -23,6 +23,7 @@ import VerifyEmailPage from './pages/auth/verify-email'
 import ErrorPage from './pages/error'
 import HomePage from './pages/home'
 import PrivacyPolicyPage from './pages/privacy-policy'
+import JoinRoom from './pages/rooms/join-room'
 import NewRoomPage from './pages/rooms/new-room'
 import RoomPage from './pages/rooms/room'
 import RoomsPage from './pages/rooms/rooms'
@@ -194,8 +195,12 @@ const roomRoute = createRoute({
   path: 'rooms/$roomId',
   component: RoomPage,
   pendingComponent: Spinner,
-  beforeLoad: () => {
-    if (!checkVerifiedUserIsLoggedIn()) throw redirect({ to: '/login' })
+  beforeLoad: (ctx) => {
+    if (!checkUserIsLoggedIn())
+      throw redirect({
+        to: '/rooms/$roomId/join',
+        params: { roomId: ctx.params.roomId }
+      })
     return { getTitle: () => 'Rooms' }
   },
   loader: ({ context: { queryClient }, params }) =>
@@ -211,8 +216,22 @@ const newRoomRoute = createRoute({
   }
 })
 
+const joinRoomRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: 'rooms/$roomId/join',
+  component: JoinRoom,
+  pendingComponent: Spinner
+  //   beforeLoad: (ctx) => {
+  //     if (checkUserIsLoggedIn())
+  //       throw redirect({
+  //         to: '/rooms/$roomId',
+  //         params: { roomId: ctx.params.roomId }
+  //       })
+  //   }
+})
+
 const settingsRoute = createRoute({
-  getParentRoute: () => tasksRoute,
+  getParentRoute: () => roomsRoute,
   path: 'settings',
   component: SettingsPage,
   beforeLoad: () => ({ getTitle: () => 'Settings' })
@@ -254,9 +273,10 @@ const routeTree = rootRoute.addChildren([
     forgotPasswordRoute,
     resetPasswordRoute
   ]),
-  tasksRoute.addChildren([settingsRoute, newTaskRoute, editTaskRoute]),
-  roomsRoute.addChildren([newRoomRoute]),
-  roomRoute
+  tasksRoute.addChildren([newTaskRoute, editTaskRoute]),
+  roomsRoute.addChildren([settingsRoute, newRoomRoute]),
+  roomRoute,
+  joinRoomRoute
 ])
 
 const queryClient = new QueryClient()

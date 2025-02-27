@@ -1,4 +1,5 @@
 import { setTheme } from '@/lib/set-theme'
+import { GuestFields } from '@/schemas/auth-schema'
 import { User, userSchema, userWithSettingsSchema } from '@/schemas/user-schema'
 import { queryOptions } from '@tanstack/react-query'
 import { pb } from './pocketbase'
@@ -34,9 +35,27 @@ export async function createNewUser(newUserData: {
   await sendVerificationEmail(newUserData.email)
 }
 
+export async function createGuestUser({ username }: GuestFields) {
+  const tempPw = `${username}_${new Date().valueOf()}_${Math.random().toString(36).substring(2)}`
+
+  const guestData = {
+    username: username,
+    password: tempPw,
+    passwordConfirm: tempPw,
+    name: username,
+    isGuest: true
+  }
+
+  const newUser = await pb.collection('users').create(guestData)
+
+  await pb.collection('users').authWithPassword(username, tempPw)
+
+  return newUser
+}
+
 export async function verifyEmailByToken(token: string) {
   await pb.collection('users').confirmVerification(token, { requestKey: null })
-  if (pb.authStore.model) await authRefresh()
+  if (pb.authStore.record) await authRefresh()
 }
 
 export async function loginWithPassword(email: string, password: string) {
@@ -126,7 +145,7 @@ export const userQueryOptions = queryOptions({
     setTheme(settings.theme)
 
     const userData = userWithSettingsSchema.parse({
-      ...pb.authStore.model,
+      ...pb.authStore.record,
       settings
     })
 

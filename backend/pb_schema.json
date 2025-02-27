@@ -1214,7 +1214,7 @@
                 "cascadeDelete": false,
                 "collectionId": "_pb_users_auth_",
                 "hidden": false,
-                "id": "_clone_yz26",
+                "id": "_clone_scLm",
                 "maxSelect": 1,
                 "minSelect": 0,
                 "name": "user",
@@ -1227,7 +1227,7 @@
                 "cascadeDelete": false,
                 "collectionId": "pbc_232317621",
                 "hidden": false,
-                "id": "_clone_UTFQ",
+                "id": "_clone_SeWk",
                 "maxSelect": 1,
                 "minSelect": 0,
                 "name": "story",
@@ -1238,7 +1238,7 @@
             },
             {
                 "hidden": false,
-                "id": "_clone_kwTt",
+                "id": "_clone_3KGW",
                 "max": null,
                 "min": null,
                 "name": "latestScore",
@@ -1250,7 +1250,17 @@
             },
             {
                 "hidden": false,
-                "id": "_clone_w8EH",
+                "id": "json3010967085",
+                "maxSize": 1,
+                "name": "totalVotes",
+                "presentable": false,
+                "required": false,
+                "system": false,
+                "type": "json"
+            },
+            {
+                "hidden": false,
+                "id": "_clone_nxQl",
                 "name": "created",
                 "onCreate": true,
                 "onUpdate": false,
@@ -1261,12 +1271,12 @@
         ],
         "indexes": [],
         "system": false,
-        "viewQuery": "SELECT \n  v.id,\n  v.user,\n  v.story,\n  v.score AS latestScore,\n  v.created\nFROM \n  votes v\nINNER JOIN (\n  SELECT \n    story,\n    user,\n    MAX(created) AS latest_vote_time\n  FROM votes\n  GROUP BY \n    story,\n    user\n) AS latest ON v.story = latest.story\nAND v.user = latest.user\nAND v.created = latest.latest_vote_time"
+        "viewQuery": "SELECT \n  v.id,\n  v.user,\n  v.story,\n  v.score AS latestScore,\n  latest.totalVotes,\n  v.created\nFROM \n  votes v\nINNER JOIN (\n  SELECT \n    story,\n    user,\n    MAX(created) AS latest_vote_time,\n    COUNT(id) AS totalVotes\n  FROM votes\n  GROUP BY \n    story,\n    user\n) AS latest ON v.story = latest.story\n  AND v.user = latest.user\n  AND v.created = latest.latest_vote_time"
     },
     {
         "id": "pbc_1850512789",
-        "listRule": null,
-        "viewRule": null,
+        "listRule": "",
+        "viewRule": "",
         "createRule": null,
         "updateRule": null,
         "deleteRule": null,
@@ -1290,7 +1300,7 @@
             {
                 "autogeneratePattern": "",
                 "hidden": false,
-                "id": "_clone_VGJr",
+                "id": "_clone_SELX",
                 "max": 0,
                 "min": 0,
                 "name": "name",
