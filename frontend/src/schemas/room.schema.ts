@@ -40,7 +40,9 @@ export const roomExpandedSchema = roomSchema
 export const roomListSchema = z.array(roomSchema)
 export const roomExpandedListSchema = z.array(roomExpandedSchema)
 
-export const insertRoomSchema = roomSchema.omit({ id: true, activeStory: true })
+export const insertRoomSchema = roomSchema
+  .omit({ id: true, activeStory: true })
+  .extend({ members: z.array(z.string()) })
 
 export type RoomMembers = z.infer<typeof roomMembersSchema>
 export type RoomSelectModel = z.infer<typeof roomSchema>

@@ -1,5 +1,5 @@
 import useAuth from '@/hooks/use-auth'
-import useRooms from '@/hooks/use-votingroom'
+import useRooms from '@/hooks/use-rooms'
 import { cn } from '@/lib/shadcn'
 import { RoomInsertModel, insertRoomSchema } from '@/schemas/room.schema'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -27,7 +27,8 @@ export default function RoomForm() {
     resolver: zodResolver(insertRoomSchema),
     defaultValues: {
       name: generateSlug(2),
-      user: user?.id
+      user: user?.id,
+      members: [user?.id]
     }
   })
 

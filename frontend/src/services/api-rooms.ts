@@ -29,8 +29,6 @@ export async function getRoomById(roomId: PbId) {
         'members, activeStory.votes_via_story, stories_via_room, stories_via_room.votes_via_story'
     })
 
-  console.log(room, 'the room')
-
   return roomExpandedSchema.parse(room)
 }
 
@@ -45,6 +43,12 @@ export async function setDisplayResults(roomId: PbId, current: boolean) {
 export async function joinRoom(roomId: PbId, userId: PbId) {
   return pb.collection('rooms').update(roomId, {
     'members+': userId
+  })
+}
+
+export async function setActiveStory(roomId: PbId, storyId: PbId) {
+  return pb.collection('rooms').update(roomId, {
+    activeStory: storyId
   })
 }
 

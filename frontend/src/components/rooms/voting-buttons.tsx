@@ -18,13 +18,14 @@ export default function VotingButtons({
   return (
     <div className='col-span-full space-y-4 rounded-md border p-4'>
       <h3 className='text-lg font-bold'>Select your score</h3>
-      <ul className='flex gap-2'>
+      <ul className='flex flex-wrap justify-center gap-2 md:justify-start'>
         {scoreOptions.map((val) => (
           <Button
             key={val}
             disabled={!storyId || (lastVote && lastVote.score === val)}
             variant='outline'
-            size='icon'
+            size='lg'
+            className='disabled:border-2 disabled:border-teal-500'
             onClick={() => {
               if (!storyId) {
                 errorToast('No story assigned to room')

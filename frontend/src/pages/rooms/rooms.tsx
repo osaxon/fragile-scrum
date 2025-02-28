@@ -1,7 +1,7 @@
 import { RoomsTable } from '@/components/rooms/rooms-table'
 import Spinner from '@/components/shared/spinner'
 import { Sheet } from '@/components/ui/sheet'
-import useRooms from '@/hooks/use-votingroom'
+import useRooms from '@/hooks/use-rooms'
 import { Outlet, useNavigate } from '@tanstack/react-router'
 import { Suspense } from 'react'
 

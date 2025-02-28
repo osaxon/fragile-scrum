@@ -5,7 +5,8 @@ import { voteSchema } from './votes.schema'
 export const storySchema = z.object({
   id: pbIdSchema.optional(),
   name: z.string(),
-  room: pbIdSchema
+  room: pbIdSchema,
+  score: z.number().optional()
 })
 
 export const storyWithVotesSchema = storySchema.extend({

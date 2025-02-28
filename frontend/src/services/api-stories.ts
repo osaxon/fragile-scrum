@@ -1,6 +1,11 @@
 import { PbId } from '@/schemas/pb-schema'
 import { scoresListSchema } from '@/schemas/scores.schema'
-import { storyMetricsListSchema, storySchema } from '@/schemas/story.schema'
+import {
+  Story,
+  storyListSchema,
+  storyMetricsListSchema,
+  storySchema
+} from '@/schemas/story.schema'
 import { pb } from './pocketbase'
 
 export async function getStoryById(storyId: PbId) {
@@ -26,4 +31,24 @@ export async function getScoreMetrics(storyId: PbId) {
   console.log(metrics)
 
   return scoresListSchema.parse(metrics)
+}
+
+export async function createStoriesBatch(storiesBatch: Story[]) {
+  const batch = pb.createBatch()
+
+  if (storiesBatch.length > 15) {
+    throw new Error('Too many record in batch')
+  }
+
+  for (const story of storiesBatch) {
+    batch.collection('stories').create(story)
+  }
+
+  const results = await batch.send()
+
+  const mappedResults = results.map((res) => ({
+    ...res.body
+  }))
+
+  return storyListSchema.parse(mappedResults)
 }

@@ -1,13 +1,16 @@
 import { errorToast, successToast } from '@/lib/toast'
 import { PbId } from '@/schemas/pb-schema'
 import { RoomExpanded, roomExpandedSchema } from '@/schemas/room.schema'
+import { Story } from '@/schemas/story.schema'
 import { Vote, voteSchema } from '@/schemas/votes.schema'
 import {
   ExpandedRoomResponse,
   joinRoom as joinRoomApi,
   roomQueryOptions,
+  setActiveStory as setActiveStoryApi,
   setDisplayResults
 } from '@/services/api-rooms'
+import { createStoriesBatch } from '@/services/api-stories'
 import { createVote as createVoteApi } from '@/services/api.votes'
 import { pb } from '@/services/pocketbase'
 import {
@@ -106,9 +109,27 @@ export default function useVotingRoom() {
       setDisplayResults(roomId, current),
     onError: () => errorToast('Something went wrong!'),
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ['room', roomId] })
+      queryClient.invalidateQueries({ queryKey: ['room', room.id] })
     }
   })
+
+  const createStoriesBatchMutation = useMutation({
+    mutationFn: (stories: Story[]) => createStoriesBatch(stories),
+    onError: () => errorToast('Something went wrong!'),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['room', room.id] })
+    }
+  })
+
+  const addStories = (stories: Story[]) =>
+    createStoriesBatchMutation.mutate(stories)
+
+  const toggleResults = () => {
+    displayResultsMutation.mutate({
+      roomId: room.id,
+      current: room.displayResults
+    })
+  }
 
   const joinRoomMutation = useMutation({
     mutationFn: ({ roomId, userId }: { roomId: string; userId: string }) =>
@@ -120,25 +141,41 @@ export default function useVotingRoom() {
     }
   })
 
+  const setActiceStoryMutation = useMutation({
+    mutationFn: ({ roomId, storyId }: { roomId: string; storyId: string }) =>
+      setActiveStoryApi(roomId, storyId),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['room', roomId] })
+    }
+  })
+
   const addVote = (vote: Vote) => createVoteMutation.mutate(vote)
-  const displayResults = (roomId: string, current: boolean) =>
-    displayResultsMutation.mutate({
-      roomId,
-      current
-    })
 
   const isUserJoined = (userId: PbId): boolean => {
     return room.members.find((m) => m.id === userId) ? true : false
   }
 
-  const joinRoom = (roomId: PbId, userId: PbId) =>
+  const joinRoomCurried = (roomId: PbId) => (userId: PbId) =>
     joinRoomMutation.mutate({ roomId, userId })
+
+  const joinRoom = joinRoomCurried(room.id)
+
+  const setActiveStoryCurried = (roomId: string) => (storyId: string) =>
+    setActiceStoryMutation.mutate({ roomId, storyId })
+
+  const setActiveStory = setActiveStoryCurried(room.id)
+
+  const roomActions = {
+    addVote,
+    toggleResults,
+    setActiveStory,
+    addStories
+  }
 
   return {
     room,
-    addVote,
-    displayResults,
     isUserJoined,
-    joinRoom
+    joinRoom,
+    roomActions
   }
 }

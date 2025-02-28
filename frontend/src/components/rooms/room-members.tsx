@@ -41,7 +41,7 @@ export default function RoomMembersList({ members, votes }: RoomExpanded) {
               {hasVoted ? (
                 <CircleCheck
                   data-voted={hasVoted}
-                  className='w-5 -translate-y-3 fill-black text-green-500'
+                  className='fill-background w-5 -translate-y-3 text-green-500'
                 />
               ) : null}
             </div>
